@@ -7,7 +7,7 @@ resource "digitalocean_droplet" "seeds" {
   image             = var.do_image_name
   region            = each.value.region
   vpc_uuid          = digitalocean_vpc.cheqd_network.id
-  name              = "${var.network}-${each.value.name}"
+  name              = "${var.network}-${each.key}"
   monitoring        = lookup(each.value, "monitoring", true)
   droplet_agent     = lookup(each.value, "enable_droplet_agent", false)
   user_data         = templatefile("./templates/seed_user_data.tpl", var.seeds_user_data)
@@ -18,9 +18,9 @@ resource "digitalocean_volume" "seed_volumes" {
 
   region                  = each.value.region
   size                    = each.value.volume_size
-  name                    = "${each.value.name}-chain-data"
+  name                    = "${each.key}-chain-data"
   initial_filesystem_type = lookup(each.value, "fs_type", "ext4")
-  description             = "Volume used for storing the chain data for ${each.value["name"]} droplet"
+  description             = "Volume used for storing the chain data for ${each.key} droplet"
 }
 
 resource "digitalocean_volume_attachment" "seeds" {
@@ -39,7 +39,7 @@ resource "digitalocean_droplet" "sentries" {
   image             = var.do_image_name
   region            = each.value.region
   vpc_uuid          = digitalocean_vpc.cheqd_network.id
-  name              = "${var.network}-${each.value.name}"
+  name              = "${var.network}-${each.key}"
   monitoring        = lookup(each.value, "monitoring", true)
   droplet_agent     = lookup(each.value, "enable_droplet_agent", false)
   user_data         = templatefile("./templates/sentry_user_data.tpl", var.sentry_user_data)
@@ -50,9 +50,9 @@ resource "digitalocean_volume" "sentry_volumes" {
 
   region                  = each.value.region
   size                    = each.value.volume_size
-  name                    = "${each.value.name}-chain-data"
+  name                    = "${each.key}-chain-data"
   initial_filesystem_type = lookup(each.value, "fs_type", "ext4")
-  description             = "Volume used for storing the chain data for ${each.value["name"]} droplet"
+  description             = "Volume used for storing the chain data for ${each.key} droplet"
 }
 
 resource "digitalocean_volume_attachment" "sentries" {
