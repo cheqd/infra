@@ -18,7 +18,7 @@ resource "digitalocean_volume" "seed_volumes" {
 
   region                  = each.value.region
   size                    = each.value.volume_size
-  name                    = "${each.value.name}-data-volume"
+  name                    = "${each.value.name}-chain-data"
   initial_filesystem_type = lookup(each.value, "fs_type", "ext4")
   description             = "Volume used for storing the chain data for ${each.value["name"]} droplet"
 }
@@ -50,7 +50,7 @@ resource "digitalocean_volume" "sentry_volumes" {
 
   region                  = each.value.region
   size                    = each.value.volume_size
-  name                    = "${each.value.name}-data-volume"
+  name                    = "${each.value.name}-chain-data"
   initial_filesystem_type = lookup(each.value, "fs_type", "ext4")
   description             = "Volume used for storing the chain data for ${each.value["name"]} droplet"
 }
