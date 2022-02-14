@@ -59,3 +59,6 @@ variable "validator_firewall" {
   type = map(map(map(string)))
 }
 
+variable "do_lb_config" {
+  type = map(map(string))
+}
