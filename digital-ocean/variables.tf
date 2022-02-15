@@ -62,3 +62,25 @@ variable "validator_firewall" {
 variable "do_lb_config" {
   type = map(map(string))
 }
+
+variable "do_lb_algorithm" {
+  type    = string
+  default = "round_robin"
+}
+
+variable "do_lb_size" {
+  type    = string
+  default = "lb-small"
+}
+
+variable "do_health_check_port" {
+  type = number
+}
+
+variable "do_health_check_protocol" {
+  type = string
+}
+
+variable "do_lb_cert_domains" {
+  type = list(string)
+}
