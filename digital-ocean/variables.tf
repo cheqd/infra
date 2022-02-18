@@ -65,7 +65,7 @@ variable "do_lb_config" {
 
 variable "do_lb_algorithm" {
   type    = string
-  default = "round_robin"
+  default = "least_connections"
 }
 
 variable "do_lb_size" {
@@ -83,4 +83,19 @@ variable "do_health_check_protocol" {
 
 variable "do_lb_cert_domains" {
   type = list(string)
+}
+
+
+variable "do_lb_priv_key" {
+  type      = string
+  sensitive = true
+}
+
+variable "do_lb_leaf_cert" {
+  type      = string
+  sensitive = true
+}
+
+variable "do_lb_certificate_chain" {
+  type = string
 }
