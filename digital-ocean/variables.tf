@@ -47,7 +47,6 @@ variable "sentry_droplet_config" {
   type = map(map(string))
 }
 
-<<<<<<< HEAD
 variable "validator_droplet_config" {
   type = map(map(string))
 }
@@ -60,19 +59,9 @@ variable "validator_firewall" {
   type = map(map(map(string)))
 }
 
-=======
->>>>>>> c890fe1 (DEV-985 - Feat: Digital Ocean Load Balancer)
-variable "do_lb_config" {
-  type = map(map(string))
-}
-
 variable "do_lb_algorithm" {
   type    = string
-<<<<<<< HEAD
   default = "least_connections"
-=======
-  default = "round_robin"
->>>>>>> c890fe1 (DEV-985 - Feat: Digital Ocean Load Balancer)
 }
 
 variable "do_lb_size" {
@@ -90,9 +79,7 @@ variable "do_health_check_protocol" {
 
 variable "do_lb_cert_domains" {
   type = list(string)
-<<<<<<< HEAD
 }
-
 
 variable "do_lb_priv_key" {
   type      = string
