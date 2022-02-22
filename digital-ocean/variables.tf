@@ -19,19 +19,19 @@ variable "do_image_name" {
   default = "ubuntu-20-04-x64"
 }
 
-variable "seeds_droplet_config" {
+variable "seed_droplet_config" {
   type = map(map(string))
 }
 
 variable "default_tags" {
+  type = list(string)
+}
+
+variable "seed_user_data" {
   type = map(string)
 }
 
-variable "seeds_user_data" {
-  type = map(string)
-}
-
-variable "seeds_firewall" {
+variable "seed_firewall" {
   type = map(map(map(string)))
 }
 
@@ -39,10 +39,23 @@ variable "sentry_user_data" {
   type = map(string)
 }
 
-variable "sentries_firewall" {
+variable "sentry_firewall" {
   type = map(map(map(string)))
 }
 
-variable "sentries_droplet_config" {
+variable "sentry_droplet_config" {
   type = map(map(string))
 }
+
+variable "validator_droplet_config" {
+  type = map(map(string))
+}
+
+variable "validator_user_data" {
+  type = map(string)
+}
+
+variable "validator_firewall" {
+  type = map(map(map(string)))
+}
+
