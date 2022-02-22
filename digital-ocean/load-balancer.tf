@@ -23,7 +23,7 @@ resource "digitalocean_loadbalancer" "cheqd" {
     type = "none"
   }
 
-  redirect_http_to_https = true
+  redirect_http_to_https   = true
   enable_backend_keepalive = false
 
   healthcheck {
@@ -43,6 +43,6 @@ resource "digitalocean_certificate" "cheqd" {
 }
 
 locals {
-  seed_droplet_ids   = [for droplet in digitalocean_droplet.seeds : droplet.id]
-  sentry_droplet_ids = [for droplet in digitalocean_droplet.sentries : droplet.id]
+  seed_droplet_ids   = [for droplet in digitalocean_droplet.seed : droplet.id]
+  sentry_droplet_ids = [for droplet in digitalocean_droplet.sentry : droplet.id]
 }
