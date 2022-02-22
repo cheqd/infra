@@ -59,3 +59,43 @@ variable "validator_firewall" {
   type = map(map(map(string)))
 }
 
+variable "do_lb_config" {
+  type = map(map(string))
+}
+
+variable "do_lb_algorithm" {
+  type    = string
+  default = "least_connections"
+}
+
+variable "do_lb_size" {
+  type    = string
+  default = "lb-small"
+}
+
+variable "do_health_check_port" {
+  type = number
+}
+
+variable "do_health_check_protocol" {
+  type = string
+}
+
+variable "do_lb_cert_domains" {
+  type = list(string)
+}
+
+
+variable "do_lb_priv_key" {
+  type      = string
+  sensitive = true
+}
+
+variable "do_lb_leaf_cert" {
+  type      = string
+  sensitive = true
+}
+
+variable "do_lb_certificate_chain" {
+  type = string
+}
