@@ -37,7 +37,7 @@ resource "hcloud_load_balancer_service" "rpc_lb" {
 
   health_check {
     interval = 10
-    port     = 80
+    port     = 26657
     protocol = "http"
     timeout  = 5
     retries  = 3
@@ -95,7 +95,7 @@ resource "hcloud_load_balancer_service" "rest_lb" {
 
   health_check {
     interval = 10
-    port     = 80
+    port     = 1317
     protocol = "http"
     timeout  = 5
     retries  = 3
