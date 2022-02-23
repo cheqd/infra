@@ -14,13 +14,14 @@ resource "hcloud_server" "seed" {
       trimsuffix(cidrsubnet(hcloud_network_subnet.rpc_lb.ip_range, 8, 100 + index(keys(var.seed_server_config), each.key)), "/32")
     ]
   }
-  #  firewall_ids = [hcloud_firewall.seed]
+  placement_group_id = hcloud_placement_group.seed.id
+  user_data          = templatefile("./templates/seed_user_data.tpl", var.seed_user_data)
+  backups = var.network == "testnet" || var.network == "mainnet" ? true : false
+
   labels = {
     "NodeType"  = "seed"
     "Terraform" = "True"
   }
-  placement_group_id = hcloud_placement_group.seed.id
-  user_data          = templatefile("./templates/seed_user_data.tpl", var.seed_user_data)
 }
 
 resource "hcloud_volume" "seed" {
@@ -56,13 +57,14 @@ resource "hcloud_server" "sentry" {
       trimsuffix(cidrsubnet(hcloud_network_subnet.rpc_lb.ip_range, 8, 150 + index(keys(var.sentry_server_config), each.key)), "/32")
     ]
   }
-  #  firewall_ids = [hcloud_firewall.sentry]
+  placement_group_id = hcloud_placement_group.sentry.id
+  user_data          = templatefile("./templates/sentry_user_data.tpl", var.sentry_user_data)
+  backups = var.network == "testnet" || var.network == "mainnet" ? true : false
+
   labels = {
     "NodeType"  = "sentry"
     "Terraform" = "True"
   }
-  placement_group_id = hcloud_placement_group.sentry.id
-  user_data          = templatefile("./templates/sentry_user_data.tpl", var.sentry_user_data)
 }
 
 resource "hcloud_volume" "sentry" {
@@ -97,12 +99,14 @@ resource "hcloud_server" "validator" {
       trimsuffix(cidrsubnet(hcloud_network_subnet.sentry.ip_range, 8, 200 + index(keys(var.validator_server_config), each.key)), "/32")
     ]
   }
+  placement_group_id = hcloud_placement_group.validator.id
+  user_data          = templatefile("./templates/validator_user_data.tpl", var.validator_user_data)
+  backups = var.network == "testnet" || var.network == "mainnet" ? true : false
+
   labels = {
     "NodeType"  = "validator"
     "Terraform" = "True"
   }
-  placement_group_id = hcloud_placement_group.validator.id
-  user_data          = templatefile("./templates/validator_user_data.tpl", var.validator_user_data)
 }
 
 resource "hcloud_volume" "validator" {

@@ -79,14 +79,8 @@ variable "validator_firewall" {
   description = "Firewall rules for validator servers."
   type        = map(map(map(string)))
 }
-
 variable "hetzner_lb_type" {
   description = "Type of the Hetzner's Load Balancer/"
   type        = string
   default     = "lb11"
-}
-
-variable "hetzner_lb_config" {
-  description = "Load Balancer configuration parameters."
-  type        = map(string)
 }
