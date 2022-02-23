@@ -1,5 +1,9 @@
-data "hcloud_certificate" "cheqd_wildcard" {
-  name  = "*.cheqd.net"
+data "hcloud_certificate" "rpc" {
+  name  = "*rpc.cheqd.net"
+}
+
+data "hcloud_certificate" "rest" {
+  name = "*api.cheqd.net"
 }
 
 resource "hcloud_load_balancer" "rpc_lb" {
@@ -32,7 +36,7 @@ resource "hcloud_load_balancer_service" "rpc_lb" {
   http {
     sticky_sessions = true
     redirect_http   = true
-    certificates     = [data.hcloud_certificate.cheqd_wildcard.id]
+    certificates     = [data.hcloud_certificate.rpc.id]
   }
 
   health_check {
@@ -90,7 +94,7 @@ resource "hcloud_load_balancer_service" "rest_lb" {
   http {
     sticky_sessions = true
     redirect_http   = true
-    certificates     = [data.hcloud_certificate.cheqd_wildcard.id]
+    certificates     = [data.hcloud_certificate.rest.id]
   }
 
   health_check {
