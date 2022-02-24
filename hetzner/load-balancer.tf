@@ -1,9 +1,9 @@
 data "hcloud_certificate" "rpc" {
-  name  = "*rpc.cheqd.net"
+  name  = "rpc.cheqd.net"
 }
 
 data "hcloud_certificate" "rest" {
-  name = "*api.cheqd.net"
+  name = "api.cheqd.net"
 }
 
 resource "hcloud_load_balancer" "rpc_lb" {
