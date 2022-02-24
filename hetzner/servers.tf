@@ -1,5 +1,5 @@
 resource "hcloud_server" "seed" {
-  depends_on = [hcloud_network_subnet.seed]
+  depends_on = [hcloud_network_subnet.seed, hcloud_network_subnet.rest_lb, hcloud_network_subnet.rpc_lb]
   for_each   = var.seed_server_config
 
   name        = "${var.network}-${each.key}"
@@ -8,7 +8,7 @@ resource "hcloud_server" "seed" {
   server_type = each.value.size
   network {
     network_id = hcloud_network.cheqd_network.id
-    ip        = trimsuffix(cidrsubnet(hcloud_network_subnet.seed.ip_range, 8, 100 + index(keys(var.seed_server_config), each.key)), "/32")
+    ip         = trimsuffix(cidrsubnet(hcloud_network_subnet.seed.ip_range, 8, 100 + index(keys(var.seed_server_config), each.key)), "/32")
     alias_ips = [
       trimsuffix(cidrsubnet(hcloud_network_subnet.rest_lb.ip_range, 8, 100 + index(keys(var.seed_server_config), each.key)), "/32"),
       trimsuffix(cidrsubnet(hcloud_network_subnet.rpc_lb.ip_range, 8, 100 + index(keys(var.seed_server_config), each.key)), "/32")
@@ -42,7 +42,7 @@ resource "hcloud_volume_attachment" "seed" {
 }
 
 resource "hcloud_server" "sentry" {
-  depends_on = [hcloud_network_subnet.sentry]
+  depends_on = [hcloud_network_subnet.sentry, hcloud_network_subnet.rest_lb, hcloud_network_subnet.rpc_lb]
   for_each   = var.sentry_server_config
 
   name        = "${var.network}-${each.key}"
@@ -51,7 +51,7 @@ resource "hcloud_server" "sentry" {
   server_type = each.value.size
   network {
     network_id = hcloud_network.cheqd_network.id
-    ip        = trimsuffix(cidrsubnet(hcloud_network_subnet.sentry.ip_range, 8, 150 + index(keys(var.sentry_server_config), each.key)), "/32")
+    ip         = trimsuffix(cidrsubnet(hcloud_network_subnet.sentry.ip_range, 8, 150 + index(keys(var.sentry_server_config), each.key)), "/32")
     alias_ips = [
       trimsuffix(cidrsubnet(hcloud_network_subnet.rest_lb.ip_range, 8, 150 + index(keys(var.sentry_server_config), each.key)), "/32"),
       trimsuffix(cidrsubnet(hcloud_network_subnet.rpc_lb.ip_range, 8, 150 + index(keys(var.sentry_server_config), each.key)), "/32")
@@ -94,7 +94,7 @@ resource "hcloud_server" "validator" {
   server_type = each.value.size
   network {
     network_id = hcloud_network.cheqd_network.id
-    ip        = trimsuffix(cidrsubnet(hcloud_network_subnet.validator.ip_range, 8, 200 + index(keys(var.validator_server_config), each.key)), "/32")
+    ip         = trimsuffix(cidrsubnet(hcloud_network_subnet.validator.ip_range, 8, 200 + index(keys(var.validator_server_config), each.key)), "/32")
     alias_ips = [
       trimsuffix(cidrsubnet(hcloud_network_subnet.sentry.ip_range, 8, 200 + index(keys(var.validator_server_config), each.key)), "/32")
     ]
