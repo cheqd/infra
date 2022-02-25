@@ -29,3 +29,7 @@ output "vpc" {
 output "validator_firewall" {
   value = digitalocean_firewall.validator
 }
+
+output "validator_droplets" {
+  value = digitalocean_droplet.validator
+}
