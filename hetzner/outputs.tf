@@ -25,3 +25,7 @@ output "sentries_firewall" {
 output "vpc" {
   value = hcloud_network.cheqd_network
 }
+
+output "validator_servers" {
+  value = hcloud_server.validator
+}
