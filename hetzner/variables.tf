@@ -79,8 +79,22 @@ variable "validator_firewall" {
   description = "Firewall rules for validator servers."
   type        = map(map(map(string)))
 }
+
 variable "hetzner_lb_type" {
   description = "Type of the Hetzner's Load Balancer/"
   type        = string
   default     = "lb11"
+}
+
+variable "vault_secrets_path" {
+  description = "Vault Path at which the secrets are stored"
+  type        = string
+}
+
+variable "vault_hcloud_wildcard_cert" {
+  type = string
+}
+
+variable "vault_cf_root_ca" {
+  type = string
 }

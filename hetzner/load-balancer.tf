@@ -1,22 +1,27 @@
-data "hcloud_certificate" "rpc" {
-  name  = "rpc.cheqd.net"
-}
+resource "hcloud_uploaded_certificate" "wildcard" {
+  name        = "${var.network}-cf-wildcard-cert"
+  private_key = data.vault_generic_secret.hcloud_wildcard.data["priv_key"]
+  certificate = data.vault_generic_secret.hcloud_wildcard.data["csr"]
 
-data "hcloud_certificate" "rest" {
-  name = "api.cheqd.net"
+  labels = {
+    "Terraform"   = "True"
+    "Network"     = var.network
+    "Environment" = var.environment
+  }
+
 }
 
 resource "hcloud_load_balancer" "rpc_lb" {
   name               = "cheqd-${var.network}-rpc-lb"
   load_balancer_type = var.hetzner_lb_type
-  location = var.hetzner_region
+  location           = var.hetzner_region
   algorithm {
     type = "least_connections"
   }
 
   labels = {
-    "Terraform" = "True"
-    "Network" = var.network
+    "Terraform"   = "True"
+    "Network"     = var.network
     "Environment" = var.environment
   }
 }
@@ -36,7 +41,7 @@ resource "hcloud_load_balancer_service" "rpc_lb" {
   http {
     sticky_sessions = true
     redirect_http   = true
-    certificates     = [data.hcloud_certificate.rpc.id]
+    certificates    = [hcloud_uploaded_certificate.wildcard.id]
   }
 
   health_check {
@@ -94,7 +99,7 @@ resource "hcloud_load_balancer_service" "rest_lb" {
   http {
     sticky_sessions = true
     redirect_http   = true
-    certificates     = [data.hcloud_certificate.rest.id]
+    certificates    = [hcloud_uploaded_certificate.wildcard.id]
   }
 
   health_check {

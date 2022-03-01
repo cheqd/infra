@@ -59,47 +59,61 @@ variable "validator_firewall" {
   type = map(map(map(string)))
 }
 
-variable "do_lb_config" {
+variable "do_rpc_lb_config" {
   type = map(map(string))
 }
 
-variable "do_lb_algorithm" {
+variable "do_rpc_lb_algorithm" {
   type    = string
   default = "least_connections"
 }
 
-variable "do_lb_size" {
+variable "do_rpc_lb_size" {
   type    = string
   default = "lb-small"
 }
 
-variable "do_health_check_port" {
+variable "do_rpc_health_check_port" {
   type = number
 }
 
-variable "do_health_check_protocol" {
+variable "do_rpc_health_check_protocol" {
   type = string
 }
 
-variable "do_lb_cert_domains" {
-  type = list(string)
+variable "do_api_lb_config" {
+  type = map(map(string))
 }
 
-
-variable "do_lb_priv_key" {
-  type      = string
-  sensitive = true
+variable "do_api_lb_algorithm" {
+  type    = string
+  default = "least_connections"
 }
 
-variable "do_lb_leaf_cert" {
-  type      = string
-  sensitive = true
+variable "do_api_lb_size" {
+  type    = string
+  default = "lb-small"
 }
 
-variable "do_lb_certificate_chain" {
+variable "do_api_health_check_port" {
+  type = number
+}
+
+variable "do_api_health_check_protocol" {
   type = string
 }
 
-variable "do_project_name" {
-  type = string
+variable "vault_do_lb_wildcard_cert" {
+  description = "Vault Key for pre-generated key pairs of cloudflare origin certificates"
+  type        = string
+}
+
+variable "vault_secrets_path" {
+  description = "Vault Path at which the secrets are stored"
+  type        = string
+}
+
+variable "vault_cf_root_ca" {
+  type    = string
+  default = "cloudflare_root_ca"
 }
