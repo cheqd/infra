@@ -99,3 +99,7 @@ variable "do_lb_leaf_cert" {
 variable "do_lb_certificate_chain" {
   type = string
 }
+
+variable "do_project_name" {
+  type = string
+}
