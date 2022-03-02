@@ -1,14 +1,25 @@
-resource "hcloud_uploaded_certificate" "wildcard" {
-  name        = "${var.network}-cf-wildcard-cert"
-  private_key = data.vault_generic_secret.hcloud_wildcard.data["priv_key"]
-  certificate = data.vault_generic_secret.hcloud_wildcard.data["csr"]
+resource "hcloud_uploaded_certificate" "rpc" {
+  name        = "${var.network}-cf-rpc-cert"
+  private_key = data.vault_generic_secret.hcloud_rpc.data["priv_key"]
+  certificate = data.vault_generic_secret.hcloud_rpc.data["csr"]
 
   labels = {
     "Terraform"   = "True"
     "Network"     = var.network
     "Environment" = var.environment
   }
+}
 
+resource "hcloud_uploaded_certificate" "api" {
+  name        = "${var.network}-cf-api-cert"
+  private_key = data.vault_generic_secret.hcloud_api.data["priv_key"]
+  certificate = data.vault_generic_secret.hcloud_api.data["csr"]
+
+  labels = {
+    "Terraform"   = "True"
+    "Network"     = var.network
+    "Environment" = var.environment
+  }
 }
 
 resource "hcloud_load_balancer" "rpc_lb" {
@@ -41,7 +52,7 @@ resource "hcloud_load_balancer_service" "rpc_lb" {
   http {
     sticky_sessions = true
     redirect_http   = true
-    certificates    = [hcloud_uploaded_certificate.wildcard.id]
+    certificates    = [hcloud_uploaded_certificate.rpc.id]
   }
 
   health_check {
@@ -99,7 +110,7 @@ resource "hcloud_load_balancer_service" "rest_lb" {
   http {
     sticky_sessions = true
     redirect_http   = true
-    certificates    = [hcloud_uploaded_certificate.wildcard.id]
+    certificates    = [hcloud_uploaded_certificate.rest.id]
   }
 
   health_check {

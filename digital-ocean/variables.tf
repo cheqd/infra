@@ -81,30 +81,35 @@ variable "do_rpc_health_check_protocol" {
   type = string
 }
 
-variable "do_api_lb_config" {
+variable "do_rest_lb_config" {
   type = map(map(string))
 }
 
-variable "do_api_lb_algorithm" {
+variable "do_rest_lb_algorithm" {
   type    = string
   default = "least_connections"
 }
 
-variable "do_api_lb_size" {
+variable "do_rest_lb_size" {
   type    = string
   default = "lb-small"
 }
 
-variable "do_api_health_check_port" {
+variable "do_rest_health_check_port" {
   type = number
 }
 
-variable "do_api_health_check_protocol" {
+variable "do_rest_health_check_protocol" {
   type = string
 }
 
-variable "vault_do_lb_wildcard_cert" {
-  description = "Vault Key for pre-generated key pairs of cloudflare origin certificates"
+variable "vault_do_lb_rpc_cert" {
+  description = "Vault Key for pre-generated key pairs of cloudflare origin certificates for RPC Load Balancer on Digital Ocean"
+  type        = string
+}
+
+variable "vault_do_lb_rest_cert" {
+  description = "Vault Key for pre-generated key pairs of cloudflare origin certificates for API Load Balancer on Digital Ocean"
   type        = string
 }
 

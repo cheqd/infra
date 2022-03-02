@@ -15,7 +15,7 @@ resource "digitalocean_loadbalancer" "rpc_lb" {
       target_port     = forwarding_rule.value.target_port
       target_protocol = forwarding_rule.value.target_protocol
 
-      certificate_name = parseint(forwarding_rule.value.entry_port, 10) == 443 ? digitalocean_certificate.wildcard.name : null
+      certificate_name = parseint(forwarding_rule.value.entry_port, 10) == 443 ? digitalocean_certificate.rpc.name : null
     }
   }
 
@@ -34,16 +34,16 @@ resource "digitalocean_loadbalancer" "rpc_lb" {
   droplet_ids = concat(local.seed_droplet_ids, local.sentry_droplet_ids)
 }
 
-resource "digitalocean_loadbalancer" "api_lb" {
-  name     = "cheqd-${var.network}-api-lb"
+resource "digitalocean_loadbalancer" "rest_lb" {
+  name     = "cheqd-${var.network}-rest-lb"
   region   = var.do_region
   vpc_uuid = digitalocean_vpc.cheqd_network.id
 
-  algorithm = var.do_api_lb_algorithm
-  size      = var.do_api_lb_size
+  algorithm = var.do_rest_lb_algorithm
+  size      = var.do_rest_lb_size
 
   dynamic "forwarding_rule" {
-    for_each = var.do_api_lb_config
+    for_each = var.do_rest_lb_config
 
     content {
       entry_port      = forwarding_rule.value.entry_port
@@ -51,7 +51,7 @@ resource "digitalocean_loadbalancer" "api_lb" {
       target_port     = forwarding_rule.value.target_port
       target_protocol = forwarding_rule.value.target_protocol
 
-      certificate_name = parseint(forwarding_rule.value.entry_port, 10) == 443 ? digitalocean_certificate.wildcard.name : null
+      certificate_name = parseint(forwarding_rule.value.entry_port, 10) == 443 ? digitalocean_certificate.rest.name : null
     }
   }
 
@@ -63,18 +63,26 @@ resource "digitalocean_loadbalancer" "api_lb" {
   enable_backend_keepalive = false
 
   healthcheck {
-    port     = var.do_api_health_check_port
-    protocol = var.do_api_health_check_protocol
+    port     = var.do_rest_health_check_port
+    protocol = var.do_rest_health_check_protocol
   }
 
   droplet_ids = concat(local.seed_droplet_ids, local.sentry_droplet_ids)
 }
 
-resource "digitalocean_certificate" "wildcard" {
-  name              = "${var.network}-wildcard-cf-cert"
+resource "digitalocean_certificate" "rpc" {
+  name              = "${var.network}-rpc-cf-cert"
   type              = "custom"
-  private_key       = data.vault_generic_secret.do_lb_wildcard.data["priv_key"]
-  leaf_certificate  = data.vault_generic_secret.do_lb_wildcard.data["csr"]
+  private_key       = data.vault_generic_secret.do_lb_rpc.data["priv_key"]
+  leaf_certificate  = data.vault_generic_secret.do_lb_rpc.data["csr"]
+  certificate_chain = data.vault_generic_secret.cf_root_ca.data["cert"]
+}
+
+resource "digitalocean_certificate" "rest" {
+  name              = "${var.network}-rest-cf-cert"
+  type              = "custom"
+  private_key       = data.vault_generic_secret.do_lb_rest.data["priv_key"]
+  leaf_certificate  = data.vault_generic_secret.do_lb_rest.data["csr"]
   certificate_chain = data.vault_generic_secret.cf_root_ca.data["cert"]
 }
 

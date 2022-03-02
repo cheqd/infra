@@ -91,7 +91,11 @@ variable "vault_secrets_path" {
   type        = string
 }
 
-variable "vault_hcloud_wildcard_cert" {
+variable "vault_hcloud_rpc_cert" {
+  type = string
+}
+
+variable "vault_hcloud_api_cert" {
   type = string
 }
 
