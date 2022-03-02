@@ -10,10 +10,10 @@ resource "hcloud_uploaded_certificate" "rpc" {
   }
 }
 
-resource "hcloud_uploaded_certificate" "api" {
-  name        = "${var.network}-cf-api-cert"
-  private_key = data.vault_generic_secret.hcloud_api.data["priv_key"]
-  certificate = data.vault_generic_secret.hcloud_api.data["csr"]
+resource "hcloud_uploaded_certificate" "rest" {
+  name        = "${var.network}-cf-rest-cert"
+  private_key = data.vault_generic_secret.hcloud_rest.data["priv_key"]
+  certificate = data.vault_generic_secret.hcloud_rest.data["csr"]
 
   labels = {
     "Terraform"   = "True"

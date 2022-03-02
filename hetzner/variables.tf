@@ -95,7 +95,7 @@ variable "vault_hcloud_rpc_cert" {
   type = string
 }
 
-variable "vault_hcloud_api_cert" {
+variable "vault_hcloud_rest_cert" {
   type = string
 }
 
