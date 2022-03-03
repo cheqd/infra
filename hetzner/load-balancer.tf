@@ -17,7 +17,6 @@ resource "hcloud_load_balancer" "rpc_lb" {
   labels = {
     "Terraform" = "True"
     "Network" = var.network
-    "Environment" = var.environment
   }
 }
 
@@ -75,7 +74,6 @@ resource "hcloud_load_balancer" "rest_lb" {
   labels = {
     "Terraform"   = "True"
     "Network"     = var.network
-    "Environment" = var.environment
   }
 }
 

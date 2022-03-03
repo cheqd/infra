@@ -3,11 +3,6 @@ variable "hcloud_token" {
   type        = string
 }
 
-variable "environment" {
-  description = "The environment where the infrastructure will be provisioned."
-  type        = string
-}
-
 variable "network" {
   description = "Hetzner VPC/Network name."
   type        = string

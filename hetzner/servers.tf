@@ -130,7 +130,7 @@ resource "hcloud_placement_group" "seed" {
   name = "seed"
   type = "spread"
   labels = {
-    "Environment" = var.environment
+    "Network" = var.network
     "NodeType"    = "seed"
     "Terraform"   = "True"
   }
@@ -140,7 +140,7 @@ resource "hcloud_placement_group" "sentry" {
   name = "sentry"
   type = "spread"
   labels = {
-    "Environment" = var.environment
+    "Network" = var.network
     "NodeType"    = "sentry"
     "Terraform"   = "True"
   }
@@ -150,7 +150,7 @@ resource "hcloud_placement_group" "validator" {
   name = "validator"
   type = "spread"
   labels = {
-    "Environment" = var.environment
+    "Network" = var.network
     "NodeType"    = "validator"
     "Terraform"   = "True"
   }
