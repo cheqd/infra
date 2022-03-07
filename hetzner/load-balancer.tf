@@ -1,5 +1,5 @@
 data "hcloud_certificate" "rpc" {
-  name  = "rpc.cheqd.net"
+  name = "rpc.cheqd.net"
 }
 
 data "hcloud_certificate" "rest" {
@@ -9,14 +9,14 @@ data "hcloud_certificate" "rest" {
 resource "hcloud_load_balancer" "rpc_lb" {
   name               = "cheqd-${var.network}-rpc-lb"
   load_balancer_type = var.hetzner_lb_type
-  location = var.hetzner_region
+  location           = var.hetzner_region
   algorithm {
     type = "least_connections"
   }
 
   labels = {
     "Terraform" = "True"
-    "Network" = var.network
+    "Network"   = var.network
   }
 }
 
@@ -35,7 +35,7 @@ resource "hcloud_load_balancer_service" "rpc_lb" {
   http {
     sticky_sessions = true
     redirect_http   = true
-    certificates     = [data.hcloud_certificate.rpc.id]
+    certificates    = [data.hcloud_certificate.rpc.id]
   }
 
   health_check {
@@ -72,8 +72,8 @@ resource "hcloud_load_balancer" "rest_lb" {
   }
 
   labels = {
-    "Terraform"   = "True"
-    "Network"     = var.network
+    "Terraform" = "True"
+    "Network"   = var.network
   }
 }
 
@@ -92,7 +92,7 @@ resource "hcloud_load_balancer_service" "rest_lb" {
   http {
     sticky_sessions = true
     redirect_http   = true
-    certificates     = [data.hcloud_certificate.rest.id]
+    certificates    = [data.hcloud_certificate.rest.id]
   }
 
   health_check {
