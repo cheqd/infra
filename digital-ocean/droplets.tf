@@ -1,4 +1,6 @@
 resource "digitalocean_droplet" "seed" {
+  #checkov:skip=CKV_DIO_2:We do not need to pass SSH keys here, it's managed via Ansible
+
   for_each = var.seed_droplet_config
 
   graceful_shutdown = true
@@ -34,6 +36,8 @@ resource "digitalocean_volume_attachment" "seed" {
 }
 
 resource "digitalocean_droplet" "sentry" {
+  #checkov:skip=CKV_DIO_2:We do not need to pass SSH keys here, it's managed via Ansible
+
   for_each = var.sentry_droplet_config
 
   graceful_shutdown = true
@@ -69,6 +73,8 @@ resource "digitalocean_volume_attachment" "sentry" {
 }
 
 resource "digitalocean_droplet" "validator" {
+  #checkov:skip=CKV_DIO_2:We do not need to pass SSH keys here, it's managed via Ansible
+
   for_each = var.validator_droplet_config
 
   graceful_shutdown = true
