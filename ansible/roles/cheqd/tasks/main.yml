@@ -1,0 +1,93 @@
+---
+- name: Create service group
+  group: "name=cheqd"
+
+- name: Create service user
+  user: "name=cheqd group=cheqd home=/home/cheqd shell=/bin/bash"
+
+- name: Change user folder to more permissive
+  file: "path=/home/cheqd mode=0755"
+
+- name: Install cheqd
+  apt:
+    deb: https://github.com/cheqd/cheqd-node/releases/download/v{{ version }}/cheqd-node_{{ version }}_amd64.deb
+
+- name: Set .cheqdnode directory owner and group to cheqd
+  file:
+    path: /home/cheqd/.cheqdnode/
+    owner: cheqd
+    group: cheqd
+    state: directory
+    recurse: yes
+
+- name: Set the log directory to be owned by syslog
+  file:
+    path: /home/cheqd/.cheqdnode/log/
+    owner: syslog
+    state: directory
+    recurse: yes
+
+# - name: Enable cheqd service
+#   systemd:
+#     name: cheqd-noded.service
+#     enabled: yes
+
+- name: Create a moniker
+  command: cheqd-noded init {{ moniker }}
+  become: yes
+  become_user: cheqd
+  when: new_account
+
+- name: Download the genesis file
+  get_url:
+    url: https://raw.githubusercontent.com/cheqd/cheqd-node/main/persistent_chains/{{ network }}/genesis.json
+    dest: /home/cheqd/.cheqdnode/config/genesis.json
+    force: yes
+  become: yes
+  become_user: cheqd
+  when: new_account
+
+- name: Store seeds inside an environment variable
+  uri:
+    url: https://raw.githubusercontent.com/cheqd/cheqd-node/main/persistent_chains/mainnet/seeds.txt
+    return_content: yes
+  register: seeds
+  become: yes
+  become_user: cheqd
+  when: new_account
+
+- name: Define the seed configuration for populating the list of peers known by a node
+  command: cheqd-noded configure p2p seeds {{ seeds['content'] }}
+  become: yes
+  become_user: cheqd
+  when: new_account
+
+- name: Set gas prices accepted by the node
+  command: cheqd-noded configure min-gas-prices "25ncheq"
+  become: yes
+  become_user: cheqd
+  when: new_account
+
+- name: Turn off empty block creation
+  command: cheqd-noded configure create-empty-blocks false
+  become: yes
+  become_user: cheqd
+  when: new_account
+
+- name: Define the external peer-to-peer address
+  command: cheqd-noded configure p2p external-address "{{ lookup('dig', ansible_host) }}":26656
+  become: yes
+  become_user: cheqd
+  when: new_account
+
+- name: Make the RPC endpoint available externally
+  command: cheqd-noded configure rpc-laddr "tcp:\/\/0.0.0.0:26657"
+  become: yes
+  become_user: cheqd
+  when: enable_rpc_endpoint_externally
+
+- name: Start cheqd systemd service
+  systemd:
+    name: cheqd-noded.service
+    state: started
+    enabled: yes

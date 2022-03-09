@@ -1,0 +1,22 @@
+---
+- hosts: test
+  user: root
+  any_errors_fatal: true
+  gather_facts: no
+  vars:
+    network: mainnet
+    datadog_site: "datadoghq.eu"
+    datadog_api_key: ""
+    datadog_agent_version: "7.34.0"
+    datadog_checks:
+      cheqd:
+        init_config:
+        logs:
+          - type: file
+            path: "/home/cheqd/.cheqdnode/log/stdout.log"
+            service: "ansible-test-{{ network }}"
+            source: "{{ network }}"
+
+    logs_enabled: true
+  roles:
+    - { role: datadog.datadog, become: yes }
