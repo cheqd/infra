@@ -3,8 +3,8 @@ resource "hcloud_network" "cheqd_network" {
   ip_range = var.hetzner_network_ip_range
   #  delete_protection =
   labels = {
-    "Environment" = var.environment
-    "Terraform"   = "true"
+    "Network"   = var.network
+    "Terraform" = "true"
   }
 }
 

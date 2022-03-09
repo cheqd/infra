@@ -3,11 +3,6 @@ variable "hcloud_token" {
   type        = string
 }
 
-variable "environment" {
-  description = "The environment where the infrastructure will be provisioned."
-  type        = string
-}
-
 variable "network" {
   description = "Hetzner VPC/Network name."
   type        = string
@@ -83,4 +78,16 @@ variable "hetzner_lb_type" {
   description = "Type of the Hetzner's Load Balancer/"
   type        = string
   default     = "lb11"
+}
+
+variable "rpc_certificate" {
+  description = "Name of the certificate to be used by the rpc load balancer in corresponding Hetzner's project."
+  type        = string
+  default     = "rpc"
+}
+
+variable "api_certificate" {
+  description = "Name of the certificate to be used by the api load balancer in corresponding Hetzner's project."
+  type        = string
+  default     = "api"
 }
