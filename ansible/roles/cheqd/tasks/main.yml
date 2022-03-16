@@ -27,11 +27,6 @@
     state: directory
     recurse: yes
 
-# - name: Enable cheqd service
-#   systemd:
-#     name: cheqd-noded.service
-#     enabled: yes
-
 - name: Create a moniker
   command: cheqd-noded init {{ moniker }}
   become: yes

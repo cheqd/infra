@@ -1,0 +1,14 @@
+---
+- hosts: "*"
+  user: root
+  any_errors_fatal: true
+  gather_facts: true
+  vars:
+    enable_rpc_endpoint_externally: true
+    new_account: true
+    network: mainnet
+    version: 0.4.1
+    moniker: ansible-test
+
+  roles:
+    - cheqd
