@@ -80,3 +80,15 @@ variable "hetzner_lb_type" {
   type        = string
   default     = "lb11"
 }
+
+variable "rpc_certificate" {
+  description = "Name of the certificate to be used by the rpc load balancer in corresponding Hetzner's project."
+  type        = string
+  default     = "rpc"
+}
+
+variable "api_certificate" {
+  description = "Name of the certificate to be used by the api load balancer in corresponding Hetzner's project."
+  type        = string
+  default     = "api"
+}

@@ -16,7 +16,7 @@ resource "hcloud_server" "seed" {
   }
   placement_group_id = hcloud_placement_group.seed.id
   user_data          = templatefile("./templates/seed_user_data.tpl", var.seed_user_data)
-  backups = var.network == "testnet" || var.network == "mainnet" ? true : false
+  backups            = var.network == "testnet" || var.network == "mainnet" ? true : false
 
   labels = {
     "NodeType"  = "seed"
@@ -59,7 +59,7 @@ resource "hcloud_server" "sentry" {
   }
   placement_group_id = hcloud_placement_group.sentry.id
   user_data          = templatefile("./templates/sentry_user_data.tpl", var.sentry_user_data)
-  backups = var.network == "testnet" || var.network == "mainnet" ? true : false
+  backups            = var.network == "testnet" || var.network == "mainnet" ? true : false
 
   labels = {
     "NodeType"  = "sentry"
@@ -101,7 +101,7 @@ resource "hcloud_server" "validator" {
   }
   placement_group_id = hcloud_placement_group.validator.id
   user_data          = templatefile("./templates/validator_user_data.tpl", var.validator_user_data)
-  backups = var.network == "testnet" || var.network == "mainnet" ? true : false
+  backups            = var.network == "testnet" || var.network == "mainnet" ? true : false
 
   labels = {
     "NodeType"  = "validator"
@@ -127,31 +127,31 @@ resource "hcloud_volume_attachment" "validator" {
 }
 
 resource "hcloud_placement_group" "seed" {
-  name = "seed"
+  name = "${var.network}-seed"
   type = "spread"
   labels = {
-    "Environment" = var.environment
-    "NodeType"    = "seed"
-    "Terraform"   = "True"
+    "Network"   = var.network
+    "NodeType"  = "seed"
+    "Terraform" = "True"
   }
 }
 
 resource "hcloud_placement_group" "sentry" {
-  name = "sentry"
+  name = "${var.network}-sentry"
   type = "spread"
   labels = {
-    "Environment" = var.environment
-    "NodeType"    = "sentry"
-    "Terraform"   = "True"
+    "Network"   = var.network
+    "NodeType"  = "sentry"
+    "Terraform" = "True"
   }
 }
 
 resource "hcloud_placement_group" "validator" {
-  name = "validator"
+  name = "${var.network}-validator"
   type = "spread"
   labels = {
-    "Environment" = var.environment
-    "NodeType"    = "validator"
-    "Terraform"   = "True"
+    "Network"   = var.network
+    "NodeType"  = "validator"
+    "Terraform" = "True"
   }
 }
