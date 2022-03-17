@@ -3,11 +3,6 @@ variable "hcloud_token" {
   type        = string
 }
 
-variable "environment" {
-  description = "The environment where the infrastructure will be provisioned."
-  type        = string
-}
-
 variable "network" {
   description = "Hetzner VPC/Network name."
   type        = string
@@ -84,21 +79,4 @@ variable "hetzner_lb_type" {
   description = "Type of the Hetzner's Load Balancer/"
   type        = string
   default     = "lb11"
-}
-
-variable "vault_secrets_path" {
-  description = "Vault Path at which the secrets are stored"
-  type        = string
-}
-
-variable "vault_hcloud_rpc_cert" {
-  type = string
-}
-
-variable "vault_hcloud_rest_cert" {
-  type = string
-}
-
-variable "vault_cf_root_ca" {
-  type = string
 }

@@ -1,5 +1,6 @@
 variable "do_token" {
   type = string
+  description = "Authentication token for Digital Ocean."
 }
 
 variable "network" {
@@ -101,24 +102,4 @@ variable "do_rest_health_check_port" {
 
 variable "do_rest_health_check_protocol" {
   type = string
-}
-
-variable "vault_do_lb_rpc_cert" {
-  description = "Vault Key for pre-generated key pairs of cloudflare origin certificates for RPC Load Balancer on Digital Ocean"
-  type        = string
-}
-
-variable "vault_do_lb_rest_cert" {
-  description = "Vault Key for pre-generated key pairs of cloudflare origin certificates for API Load Balancer on Digital Ocean"
-  type        = string
-}
-
-variable "vault_secrets_path" {
-  description = "Vault Path at which the secrets are stored"
-  type        = string
-}
-
-variable "vault_cf_root_ca" {
-  type    = string
-  default = "cloudflare_root_ca"
 }

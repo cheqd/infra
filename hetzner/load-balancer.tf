@@ -1,25 +1,9 @@
-resource "hcloud_uploaded_certificate" "rpc" {
-  name        = "${var.network}-cf-rpc-cert"
-  private_key = data.vault_generic_secret.hcloud_rpc.data["priv_key"]
-  certificate = data.vault_generic_secret.hcloud_rpc.data["csr"]
-
-  labels = {
-    "Terraform"   = "True"
-    "Network"     = var.network
-    "Environment" = var.environment
-  }
+data "hcloud_uploaded_certificate" "rpc" {
+  name = "${var.network}-cf-rpc-cert"
 }
 
-resource "hcloud_uploaded_certificate" "rest" {
-  name        = "${var.network}-cf-rest-cert"
-  private_key = data.vault_generic_secret.hcloud_rest.data["priv_key"]
-  certificate = data.vault_generic_secret.hcloud_rest.data["csr"]
-
-  labels = {
-    "Terraform"   = "True"
-    "Network"     = var.network
-    "Environment" = var.environment
-  }
+data "hcloud_uploaded_certificate" "rest" {
+  name = "${var.network}-cf-rest-cert"
 }
 
 resource "hcloud_load_balancer" "rpc_lb" {
@@ -33,7 +17,6 @@ resource "hcloud_load_balancer" "rpc_lb" {
   labels = {
     "Terraform"   = "True"
     "Network"     = var.network
-    "Environment" = var.environment
   }
 }
 
@@ -52,7 +35,7 @@ resource "hcloud_load_balancer_service" "rpc_lb" {
   http {
     sticky_sessions = true
     redirect_http   = true
-    certificates    = [hcloud_uploaded_certificate.rpc.id]
+    certificates    = [data.hcloud_uploaded_certificate.rpc.id]
   }
 
   health_check {
@@ -91,7 +74,6 @@ resource "hcloud_load_balancer" "rest_lb" {
   labels = {
     "Terraform"   = "True"
     "Network"     = var.network
-    "Environment" = var.environment
   }
 }
 
@@ -110,7 +92,7 @@ resource "hcloud_load_balancer_service" "rest_lb" {
   http {
     sticky_sessions = true
     redirect_http   = true
-    certificates    = [hcloud_uploaded_certificate.rest.id]
+    certificates    = [data.hcloud_uploaded_certificate.rest.id]
   }
 
   health_check {
