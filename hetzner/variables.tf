@@ -43,6 +43,10 @@ variable "seed_user_data" {
 variable "seed_firewall" {
   description = "Firewall rules for seed servers."
   type        = map(map(map(string)))
+  default     = {
+    inbound   = {}
+    outbound  = {}
+  }
 }
 
 variable "sentry_server_config" {
@@ -58,6 +62,10 @@ variable "sentry_user_data" {
 variable "sentry_firewall" {
   description = "Firewall rules for sentry servers."
   type        = map(map(map(string)))
+  default     = {
+    inbound   = {}
+    outbound  = {}
+  }
 }
 
 variable "validator_server_config" {
@@ -73,6 +81,10 @@ variable "validator_user_data" {
 variable "validator_firewall" {
   description = "Firewall rules for validator servers."
   type        = map(map(map(string)))
+  default     = {
+    inbound   = {}
+    outbound  = {}
+  }
 }
 
 variable "hetzner_lb_type" {

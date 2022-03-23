@@ -1,7 +1,7 @@
 resource "hcloud_network" "cheqd_network" {
   name     = var.network
   ip_range = var.hetzner_network_ip_range
-  #  delete_protection =
+
   labels = {
     "Network"   = var.network
     "Terraform" = "true"
@@ -44,6 +44,7 @@ resource "hcloud_network_subnet" "validator" {
 }
 
 resource "hcloud_firewall" "seed" {
+  count       = (length(var.seed_firewall.inbound) > 0 && length(var.seed_firewall.outbound) > 0) ? 1 : 0
   name = "${var.network}-seed"
 
   labels = {
@@ -78,6 +79,7 @@ resource "hcloud_firewall" "seed" {
 }
 
 resource "hcloud_firewall" "sentry" {
+  count       = (length(var.sentry_firewall.inbound) > 0 && length(var.sentry_firewall.outbound) > 0) ? 1 : 0
   name = "${var.network}-sentry"
 
   labels = {
@@ -112,6 +114,7 @@ resource "hcloud_firewall" "sentry" {
 }
 
 resource "hcloud_firewall" "validator" {
+  count       = (length(var.validator_firewall.inbound) > 0 && length(var.validator_firewall.outbound) > 0) ? 1 : 0
   name = "${var.network}-validator"
 
   labels = {

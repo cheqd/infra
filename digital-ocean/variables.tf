@@ -29,19 +29,29 @@ variable "default_tags" {
 }
 
 variable "seed_user_data" {
-  type = map(string)
+  type    = map(string)
+  default = {}
 }
 
 variable "seed_firewall" {
   type = map(map(map(string)))
+  default = {
+    inbound   = {}
+    outbound  = {}
+  }
 }
 
 variable "sentry_user_data" {
-  type = map(string)
+  type    = map(string)
+  default = {}
 }
 
 variable "sentry_firewall" {
   type = map(map(map(string)))
+  default = {
+    inbound   = {}
+    outbound  = {}
+  }
 }
 
 variable "sentry_droplet_config" {
@@ -53,11 +63,16 @@ variable "validator_droplet_config" {
 }
 
 variable "validator_user_data" {
-  type = map(string)
+  type    = map(string)
+  default = {}
 }
 
 variable "validator_firewall" {
-  type = map(map(map(string)))
+  type    = map(map(map(string)))
+  default = {
+    inbound   = {}
+    outbound  = {}
+  }
 }
 
 variable "do_rpc_lb_config" {
@@ -97,9 +112,11 @@ variable "do_rest_lb_size" {
 }
 
 variable "do_rest_health_check_port" {
-  type = number
+  type    = number
+  default = 80
 }
 
 variable "do_rest_health_check_protocol" {
-  type = string
+  type    = string
+  default = "http"
 }

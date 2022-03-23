@@ -19,8 +19,9 @@ resource "hcloud_server" "seed" {
   backups            = var.network == "testnet" || var.network == "mainnet" ? true : false
 
   labels = {
-    "NodeType"  = "seed"
-    "Terraform" = "True"
+    "ServerType" = "Node"
+    "NodeType"   = "seed"
+    "Terraform"  = "True"
   }
 }
 
@@ -62,8 +63,9 @@ resource "hcloud_server" "sentry" {
   backups            = var.network == "testnet" || var.network == "mainnet" ? true : false
 
   labels = {
-    "NodeType"  = "sentry"
-    "Terraform" = "True"
+    "ServerType" = "Node"
+    "NodeType"   = "sentry"
+    "Terraform"  = "True"
   }
 }
 
@@ -104,8 +106,9 @@ resource "hcloud_server" "validator" {
   backups            = var.network == "testnet" || var.network == "mainnet" ? true : false
 
   labels = {
-    "NodeType"  = "validator"
-    "Terraform" = "True"
+    "ServerType" = "Node"
+    "NodeType"   = "validator"
+    "Terraform"  = "True"
   }
 }
 

@@ -7,7 +7,7 @@ resource "digitalocean_vpc" "cheqd_network" {
 
 resource "digitalocean_firewall" "seed" {
   name        = "${var.network}-seed"
-  droplet_ids = [for droplet in digitalocean_droplet.seed : droplet.id]
+  count       = (length(var.seed_firewall.inbound) > 0 && length(var.seed_firewall.outbound) > 0) ? 1 : 0
 
   dynamic "inbound_rule" {
     for_each = var.seed_firewall.inbound
@@ -29,12 +29,12 @@ resource "digitalocean_firewall" "seed" {
     }
   }
 
-  tags = concat(var.default_tags, ["${var.network}-seed"])
+  tags = ["${var.network}-seed"]
 }
 
 resource "digitalocean_firewall" "sentry" {
   name        = "${var.network}-sentry"
-  droplet_ids = [for droplet in digitalocean_droplet.sentry : droplet.id]
+  count       = (length(var.sentry_firewall.inbound) > 0 && length(var.sentry_firewall.outbound) > 0) ? 1 : 0
 
   dynamic "inbound_rule" {
     for_each = var.sentry_firewall.inbound
@@ -56,12 +56,12 @@ resource "digitalocean_firewall" "sentry" {
     }
   }
 
-  tags = concat(var.default_tags, ["${var.network}-sentry"])
+  tags = ["${var.network}-sentry"]
 }
 
 resource "digitalocean_firewall" "validator" {
   name        = "${var.network}-validator"
-  droplet_ids = [for droplet in digitalocean_droplet.validator : droplet.id]
+  count       = (length(var.validator_firewall.inbound) > 0 && length(var.validator_firewall.outbound) > 0) ? 1 : 0
 
   dynamic "inbound_rule" {
     for_each = var.validator_firewall.inbound
@@ -83,5 +83,5 @@ resource "digitalocean_firewall" "validator" {
     }
   }
 
-  tags = concat(var.default_tags, ["${var.network}-validator"])
+  tags = ["${var.network}-validator"]
 }
