@@ -38,6 +38,7 @@ variable "seed_server_config" {
 variable "seed_user_data" {
   description = "User data to be applied on server boot for seed servers."
   type        = map(string)
+  default     = {}
 }
 
 variable "seed_firewall" {
@@ -57,6 +58,7 @@ variable "sentry_server_config" {
 variable "sentry_user_data" {
   description = "User data to be applied on server boot for sentry servers."
   type        = map(string)
+  default     = {}
 }
 
 variable "sentry_firewall" {
@@ -76,6 +78,7 @@ variable "validator_server_config" {
 variable "validator_user_data" {
   description = "User data to be applied on server boot for validator servers."
   type        = map(string)
+  default     = {}
 }
 
 variable "validator_firewall" {
