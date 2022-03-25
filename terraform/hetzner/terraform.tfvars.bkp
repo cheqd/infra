@@ -1,0 +1,145 @@
+hcloud_token = "BnzzoZLZxSrTdMQNq8qcgXKfxMuQNRgXP56AKKVWl8c8w8INulhElCTR0QfMLEks"
+
+network = "testnet"
+
+hetzner_region = "nbg1"
+
+hetzner_zone = "eu-central"
+
+hetzner_network_ip_range = "10.100.0.0/16"
+
+hetzner_image_name = "ubuntu-20.04"
+
+seed_server_config = {
+  "seed1" = {
+    region      = "nbg1"
+    size        = "cx11"
+    volume_size = 10
+    fs_type     = "xfs"
+  }
+  "seed2" = {
+    region      = "nbg1"
+    size        = "cx11"
+    volume_size = 10
+    fs_type     = "xfs"
+  }
+}
+
+seed_user_data = {}
+
+seed_firewall = {
+  inbound = {
+    "allow-http" = {
+      protocol         = "tcp"
+      port_range       = "80"
+      source_addresses = "0.0.0.0/0,::/0"
+    }
+    "allow-https" = {
+      protocol         = "tcp"
+      port_range       = "443"
+      source_addresses = "0.0.0.0/0,::/0"
+    }
+  }
+
+  outbound = {
+    "allow-all-tcp" = {
+      protocol              = "tcp"
+      port_range            = "1-65535"
+      destination_addresses = "0.0.0.0/0,::/0"
+    }
+    "allow-all-udp" = {
+      protocol              = "udp"
+      port_range            = "1-65535"
+      destination_addresses = "0.0.0.0/0,::/0"
+    }
+  }
+}
+
+
+sentry_server_config = {
+  "sentry1" = {
+    region      = "nbg1"
+    size        = "cx11"
+    volume_size = 10
+    fs_type     = "xfs"
+  }
+  "sentry2" = {
+    region      = "nbg1"
+    size        = "cx11"
+    volume_size = 10
+    fs_type     = "xfs"
+  }
+}
+
+sentry_user_data = {}
+
+sentry_firewall = {
+  inbound = {
+    "allow-http" = {
+      protocol         = "tcp"
+      port_range       = "80"
+      source_addresses = "0.0.0.0/0,::/0"
+    }
+    "allow-https" = {
+      protocol         = "tcp"
+      port_range       = "443"
+      source_addresses = "0.0.0.0/0,::/0"
+    }
+  }
+
+  outbound = {
+    "allow-all-tcp" = {
+      protocol              = "tcp"
+      port_range            = "1-65535"
+      destination_addresses = "0.0.0.0/0,::/0"
+    }
+    "allow-all-udp" = {
+      protocol              = "udp"
+      port_range            = "1-65535"
+      destination_addresses = "0.0.0.0/0,::/0"
+    }
+  }
+
+}
+
+
+validator_server_config = {
+  "validator1" = {
+    region      = "nbg1"
+    size        = "cx11"
+    volume_size = 10
+    fs_type     = "xfs"
+  }
+}
+
+
+validator_user_data = {}
+
+validator_firewall = {
+  inbound = {
+    "allow-http" = {
+      protocol         = "tcp"
+      port_range       = "80"
+      source_addresses = "0.0.0.0/0,::/0"
+    }
+    "allow-https" = {
+      protocol         = "tcp"
+      port_range       = "443"
+      source_addresses = "0.0.0.0/0,::/0"
+    }
+  }
+
+  outbound = {
+    "allow-all-tcp" = {
+      protocol              = "tcp"
+      port_range            = "1-65535"
+      destination_addresses = "0.0.0.0/0,::/0"
+    }
+    "allow-all-udp" = {
+      protocol              = "udp"
+      port_range            = "1-65535"
+      destination_addresses = "0.0.0.0/0,::/0"
+    }
+  }
+
+}

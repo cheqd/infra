@@ -1,5 +1,8 @@
+data "digitalocean_ssh_key" "cheqd" {
+  name = "${var.network}-key"
+}
+
 resource "digitalocean_droplet" "seed" {
-  #checkov:skip=CKV_DIO_2:We do not need to pass SSH keys here, it's managed via Ansible
 
   for_each = var.seed_droplet_config
 
@@ -10,6 +13,7 @@ resource "digitalocean_droplet" "seed" {
   region            = each.value.region
   vpc_uuid          = digitalocean_vpc.cheqd_network.id
   name              = "${var.network}-${each.key}"
+  ssh_keys          = [data.digitalocean_ssh_key.cheqd.id]
   monitoring        = lookup(each.value, "monitoring", true)
   droplet_agent     = lookup(each.value, "enable_droplet_agent", true)
   backups           = lookup(each.value, "enable_backups", true)
@@ -36,7 +40,6 @@ resource "digitalocean_volume_attachment" "seed" {
 }
 
 resource "digitalocean_droplet" "sentry" {
-  #checkov:skip=CKV_DIO_2:We do not need to pass SSH keys here, it's managed via Ansible
 
   for_each = var.sentry_droplet_config
 
@@ -47,6 +50,7 @@ resource "digitalocean_droplet" "sentry" {
   region            = each.value.region
   vpc_uuid          = digitalocean_vpc.cheqd_network.id
   name              = "${var.network}-${each.key}"
+  ssh_keys          = [data.digitalocean_ssh_key.cheqd.id]
   monitoring        = lookup(each.value, "monitoring", true)
   backups           = lookup(each.value, "enable_backups", true)
   droplet_agent     = lookup(each.value, "enable_droplet_agent", true)
@@ -73,7 +77,6 @@ resource "digitalocean_volume_attachment" "sentry" {
 }
 
 resource "digitalocean_droplet" "validator" {
-  #checkov:skip=CKV_DIO_2:We do not need to pass SSH keys here, it's managed via Ansible
 
   for_each = var.validator_droplet_config
 
@@ -84,6 +87,7 @@ resource "digitalocean_droplet" "validator" {
   region            = each.value.region
   vpc_uuid          = digitalocean_vpc.cheqd_network.id
   name              = "${var.network}-${each.key}"
+  ssh_keys          = [data.digitalocean_ssh_key.cheqd.id]
   monitoring        = lookup(each.value, "monitoring", true)
   droplet_agent     = lookup(each.value, "enable_droplet_agent", true)
   backups           = lookup(each.value, "enable_backups", true)

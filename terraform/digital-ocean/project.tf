@@ -1,5 +1,5 @@
 resource "digitalocean_project" "cheqd" {
-  name = "cheqd - ${var.network}"
+  name        = "cheqd - ${var.network}"
   description = "Project dedicated to testing Terragrunt configuration."
   purpose     = "Other"
   environment = "Development"
@@ -15,9 +15,9 @@ resource "digitalocean_project_resources" "cheqd" {
 
 locals {
   resources = [for resource in merge(
-  digitalocean_droplet.seed,
-  digitalocean_droplet.sentry,
-  digitalocean_droplet.validator,
-  ) : resource.urn
+    digitalocean_droplet.seed,
+    digitalocean_droplet.sentry,
+    digitalocean_droplet.validator,
+    ) : resource.urn
   ]
 }

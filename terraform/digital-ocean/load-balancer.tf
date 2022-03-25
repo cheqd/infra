@@ -31,7 +31,7 @@ resource "digitalocean_loadbalancer" "rpc_lb" {
     type = "none"
   }
 
-  redirect_http_to_https   = true
+  redirect_http_to_https = true
 
   healthcheck {
     protocol = var.do_rpc_health_check_protocol
@@ -76,7 +76,7 @@ resource "digitalocean_loadbalancer" "rest_lb" {
     type = "none"
   }
 
-  redirect_http_to_https   = true
+  redirect_http_to_https = true
 
   healthcheck {
     protocol = var.do_rest_health_check_protocol
