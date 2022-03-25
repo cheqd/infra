@@ -1,0 +1,26 @@
+name: Terraform Static Code Analysis
+
+on:
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: linter-${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Linter for Terraform
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Tfsec Analysis
+        uses: aquasecurity/tfsec-pr-commenter-action@v1.0.5
+        with:
+          tfsec_args: --soft-fail 
+          github_token: ${{ github.token }}
+      - name: Run Checkov action
+        id: checkov
+        uses: bridgecrewio/checkov-action@master
+        with:
+          config_file: .checkov.yaml
