@@ -44,8 +44,8 @@ resource "hcloud_network_subnet" "validator" {
 }
 
 resource "hcloud_firewall" "seed" {
-  count       = (length(var.seed_firewall.inbound) > 0 && length(var.seed_firewall.outbound) > 0) ? 1 : 0
-  name = "${var.network}-seed"
+  count = (length(var.seed_firewall.inbound) > 0 && length(var.seed_firewall.outbound) > 0) ? 1 : 0
+  name  = "${var.network}-seed"
 
   labels = {
     "Terraform" = "True"
@@ -79,8 +79,8 @@ resource "hcloud_firewall" "seed" {
 }
 
 resource "hcloud_firewall" "sentry" {
-  count       = (length(var.sentry_firewall.inbound) > 0 && length(var.sentry_firewall.outbound) > 0) ? 1 : 0
-  name = "${var.network}-sentry"
+  count = (length(var.sentry_firewall.inbound) > 0 && length(var.sentry_firewall.outbound) > 0) ? 1 : 0
+  name  = "${var.network}-sentry"
 
   labels = {
     "Terraform" = "True"
@@ -114,8 +114,8 @@ resource "hcloud_firewall" "sentry" {
 }
 
 resource "hcloud_firewall" "validator" {
-  count       = (length(var.validator_firewall.inbound) > 0 && length(var.validator_firewall.outbound) > 0) ? 1 : 0
-  name = "${var.network}-validator"
+  count = (length(var.validator_firewall.inbound) > 0 && length(var.validator_firewall.outbound) > 0) ? 1 : 0
+  name  = "${var.network}-validator"
 
   labels = {
     "Terraform" = "True"
