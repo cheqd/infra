@@ -1,8 +1,13 @@
+data "hcloud_ssh_key" "cheqd" {
+  name = "${var.network}-key"
+}
+
 resource "hcloud_server" "seed" {
   depends_on = [hcloud_network_subnet.seed, hcloud_network_subnet.rest_lb, hcloud_network_subnet.rpc_lb]
   for_each   = var.seed_server_config
 
   name        = "${var.network}-${each.key}"
+  ssh_keys    = [data.hcloud_ssh_key.cheqd.name]
   location    = each.value.region
   image       = var.hetzner_image_name
   server_type = each.value.size
@@ -47,6 +52,7 @@ resource "hcloud_server" "sentry" {
   for_each   = var.sentry_server_config
 
   name        = "${var.network}-${each.key}"
+  ssh_keys    = [data.hcloud_ssh_key.cheqd.name]
   location    = each.value.region
   image       = var.hetzner_image_name
   server_type = each.value.size
@@ -91,6 +97,7 @@ resource "hcloud_server" "validator" {
   for_each   = var.validator_server_config
 
   name        = "${var.network}-${each.key}"
+  ssh_keys    = [data.hcloud_ssh_key.cheqd.name]
   location    = each.value.region
   image       = var.hetzner_image_name
   server_type = each.value.size
