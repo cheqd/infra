@@ -1,15 +1,15 @@
+# ----------------------------------------------------------------------------------------------------------------------
+# Project
+# ----------------------------------------------------------------------------------------------------------------------
 resource "digitalocean_project" "cheqd" {
   name        = "cheqd - ${var.network}"
   description = "Project dedicated to testing Terragrunt configuration."
   purpose     = "Other"
   environment = "Development"
-}
 
-resource "digitalocean_project_resources" "cheqd" {
-  project = digitalocean_project.cheqd.id
   resources = concat(
-    local.resources,
-    [digitalocean_loadbalancer.rest_lb.urn, digitalocean_loadbalancer.rpc_lb.urn]
+  local.resources,
+  [digitalocean_loadbalancer.rest_lb.urn, digitalocean_loadbalancer.rpc_lb.urn]
   )
 }
 

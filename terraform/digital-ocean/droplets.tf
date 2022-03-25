@@ -1,7 +1,13 @@
+# ----------------------------------------------------------------------------------------------------------------------
+# SSH Key
+# ----------------------------------------------------------------------------------------------------------------------
 data "digitalocean_ssh_key" "cheqd" {
   name = "${var.network}-key"
 }
 
+# ----------------------------------------------------------------------------------------------------------------------
+# Seed
+# ----------------------------------------------------------------------------------------------------------------------
 resource "digitalocean_droplet" "seed" {
 
   for_each = var.seed_droplet_config
@@ -39,6 +45,16 @@ resource "digitalocean_volume_attachment" "seed" {
   volume_id  = digitalocean_volume.seed_volumes[each.key].id
 }
 
+resource "digitalocean_floating_ip" "seed" {
+  for_each = digitalocean_droplet.seed
+
+  region     = each.value.region
+  droplet_id = each.value.id
+}
+
+# ----------------------------------------------------------------------------------------------------------------------
+# Sentry
+# ----------------------------------------------------------------------------------------------------------------------
 resource "digitalocean_droplet" "sentry" {
 
   for_each = var.sentry_droplet_config
@@ -76,6 +92,16 @@ resource "digitalocean_volume_attachment" "sentry" {
   volume_id  = digitalocean_volume.sentry_volumes[each.key].id
 }
 
+resource "digitalocean_floating_ip" "sentry" {
+  for_each = digitalocean_droplet.sentry
+
+  region     = each.value.region
+  droplet_id = each.value.id
+}
+
+# ----------------------------------------------------------------------------------------------------------------------
+# Validator
+# ----------------------------------------------------------------------------------------------------------------------
 resource "digitalocean_droplet" "validator" {
 
   for_each = var.validator_droplet_config
@@ -111,4 +137,11 @@ resource "digitalocean_volume_attachment" "validator" {
 
   droplet_id = digitalocean_droplet.validator[each.key].id
   volume_id  = digitalocean_volume.validator_volumes[each.key].id
+}
+
+resource "digitalocean_floating_ip" "validator" {
+  for_each = digitalocean_droplet.validator
+
+  region     = each.value.region
+  droplet_id = each.value.id
 }
