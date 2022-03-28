@@ -1,3 +1,6 @@
+# ----------------------------------------------------------------------------------------------------------------------
+# Load Balancer Certificates
+# ----------------------------------------------------------------------------------------------------------------------
 data "digitalocean_certificate" "rpc" {
   name = "${var.network}-rpc-cf-cert"
 }
@@ -6,8 +9,11 @@ data "digitalocean_certificate" "rest" {
   name = "${var.network}-rest-cf-cert"
 }
 
+# ----------------------------------------------------------------------------------------------------------------------
+# Load Balancer - RPC
+# ----------------------------------------------------------------------------------------------------------------------
 resource "digitalocean_loadbalancer" "rpc_lb" {
-  name     = "cheqd-${var.network}-rpc-lb"
+  name     = "${var.network}-rpc-lb"
   region   = var.do_region
   vpc_uuid = digitalocean_vpc.cheqd_network.id
 
@@ -31,19 +37,31 @@ resource "digitalocean_loadbalancer" "rpc_lb" {
     type = "none"
   }
 
-  redirect_http_to_https   = true
-  enable_backend_keepalive = false
+  redirect_http_to_https = true
 
   healthcheck {
-    port     = var.do_rpc_health_check_port
     protocol = var.do_rpc_health_check_protocol
+    port     = var.do_rpc_health_check_port
+    path     = "/health"
   }
 
-  droplet_ids = concat(local.seed_droplet_ids, local.sentry_droplet_ids)
+  droplet_tag = "loadbalancer-rpc"
+
+  depends_on = [
+    digitalocean_droplet.seed,
+    digitalocean_droplet.sentry,
+    digitalocean_volume.seed_volumes,
+    digitalocean_volume.sentry_volumes,
+    digitalocean_volume_attachment.seed,
+    digitalocean_volume_attachment.sentry,
+  ]
 }
 
+# ----------------------------------------------------------------------------------------------------------------------
+# Load Balancer - Rest
+# ----------------------------------------------------------------------------------------------------------------------
 resource "digitalocean_loadbalancer" "rest_lb" {
-  name     = "cheqd-${var.network}-rest-lb"
+  name     = "${var.network}-rest-lb"
   region   = var.do_region
   vpc_uuid = digitalocean_vpc.cheqd_network.id
 
@@ -67,18 +85,22 @@ resource "digitalocean_loadbalancer" "rest_lb" {
     type = "none"
   }
 
-  redirect_http_to_https   = true
-  enable_backend_keepalive = false
+  redirect_http_to_https = true
 
   healthcheck {
-    port     = var.do_rest_health_check_port
     protocol = var.do_rest_health_check_protocol
+    port     = var.do_rest_health_check_port
+    path     = "/node_info"
   }
 
-  droplet_ids = concat(local.seed_droplet_ids, local.sentry_droplet_ids)
-}
+  droplet_tag = "loadbalancer-rest"
 
-locals {
-  seed_droplet_ids   = [for droplet in digitalocean_droplet.seed : droplet.id]
-  sentry_droplet_ids = [for droplet in digitalocean_droplet.sentry : droplet.id]
+  depends_on = [
+    digitalocean_droplet.seed,
+    digitalocean_droplet.sentry,
+    digitalocean_volume.seed_volumes,
+    digitalocean_volume.sentry_volumes,
+    digitalocean_volume_attachment.seed,
+    digitalocean_volume_attachment.sentry,
+  ]
 }
