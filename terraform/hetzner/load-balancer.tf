@@ -1,13 +1,19 @@
-data "hcloud_uploaded_certificate" "rpc" {
+# ----------------------------------------------------------------------------------------------------------------------
+# Load Balancer Certificates
+# ----------------------------------------------------------------------------------------------------------------------
+data "hcloud_certificate" "rpc" {
   name = "${var.network}-cf-rpc-cert"
 }
 
-data "hcloud_uploaded_certificate" "rest" {
+data "hcloud_certificate" "rest" {
   name = "${var.network}-cf-rest-cert"
 }
 
+# ----------------------------------------------------------------------------------------------------------------------
+# Load Balancer - RPC
+# ----------------------------------------------------------------------------------------------------------------------
 resource "hcloud_load_balancer" "rpc_lb" {
-  name               = "cheqd-${var.network}-rpc-lb"
+  name               = "${var.network}-rpc-lb"
   load_balancer_type = var.hetzner_lb_type
   location           = var.hetzner_region
   algorithm {
@@ -15,8 +21,8 @@ resource "hcloud_load_balancer" "rpc_lb" {
   }
 
   labels = {
-    "Terraform"   = "True"
-    "Network"     = var.network
+    "Terraform" = "True"
+    "Network"   = var.network
   }
 }
 
@@ -35,7 +41,7 @@ resource "hcloud_load_balancer_service" "rpc_lb" {
   http {
     sticky_sessions = true
     redirect_http   = true
-    certificates    = [data.hcloud_uploaded_certificate.rpc.id]
+    certificates    = [data.hcloud_certificate.rpc.id]
   }
 
   health_check {
@@ -63,8 +69,11 @@ resource "hcloud_load_balancer_target" "rpc_lb_sentry" {
   label_selector   = "NodeType=sentry"
 }
 
+# ----------------------------------------------------------------------------------------------------------------------
+# Load Balancer - Rest
+# ----------------------------------------------------------------------------------------------------------------------
 resource "hcloud_load_balancer" "rest_lb" {
-  name               = "cheqd-${var.network}-rest-lb"
+  name               = "${var.network}-rest-lb"
   load_balancer_type = var.hetzner_lb_type
   location           = var.hetzner_region
   algorithm {
@@ -72,8 +81,8 @@ resource "hcloud_load_balancer" "rest_lb" {
   }
 
   labels = {
-    "Terraform"   = "True"
-    "Network"     = var.network
+    "Terraform" = "True"
+    "Network"   = var.network
   }
 }
 
@@ -92,7 +101,7 @@ resource "hcloud_load_balancer_service" "rest_lb" {
   http {
     sticky_sessions = true
     redirect_http   = true
-    certificates    = [data.hcloud_uploaded_certificate.rest.id]
+    certificates    = [data.hcloud_certificate.rest.id]
   }
 
   health_check {
