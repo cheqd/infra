@@ -1,0 +1,5 @@
+---
+- name: Start cheqd systemd service
+  systemd:
+    name: cheqd-noded.service
+    state: stopped
