@@ -81,8 +81,4 @@
   become_user: cheqd
   when: enable_rpc_endpoint_externally
 
-- name: Start cheqd systemd service
-  systemd:
-    name: cheqd-noded.service
-    state: started
-    enabled: yes
+# WIP
