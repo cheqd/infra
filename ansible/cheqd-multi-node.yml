@@ -1,4 +1,5 @@
 ---
+# WIP
 - hosts: "*"
   user: root
   any_errors_fatal: true
@@ -7,13 +8,10 @@
     enable_rpc_endpoint_externally: true
     new_account: true
     network: mainnet
-    version: 0.4.1
-    moniker: ansible-test
+    version: 0.5.0
+    moniker: multi-node
     log_level: info
-    domain: cheqd.net
+    domain: ""
 
   roles:
-    - common
     - cheqd
-
-# WIP
