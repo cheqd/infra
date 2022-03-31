@@ -10,7 +10,7 @@ resource "digitalocean_vpc" "cheqd_network" {
 
 resource "digitalocean_firewall" "seed" {
   name  = "${var.network}-seed"
-  count = (length(var.seed_firewall.inbound) > 0 && length(var.seed_firewall.outbound) > 0) ? 1 : 0
+  count = (length(var.seed_firewall.inbound) > 0 || length(var.seed_firewall.outbound) > 0) ? 1 : 0
 
   dynamic "inbound_rule" {
     for_each = var.seed_firewall.inbound
@@ -37,7 +37,7 @@ resource "digitalocean_firewall" "seed" {
 
 resource "digitalocean_firewall" "sentry" {
   name  = "${var.network}-sentry"
-  count = (length(var.sentry_firewall.inbound) > 0 && length(var.sentry_firewall.outbound) > 0) ? 1 : 0
+  count = (length(var.sentry_firewall.inbound) > 0 || length(var.sentry_firewall.outbound) > 0) ? 1 : 0
 
   dynamic "inbound_rule" {
     for_each = var.sentry_firewall.inbound
@@ -64,7 +64,7 @@ resource "digitalocean_firewall" "sentry" {
 
 resource "digitalocean_firewall" "validator" {
   name  = "${var.network}-validator"
-  count = (length(var.validator_firewall.inbound) > 0 && length(var.validator_firewall.outbound) > 0) ? 1 : 0
+  count = (length(var.validator_firewall.inbound) > 0 || length(var.validator_firewall.outbound) > 0) ? 1 : 0
 
   dynamic "inbound_rule" {
     for_each = var.validator_firewall.inbound
