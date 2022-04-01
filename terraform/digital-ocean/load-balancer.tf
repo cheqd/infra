@@ -2,11 +2,11 @@
 # Load Balancer Certificates
 # ----------------------------------------------------------------------------------------------------------------------
 data "digitalocean_certificate" "rpc" {
-  name = "${var.network}-rpc-cf-cert"
+  name = "${var.network}-cf-rpc-cert"
 }
 
 data "digitalocean_certificate" "rest" {
-  name = "${var.network}-rest-cf-cert"
+  name = "${var.network}-cf-rest-cert"
 }
 
 # ----------------------------------------------------------------------------------------------------------------------
