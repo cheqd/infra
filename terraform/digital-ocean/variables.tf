@@ -4,6 +4,7 @@
 variable "do_token" {
   description = "Authentication token for Digital Ocean."
   type        = string
+  sensitive   = true
 }
 
 # ----------------------------------------------------------------------------------------------------------------------
