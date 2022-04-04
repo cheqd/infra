@@ -3,7 +3,7 @@
 # ----------------------------------------------------------------------------------------------------------------------
 resource "digitalocean_project" "cheqd" {
   name        = "cheqd - ${var.network}"
-  description = "Project dedicated to testing Terragrunt configuration."
+  description = "(Terraform) Project dedicated to testing Terragrunt configuration."
   purpose     = "Other"
   environment = "Development"
 
