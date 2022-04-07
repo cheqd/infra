@@ -1,12 +1,8 @@
 # ----------------------------------------------------------------------------------------------------------------------
 # Load Balancer Certificates
 # ----------------------------------------------------------------------------------------------------------------------
-data "hcloud_certificate" "rpc" {
-  name = "${var.network}-cf-rpc-cert"
-}
-
-data "hcloud_certificate" "rest" {
-  name = "${var.network}-cf-rest-cert"
+data "hcloud_certificate" "cheqd" {
+  name = "${var.network}-certificate"
 }
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -41,7 +37,7 @@ resource "hcloud_load_balancer_service" "rpc_lb" {
   http {
     sticky_sessions = true
     redirect_http   = true
-    certificates    = [data.hcloud_certificate.rpc.id]
+    certificates    = [data.hcloud_certificate.cheqd.id]
   }
 
   health_check {
@@ -61,12 +57,14 @@ resource "hcloud_load_balancer_target" "rpc_lb_seed" {
   type             = "label_selector"
   load_balancer_id = hcloud_load_balancer.rpc_lb.id
   label_selector   = "NodeType=seed"
+  use_private_ip   = true
 }
 
 resource "hcloud_load_balancer_target" "rpc_lb_sentry" {
   type             = "label_selector"
   load_balancer_id = hcloud_load_balancer.rpc_lb.id
   label_selector   = "NodeType=sentry"
+  use_private_ip   = true
 }
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -101,7 +99,7 @@ resource "hcloud_load_balancer_service" "rest_lb" {
   http {
     sticky_sessions = true
     redirect_http   = true
-    certificates    = [data.hcloud_certificate.rest.id]
+    certificates    = [data.hcloud_certificate.cheqd.id]
   }
 
   health_check {
@@ -121,10 +119,12 @@ resource "hcloud_load_balancer_target" "rest_lb_seed" {
   type             = "label_selector"
   load_balancer_id = hcloud_load_balancer.rest_lb.id
   label_selector   = "NodeType=seed"
+  use_private_ip   = true
 }
 
 resource "hcloud_load_balancer_target" "rest_lb_sentry" {
   type             = "label_selector"
   load_balancer_id = hcloud_load_balancer.rest_lb.id
   label_selector   = "NodeType=sentry"
+  use_private_ip   = true
 }
