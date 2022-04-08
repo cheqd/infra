@@ -100,25 +100,3 @@ resource "digitalocean_firewall" "validator" {
 
   tags = ["${var.network}-validator"]
 }
-
-# ----------------------------------------------------------------------------------------------------------------------
-# Load Balancer Health Check Firewalls
-# ----------------------------------------------------------------------------------------------------------------------
-resource "digitalocean_firewall" "lb_health_checks" {
-  name = "${var.network}-lb-health-checks"
-  # REST Health Check Port
-  inbound_rule {
-    protocol = "tcp"
-    port_range = "1317"
-    source_load_balancer_uids = [digitalocean_loadbalancer.rpc_lb.id,digitalocean_loadbalancer.rest_lb.id]
-  }
-
-  # Tendermint Health Check Port
-  inbound_rule {
-    protocol = "tcp"
-    port_range = "26657"
-    source_load_balancer_uids = [digitalocean_loadbalancer.rpc_lb.id,digitalocean_loadbalancer.rest_lb.id]
-  }
-
-  tags = ["${var.network}-seed", "${var.network}-sentry"]
-}
