@@ -8,9 +8,12 @@ resource "digitalocean_vpc" "cheqd_network" {
   description = "VPC for ${var.network}"
 }
 
+# ----------------------------------------------------------------------------------------------------------------------
+# Seed Node
+# ----------------------------------------------------------------------------------------------------------------------
 resource "digitalocean_firewall" "seed" {
   name  = "${var.network}-seed"
-  count = (length(var.seed_firewall.inbound) > 0 && length(var.seed_firewall.outbound) > 0) ? 1 : 0
+  count = (length(var.seed_firewall.inbound) > 0 || length(var.seed_firewall.outbound) > 0) ? 1 : 0
 
   dynamic "inbound_rule" {
     for_each = var.seed_firewall.inbound
@@ -18,7 +21,8 @@ resource "digitalocean_firewall" "seed" {
     content {
       port_range       = inbound_rule.value["port_range"]
       protocol         = lookup(inbound_rule.value, "protocol", "tcp")
-      source_addresses = split(",", inbound_rule.value.source_addresses)
+      source_addresses = lookup(inbound_rule.value, "source_addresses", "undefined") != "undefined" ? split(",", inbound_rule.value.source_addresses) : null
+      source_tags      = lookup(inbound_rule.value, "source_tags", "undefined") != "undefined" ? split(",", inbound_rule.value.source_tags) : null
     }
   }
 
@@ -35,9 +39,12 @@ resource "digitalocean_firewall" "seed" {
   tags = ["${var.network}-seed"]
 }
 
+# ----------------------------------------------------------------------------------------------------------------------
+# Sentry Node
+# ----------------------------------------------------------------------------------------------------------------------
 resource "digitalocean_firewall" "sentry" {
   name  = "${var.network}-sentry"
-  count = (length(var.sentry_firewall.inbound) > 0 && length(var.sentry_firewall.outbound) > 0) ? 1 : 0
+  count = (length(var.sentry_firewall.inbound) > 0 || length(var.sentry_firewall.outbound) > 0) ? 1 : 0
 
   dynamic "inbound_rule" {
     for_each = var.sentry_firewall.inbound
@@ -45,7 +52,8 @@ resource "digitalocean_firewall" "sentry" {
     content {
       port_range       = inbound_rule.value["port_range"]
       protocol         = lookup(inbound_rule.value, "protocol", "tcp")
-      source_addresses = split(",", inbound_rule.value.source_addresses)
+      source_addresses = lookup(inbound_rule.value, "source_addresses", "undefined") != "undefined" ? split(",", inbound_rule.value.source_addresses) : null
+      source_tags      = lookup(inbound_rule.value, "source_tags", "undefined") != "undefined" ? split(",", inbound_rule.value.source_tags) : null
     }
   }
 
@@ -62,9 +70,12 @@ resource "digitalocean_firewall" "sentry" {
   tags = ["${var.network}-sentry"]
 }
 
+# ----------------------------------------------------------------------------------------------------------------------
+# Validator Node
+# ----------------------------------------------------------------------------------------------------------------------
 resource "digitalocean_firewall" "validator" {
   name  = "${var.network}-validator"
-  count = (length(var.validator_firewall.inbound) > 0 && length(var.validator_firewall.outbound) > 0) ? 1 : 0
+  count = (length(var.validator_firewall.inbound) > 0 || length(var.validator_firewall.outbound) > 0) ? 1 : 0
 
   dynamic "inbound_rule" {
     for_each = var.validator_firewall.inbound
@@ -72,7 +83,8 @@ resource "digitalocean_firewall" "validator" {
     content {
       port_range       = inbound_rule.value["port_range"]
       protocol         = lookup(inbound_rule.value, "protocol", "tcp")
-      source_addresses = split(",", inbound_rule.value.source_addresses)
+      source_addresses = lookup(inbound_rule.value, "source_addresses", "undefined") != "undefined" ? split(",", inbound_rule.value.source_addresses) : null
+      source_tags      = lookup(inbound_rule.value, "source_tags", "undefined") != "undefined" ? split(",", inbound_rule.value.source_tags) : null
     }
   }
 

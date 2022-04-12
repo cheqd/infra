@@ -50,6 +50,11 @@ resource "digitalocean_floating_ip" "seed" {
 
   region     = each.value.region
   droplet_id = each.value.id
+  depends_on = [
+    digitalocean_droplet.seed,
+    digitalocean_volume.seed_volumes,
+    digitalocean_volume_attachment.seed,
+  ]
 }
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -97,6 +102,11 @@ resource "digitalocean_floating_ip" "sentry" {
 
   region     = each.value.region
   droplet_id = each.value.id
+  depends_on = [
+    digitalocean_droplet.sentry,
+    digitalocean_volume.sentry_volumes,
+    digitalocean_volume_attachment.sentry,
+  ]
 }
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -144,4 +154,9 @@ resource "digitalocean_floating_ip" "validator" {
 
   region     = each.value.region
   droplet_id = each.value.id
+  depends_on = [
+    digitalocean_droplet.validator,
+    digitalocean_volume.validator_volumes,
+    digitalocean_volume_attachment.validator,
+  ]
 }

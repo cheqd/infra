@@ -47,7 +47,7 @@ resource "hcloud_network_subnet" "validator" {
 }
 
 resource "hcloud_firewall" "seed" {
-  count = (length(var.seed_firewall.inbound) > 0 && length(var.seed_firewall.outbound) > 0) ? 1 : 0
+  count = (length(var.seed_firewall.inbound) > 0 || length(var.seed_firewall.outbound) > 0) ? 1 : 0
   name  = "${var.network}-seed"
 
   labels = {
@@ -61,10 +61,11 @@ resource "hcloud_firewall" "seed" {
     for_each = var.seed_firewall.inbound
 
     content {
-      direction  = "in"
-      protocol   = lookup(rule.value, "protocol", "tcp")
-      source_ips = split(",", rule.value.source_addresses)
-      port       = rule.value["port_range"]
+      direction   = "in"
+      protocol    = lookup(rule.value, "protocol", "tcp")
+      source_ips  = split(",", rule.value.source_addresses)
+      port        = rule.value["port_range"]
+      description = lookup(rule.value, "description", "Inbound rules created by Terraform.")
     }
   }
 
@@ -76,13 +77,14 @@ resource "hcloud_firewall" "seed" {
       protocol        = lookup(rule.value, "protocol", "tcp")
       destination_ips = split(",", rule.value.destination_addresses)
       port            = rule.value["port_range"]
+      description     = lookup(rule.value, "description", "Outbound rules created by Terraform.")
     }
 
   }
 }
 
 resource "hcloud_firewall" "sentry" {
-  count = (length(var.sentry_firewall.inbound) > 0 && length(var.sentry_firewall.outbound) > 0) ? 1 : 0
+  count = (length(var.sentry_firewall.inbound) > 0 || length(var.sentry_firewall.outbound) > 0) ? 1 : 0
   name  = "${var.network}-sentry"
 
   labels = {
@@ -96,10 +98,11 @@ resource "hcloud_firewall" "sentry" {
     for_each = var.sentry_firewall.inbound
 
     content {
-      direction  = "in"
-      protocol   = lookup(rule.value, "protocol", "tcp")
-      source_ips = split(",", rule.value.source_addresses)
-      port       = rule.value["port_range"]
+      direction   = "in"
+      protocol    = lookup(rule.value, "protocol", "tcp")
+      source_ips  = split(",", rule.value.source_addresses)
+      port        = rule.value["port_range"]
+      description = lookup(rule.value, "description", "Inbound rules created by Terraform.")
     }
   }
 
@@ -111,13 +114,14 @@ resource "hcloud_firewall" "sentry" {
       protocol        = lookup(rule.value, "protocol", "tcp")
       destination_ips = split(",", rule.value.destination_addresses)
       port            = rule.value["port_range"]
+      description     = lookup(rule.value, "description", "Outbound rules created by Terraform.")
     }
 
   }
 }
 
 resource "hcloud_firewall" "validator" {
-  count = (length(var.validator_firewall.inbound) > 0 && length(var.validator_firewall.outbound) > 0) ? 1 : 0
+  count = (length(var.validator_firewall.inbound) > 0 || length(var.validator_firewall.outbound) > 0) ? 1 : 0
   name  = "${var.network}-validator"
 
   labels = {
@@ -131,10 +135,11 @@ resource "hcloud_firewall" "validator" {
     for_each = var.validator_firewall.inbound
 
     content {
-      direction  = "in"
-      protocol   = lookup(rule.value, "protocol", "tcp")
-      source_ips = split(",", rule.value.source_addresses)
-      port       = rule.value["port_range"]
+      direction   = "in"
+      protocol    = lookup(rule.value, "protocol", "tcp")
+      source_ips  = split(",", rule.value.source_addresses)
+      port        = rule.value["port_range"]
+      description = lookup(rule.value, "description", "Inbound rules created by Terraform.")
     }
   }
 
@@ -146,7 +151,7 @@ resource "hcloud_firewall" "validator" {
       protocol        = lookup(rule.value, "protocol", "tcp")
       destination_ips = split(",", rule.value.destination_addresses)
       port            = rule.value["port_range"]
+      description     = lookup(rule.value, "description", "Outbound rules created by Terraform.")
     }
-
   }
 }
