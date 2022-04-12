@@ -1,12 +1,8 @@
 # ----------------------------------------------------------------------------------------------------------------------
 # Load Balancer Certificates
 # ----------------------------------------------------------------------------------------------------------------------
-data "digitalocean_certificate" "rpc" {
-  name = "${var.network}-rpc-cf-cert"
-}
-
-data "digitalocean_certificate" "rest" {
-  name = "${var.network}-rest-cf-cert"
+data "digitalocean_certificate" "cheqd" {
+  name = "${var.network}-certificate"
 }
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -29,7 +25,7 @@ resource "digitalocean_loadbalancer" "rpc_lb" {
       target_port     = forwarding_rule.value.target_port
       target_protocol = forwarding_rule.value.target_protocol
 
-      certificate_name = parseint(forwarding_rule.value.entry_port, 10) == 443 ? data.digitalocean_certificate.rpc.name : null
+      certificate_name = parseint(forwarding_rule.value.entry_port, 10) == 443 ? data.digitalocean_certificate.cheqd.name : null
     }
   }
 
@@ -77,7 +73,7 @@ resource "digitalocean_loadbalancer" "rest_lb" {
       target_port     = forwarding_rule.value.target_port
       target_protocol = forwarding_rule.value.target_protocol
 
-      certificate_name = parseint(forwarding_rule.value.entry_port, 10) == 443 ? data.digitalocean_certificate.rest.name : null
+      certificate_name = parseint(forwarding_rule.value.entry_port, 10) == 443 ? data.digitalocean_certificate.cheqd.name : null
     }
   }
 

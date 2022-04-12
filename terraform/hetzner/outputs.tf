@@ -29,3 +29,15 @@ output "vpc" {
 output "validator_servers" {
   value = hcloud_server.validator
 }
+
+output "seed_floating_ip" {
+  value = hcloud_floating_ip.seed
+}
+
+output "sentry_floating_ip" {
+  value = hcloud_floating_ip.sentry
+}
+
+output "validator_floating_ip" {
+  value = hcloud_floating_ip.validator
+}
