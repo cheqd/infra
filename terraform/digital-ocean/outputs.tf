@@ -33,3 +33,15 @@ output "validator_firewall" {
 output "validator_droplets" {
   value = digitalocean_droplet.validator
 }
+
+output "seed_floating_ip" {
+  value = digitalocean_floating_ip.seed
+}
+
+output "sentry_floating_ip" {
+  value = digitalocean_floating_ip.sentry
+}
+
+output "validator_floating_ip" {
+  value = digitalocean_floating_ip.validator
+}
