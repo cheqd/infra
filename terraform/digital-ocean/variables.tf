@@ -98,7 +98,7 @@ variable "validator_user_data" {
 }
 
 # ----------------------------------------------------------------------------------------------------------------------
-# Load Balancer - Rpc
+# Load Balancer - RPC
 # ----------------------------------------------------------------------------------------------------------------------
 variable "do_rpc_lb_config" {
   description = "RPC Load Balancer configuration."
@@ -157,6 +157,36 @@ variable "do_rest_health_check_protocol" {
   description = "Protocol that the Rest Load Balancer will use for health checks."
   type        = string
   default     = "http"
+}
+
+# ----------------------------------------------------------------------------------------------------------------------
+# Load Balancer - gRPC
+# ----------------------------------------------------------------------------------------------------------------------
+variable "do_grpc_lb_config" {
+  description = "gRPC Load Balancer configuration."
+  type        = map(map(string))
+}
+
+variable "do_grpc_lb_algorithm" {
+  description = "gRPC Load Balancer algorithm to be used."
+  type        = string
+  default     = "least_connections"
+}
+
+variable "do_grpc_lb_size" {
+  description = "gRPC Load Balancer type/size."
+  type        = string
+  default     = "lb-small"
+}
+
+variable "do_grpc_health_check_port" {
+  description = "Target port that the gRPC Load Balancer will perform health checks."
+  type        = number
+}
+
+variable "do_grpc_health_check_protocol" {
+  description = "Protocol that the gRPC Load Balancer will use for health checks."
+  type        = string
 }
 
 # ----------------------------------------------------------------------------------------------------------------------
