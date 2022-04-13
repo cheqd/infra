@@ -24,7 +24,13 @@ resource "digitalocean_droplet" "seed" {
   droplet_agent     = lookup(each.value, "enable_droplet_agent", true)
   backups           = lookup(each.value, "enable_backups", true)
   user_data         = templatefile("./templates/seed_user_data.tpl", var.seed_user_data)
-  tags              = concat(var.default_tags, ["${var.network}-seed", "${var.network}-node", "loadbalancer-rpc", "loadbalancer-rest"])
+  tags              = concat(var.default_tags, [
+    "${var.network}-seed",
+    "${var.network}-node",
+    "loadbalancer-rpc",
+    "loadbalancer-rest",
+    "loadbalancer-grpc",
+  ])
 }
 
 resource "digitalocean_volume" "seed_volumes" {
@@ -76,7 +82,13 @@ resource "digitalocean_droplet" "sentry" {
   backups           = lookup(each.value, "enable_backups", true)
   droplet_agent     = lookup(each.value, "enable_droplet_agent", true)
   user_data         = templatefile("./templates/sentry_user_data.tpl", var.sentry_user_data)
-  tags              = concat(var.default_tags, ["${var.network}-sentry", "${var.network}-node", "loadbalancer-rpc", "loadbalancer-rest"])
+  tags              = concat(var.default_tags, [
+    "${var.network}-sentry",
+    "${var.network}-node",
+    "loadbalancer-rpc",
+    "loadbalancer-rest",
+    "loadbalancer-grpc",
+  ])
 }
 
 resource "digitalocean_volume" "sentry_volumes" {
