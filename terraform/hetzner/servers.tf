@@ -22,7 +22,8 @@ resource "hcloud_server" "seed" {
     ip         = trimsuffix(cidrsubnet(hcloud_network_subnet.seed.ip_range, 8, 100 + index(keys(var.seed_server_config), each.key)), "/32")
     alias_ips = [
       trimsuffix(cidrsubnet(hcloud_network_subnet.rest_lb.ip_range, 8, 100 + index(keys(var.seed_server_config), each.key)), "/32"),
-      trimsuffix(cidrsubnet(hcloud_network_subnet.rpc_lb.ip_range, 8, 100 + index(keys(var.seed_server_config), each.key)), "/32")
+      trimsuffix(cidrsubnet(hcloud_network_subnet.rpc_lb.ip_range, 8, 100 + index(keys(var.seed_server_config), each.key)), "/32"),
+      trimsuffix(cidrsubnet(hcloud_network_subnet.grpc_lb.ip_range, 8, 100 + index(keys(var.seed_server_config), each.key)), "/32"),
     ]
   }
   placement_group_id = hcloud_placement_group.seed.id
@@ -88,7 +89,8 @@ resource "hcloud_server" "sentry" {
     ip         = trimsuffix(cidrsubnet(hcloud_network_subnet.sentry.ip_range, 8, 150 + index(keys(var.sentry_server_config), each.key)), "/32")
     alias_ips = [
       trimsuffix(cidrsubnet(hcloud_network_subnet.rest_lb.ip_range, 8, 150 + index(keys(var.sentry_server_config), each.key)), "/32"),
-      trimsuffix(cidrsubnet(hcloud_network_subnet.rpc_lb.ip_range, 8, 150 + index(keys(var.sentry_server_config), each.key)), "/32")
+      trimsuffix(cidrsubnet(hcloud_network_subnet.rpc_lb.ip_range, 8, 150 + index(keys(var.sentry_server_config), each.key)), "/32"),
+      trimsuffix(cidrsubnet(hcloud_network_subnet.grpc_lb.ip_range, 8, 150 + index(keys(var.sentry_server_config), each.key)), "/32"),
     ]
   }
   placement_group_id = hcloud_placement_group.sentry.id
