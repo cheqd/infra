@@ -15,14 +15,21 @@ resource "hcloud_network_subnet" "rest_lb" {
   network_id   = hcloud_network.cheqd_network.id
   type         = "cloud"
   network_zone = var.hetzner_zone
-  ip_range     = cidrsubnet(var.hetzner_network_ip_range, 8, 0)
+  ip_range     = cidrsubnet(var.hetzner_network_ip_range, 8, 100)
 }
 
 resource "hcloud_network_subnet" "rpc_lb" {
   network_id   = hcloud_network.cheqd_network.id
   type         = "cloud"
   network_zone = var.hetzner_zone
-  ip_range     = cidrsubnet(var.hetzner_network_ip_range, 8, 1)
+  ip_range     = cidrsubnet(var.hetzner_network_ip_range, 8, 101)
+}
+
+resource "hcloud_network_subnet" "grpc_lb" {
+  network_id   = hcloud_network.cheqd_network.id
+  type         = "cloud"
+  network_zone = var.hetzner_zone
+  ip_range     = cidrsubnet(var.hetzner_network_ip_range, 8, 102)
 }
 
 resource "hcloud_network_subnet" "seed" {
