@@ -100,3 +100,48 @@ resource "digitalocean_loadbalancer" "rest_lb" {
     digitalocean_volume_attachment.sentry,
   ]
 }
+
+# ----------------------------------------------------------------------------------------------------------------------
+# Load Balancer - gRPC
+# ----------------------------------------------------------------------------------------------------------------------
+resource "digitalocean_loadbalancer" "grpc_lb" {
+  name     = "${var.network}-grpc-lb"
+  region   = var.do_region
+  vpc_uuid = digitalocean_vpc.cheqd_network.id
+
+  algorithm = var.do_grpc_lb_algorithm
+  size      = var.do_grpc_lb_size
+
+  dynamic "forwarding_rule" {
+    for_each = var.do_grpc_lb_config
+
+    content {
+      entry_port      = forwarding_rule.value.entry_port
+      entry_protocol  = forwarding_rule.value.entry_protocol
+      target_port     = forwarding_rule.value.target_port
+      target_protocol = forwarding_rule.value.target_protocol
+
+      certificate_name = parseint(forwarding_rule.value.entry_port, 10) == 443 ? data.digitalocean_certificate.cheqd.name : null
+    }
+  }
+
+  sticky_sessions {
+    type = "none"
+  }
+
+  healthcheck {
+    protocol = var.do_grpc_health_check_protocol
+    port     = var.do_grpc_health_check_port
+  }
+
+  droplet_tag = "loadbalancer-grpc"
+
+  depends_on = [
+    digitalocean_droplet.seed,
+    digitalocean_droplet.sentry,
+    digitalocean_volume.seed_volumes,
+    digitalocean_volume.sentry_volumes,
+    digitalocean_volume_attachment.seed,
+    digitalocean_volume_attachment.sentry,
+  ]
+}
