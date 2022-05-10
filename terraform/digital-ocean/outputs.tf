@@ -45,3 +45,18 @@ output "sentry_floating_ip" {
 output "validator_floating_ip" {
   value = digitalocean_floating_ip.validator
 }
+
+output "server_ips" {
+  value = { for k, v in local.server_ips : k => {
+    ipv4_address = v.ip_address
+    }
+  }
+}
+
+locals {
+  server_ips = merge(
+    digitalocean_floating_ip.seed,
+    digitalocean_floating_ip.sentry,
+    digitalocean_floating_ip.validator,
+  )
+}
