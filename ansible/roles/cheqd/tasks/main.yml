@@ -1,9 +1,9 @@
 ---
 - name: Create service group
-  group: "name=cheqd"
+  group: "name=cheqd gid=1000"
 
 - name: Create service user
-  user: "name=cheqd group=cheqd home=/home/cheqd shell=/bin/bash"
+  user: "name=cheqd group=cheqd uid=1000 home=/home/cheqd shell=/bin/bash"
 
 - name: Change user folder to more permissive
   file: "path=/home/cheqd mode=0755"
@@ -57,6 +57,21 @@
   become_user: cheqd
   when: new_account
 
+- name: Register validator ID
+  command:
+  when: new_account and host == "validator"
+  register: validator_id
+
+- name: Register seed ID
+  command:
+  when: new_account and host == "seed"
+  register: seed_id
+
+- name: Register sentry ID
+  command:
+  when: new_account and host == "sentry"
+  register: sentry_id 
+
 - name: Set gas prices accepted by the node
   command: cheqd-noded configure min-gas-prices "25ncheq"
   become: yes
@@ -81,4 +96,15 @@
   become_user: cheqd
   when: enable_rpc_endpoint_externally
 
-# WIP
+- name: Update configuration file
+  become: yes
+  become_user: cheqd
+  template: 
+    src: config.toml.j2 
+    dest: /home/cheqd/.cheqdnode/config/config.toml
+
+- name: Download snapshot data
+  uri:
+    url: 
+  dest: /home/cheqd/.cheqdnode/data
+  

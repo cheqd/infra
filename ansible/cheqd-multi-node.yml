@@ -5,13 +5,11 @@
   any_errors_fatal: true
   gather_facts: true
   vars:
-    enable_rpc_endpoint_externally: true
-    new_account: true
-    network: mainnet
-    version: 0.5.0
-    moniker: multi-node
-    log_level: info
     domain: ""
+    moniker: ""
+    sentry_id: ""
+    validator_id: ""
+    seed_id: ""
 
   roles:
     - cheqd
