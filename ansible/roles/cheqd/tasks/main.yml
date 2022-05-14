@@ -1,16 +1,12 @@
 ---
 - name: Create service group
-  group: "name=cheqd gid=1000"
+  group: "name=cheqd system=yes"
 
 - name: Create service user
-  user: "name=cheqd group=cheqd uid=1000 home=/home/cheqd shell=/bin/bash"
+  user: "name=cheqd home=/home/cheqd system=yes group=cheqd shell=/bin/bash"
 
 - name: Change user folder to more permissive
   file: "path=/home/cheqd mode=0755"
-
-- name: Install cheqd
-  apt:
-    deb: https://github.com/cheqd/cheqd-node/releases/download/v{{ version }}/cheqd-node_{{ version }}_amd64.deb
 
 - name: Set .cheqdnode directory owner and group to cheqd
   file:
@@ -20,18 +16,16 @@
     state: directory
     recurse: yes
 
-- name: Set the log directory to be owned by syslog
-  file:
-    path: /home/cheqd/.cheqdnode/log/
-    owner: syslog
-    state: directory
-    recurse: yes
-
-- name: Create a moniker
-  command: cheqd-noded init {{ moniker }}
+- name: Creates config directory
   become: yes
   become_user: cheqd
-  when: new_account
+  file:
+    path: /home/cheqd/.cheqdnode/config
+    state: directory
+
+- name: Install cheqd
+  apt:
+    deb: https://github.com/cheqd/cheqd-node/releases/download/v{{ version }}/cheqd-node_{{ version }}_amd64.deb
 
 - name: Download the genesis file
   get_url:
@@ -51,60 +45,39 @@
   become_user: cheqd
   when: new_account
 
-- name: Define the seed configuration for populating the list of peers known by a node
-  command: cheqd-noded configure p2p seeds {{ seeds['content'] }}
-  become: yes
-  become_user: cheqd
-  when: new_account
+# TBD
+# - name: Register validator ID
+#   command:
+#   when: new_account and host == "validator"
+#   register: validator_id
 
-- name: Register validator ID
-  command:
-  when: new_account and host == "validator"
-  register: validator_id
+# - name: Register seed ID
+#   command:
+#   when: new_account and host == "seed"
+#   register: seed_id
 
-- name: Register seed ID
-  command:
-  when: new_account and host == "seed"
-  register: seed_id
+# - name: Register sentry ID
+#   command:
+#   when: new_account and host == "sentry"
+#   register: sentry_id 
 
-- name: Register sentry ID
-  command:
-  when: new_account and host == "sentry"
-  register: sentry_id 
-
-- name: Set gas prices accepted by the node
-  command: cheqd-noded configure min-gas-prices "25ncheq"
-  become: yes
-  become_user: cheqd
-  when: new_account
-
-- name: Turn off empty block creation
-  command: cheqd-noded configure create-empty-blocks false
-  become: yes
-  become_user: cheqd
-  when: new_account
-
-- name: Define the external peer-to-peer address
-  command: cheqd-noded configure p2p external-address "{{ lookup('dig', ansible_host) }}":26656
-  become: yes
-  become_user: cheqd
-  when: new_account
-
-- name: Make the RPC endpoint available externally
-  command: cheqd-noded configure rpc-laddr "tcp:\/\/0.0.0.0:26657"
-  become: yes
-  become_user: cheqd
-  when: enable_rpc_endpoint_externally
-
-- name: Update configuration file
+- name: Update the config.toml file
   become: yes
   become_user: cheqd
   template: 
     src: config.toml.j2 
     dest: /home/cheqd/.cheqdnode/config/config.toml
 
-- name: Download snapshot data
-  uri:
-    url: 
-  dest: /home/cheqd/.cheqdnode/data
+- name: Update the app.toml file
+  become: yes
+  become_user: cheqd
+  template:
+    src: app.toml.j2
+    dest: /home/cheqd/.cheqdnode/config/app.toml
+
+# TBD
+# - name: Download snapshot data
+  # uri:
+    # url: https://google.com
+  # dest: /home/cheqd/.cheqdnode/data
   
