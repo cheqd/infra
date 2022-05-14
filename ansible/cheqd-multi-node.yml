@@ -10,6 +10,6 @@
     sentry_id: ""
     validator_id: ""
     seed_id: ""
-
+  
   roles:
     - cheqd

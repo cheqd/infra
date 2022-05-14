@@ -15,7 +15,7 @@
 proxy_app = "tcp://127.0.0.1:26658"
 
 # A custom human readable name for this node
-moniker = "{{ inventory_hostname }}" + "-" + "{{ region }} + "-" + "{{ network }}" + "-cheqd"
+moniker = {{ moniker }}
 
 # If this node is many blocks behind the tip of the chain, FastSync
 # allows them to catchup quickly by downloading blocks in parallel
@@ -190,47 +190,42 @@ external_address = "{{ inventory_hostname }}" + "." + "{{ region }} + "{{ domain
 {% endif %}
 
 # Comma separated list of seed nodes to connect to
-{% if node_type == "validator" and groups.["sentry"]|length > 0 %}
+{% if node_type == "validator" and groups["sentry"]|length > 0 %}
 seeds = ""
 {% else %}
-seeds = {{ seeds }}
+seeds = "{{ seeds.content | trim }}"
 {% endif %}
 
 # Comma separated list of nodes to keep persistent connections to
-
 {% if node_type == "sentry" %}
-
-    {% if validator_id != "" and seed_id != "" %}}
-        persistent_peers = {{ seeds }} + "," + {{ validator_id }} + "@" {{ validator-private }} + ":" {{ p2p_port }} + "," {{ seed_id }} + "@" {{ seed-private }} + ":" {{ p2p_port }}
-    {% elif validator_id != "" and seed_id == "" %}
-        persistent_peers = {{ seeds }} + "," + {{ validator_id }} + "@" {{ validator-private }} + ":" {{ p2p_port }}
-    {% elif validator_id == "" and seed_id != "" %}
-        persistent_peers = {{ seeds }} + "," + {{ seed_id }} + "@" {{ seed-private }} + ":" {{ p2p_port }}
-    {% elif validator_id == "" and seed_id == "" %}
-        persistent_peers = {{ seeds }}
+    {%- if validator_id != "" and seed_id != "" %}
+persistent_peers = "{{ seeds.content | trim }},{{ validator_id }}@{{ validator-private }}:{{ p2p_port }},{{ seed_id }}@{{ seed-private }}:{{ p2p_port }}"
+    {%- elif validator_id != "" and seed_id == "" %}
+persistent_peers = "{{ seeds.content | trim }},{{ validator_id }}@{{ validator-private }}:{{ p2p_port }}"
+    {%- elif validator_id == "" and seed_id != "" %}
+persistent_peers = "{{ seeds.content | trim }},{{ seed_id }}@{{ seed-private }}:{{ p2p_port }}"
+    {%- elif validator_id == "" and seed_id == "" %}
+persistent_peers = "{{ seeds.content | trim }}"
     {% endif %}
 
 {% elif node_type == "seed" %}
-    {% if sentry_id != "" %}
-        persistent_peers = {{ seeds }} + {{ sentry_id }} + "@" {{ sentry-private }} + ":" {{ p2p_port }}
-    {% elif sentry_id == "" and validator_id != "" %}
-        persistent_peers = {{ seeds }} + "," + {{ validator_id }} + "@" {{ validator-private }} + ":" {{ p2p_port }}
-    {% elif sentry_id == "" and validator_id == "" %}
-        persistent_peers = {{ seeds }}
-    {% endif %}}
+    {%- if sentry_id != "" %}
+persistent_peers = "{{ seeds.content | trim }},{{ sentry_id }}@{{ sentry-private }}:{{ p2p_port }}"
+    {%- elif sentry_id == "" and validator_id != "" %}
+persistent_peers = "{{ seeds.content | trim }},{{ validator_id }}@{{ validator-private }}:{{ p2p_port }}|
+    {%- elif sentry_id == "" and validator_id == "" %}
+persistent_peers = "{{ seeds.content | trim }}"
+    {% endif %}
 
 {% elif node_type == "validator" %}
-    {% if sentry_id != "" %}
-        persistent_peers = {{ seeds }} + {{ sentry_id }} + "@" {{ sentry-private }} + ":" {{ p2p_port }}
-    {% if sentry_id == "" seed_id != "" %}
-        persistent_peers = {{ seeds }} + "," + {{ seed_id }} + "@" {{ seed-private }} + ":" {{ p2p_port }}
-    {% if sentry_id == "" seed_id == "" %}
-        persistent_peers = {{ seeds }}
-    {% endif %}}
-
+    {%- if sentry_id != "" %}
+persistent_peers = "{{ seeds.content | trim }},{{ sentry_id }}@{{ sentry-private }}:{{ p2p_port }}"
+    {%- elif sentry_id == "" and seed_id != "" %}
+persistent_peers = "{{ seeds.content | trim }},{{ seed_id }}@{{ seed-private }}:{{ p2p_port }}"
+    {%- elif sentry_id == "" and seed_id == "" %}
+persistent_peers = "{{ seeds.content | trim }}"
+    {% endif %}
 {% endif %}
-
-
 
 # UPNP port forwarding
 upnp = false
@@ -240,7 +235,7 @@ addr_book_file = "config/addrbook.json"
 
 # Set true for strict address routability rules
 # Set false for private or local networks
-{% if node_type == "validator" and groups.["sentry"]|length == 0 %}
+{% if node_type == "validator" and groups["sentry"]|length == 0 %}
 addr_book_strict = true
 {% else %}
 addr_book_strict = false
@@ -255,34 +250,33 @@ max_num_outbound_peers = 50
 # List of node IDs, to which a connection will be (re)established ignoring any existing limits
 {% if node_type == "sentry" %}
 
-    {% if validator_id != "" and seed_id != "" %}}
-        unconditional_peer_ids =  {{ validator_id }} +  "," {{ seed_id }}
-    {% elif validator_id != "" and seed_id == "" %}
-        unconditional_peer_ids = {{ validator_id }}
-    {% elif validator_id == "" and seed_id != "" %}
-        unconditional_peer_ids = {{ seed_id }}
-    {% elif validator_id == "" and seed_id == "" %}
-        unconditional_peer_ids = ""
+    {%- if validator_id != "" and seed_id != "" %}
+unconditional_peer_ids =  "{{ validator_id }},{{ seed_id }}"
+    {%- elif validator_id != "" and seed_id == "" %}
+unconditional_peer_ids = "{{ validator_id }}"
+    {%- elif validator_id == "" and seed_id != "" %}
+unconditional_peer_ids = "{{ seed_id }}"
+    {%- elif validator_id == "" and seed_id == "" %}
+unconditional_peer_ids = ""
     {% endif %}
 
 {% elif node_type == "seed" %}
-    {% if sentry_id != "" %}
-        unconditional_peer_ids = {{ sentry_id }}
-    {% elif sentry_id == "" and validator_id != "" %}
-        unconditional_peer_ids = {{ validator_id }}
-    {% elif sentry_id == "" and validator_id == "" %}
-        unconditional_peer_ids = ""
-    {% endif %}}
+    {%- if sentry_id != "" %}
+unconditional_peer_ids = "{{ sentry_id }}"
+    {%- elif sentry_id == "" and validator_id != "" %}
+unconditional_peer_ids = "{{ validator_id }}"
+    {%- elif sentry_id == "" and validator_id == "" %}
+unconditional_peer_ids = ""
+    {% endif %}
 
 {% elif node_type == "validator" %}
-    {% if sentry_id != "" %}
-        unconditional_peer_ids = {{ sentry_id }}
-    {% if sentry_id == "" seed_id != "" %}
-        unconditional_peer_ids = {{ seed_id }}
-    {% if sentry_id == "" seed_id == "" %}
-        unconditional_peer_ids = ""
-    {% endif %}}
-
+    {%- if sentry_id != "" %}
+unconditional_peer_ids = "{{ sentry_id }}"
+    {%- elif sentry_id == "" and seed_id != "" %}
+unconditional_peer_ids = "{{ seed_id }}"
+    {%- elif sentry_id == "" and seed_id == "" %}
+unconditional_peer_ids = ""
+    {% endif %}
 {% endif %}
 
 # Maximum pause when redialing a persistent peer (if zero, exponential backoff is used)
@@ -301,7 +295,7 @@ send_rate = 200000000
 recv_rate = 200000000
 
 # Set true to enable the peer-exchange reactor
-{% if node_type == "validator" and groups.["sentry"]|length > 0 %}
+{% if node_type == "validator" and groups["sentry"]|length > 0 %}
 pex = true
 {% else %}
 pex = false
@@ -315,11 +309,11 @@ pex = false
 seed_mode = true
 {% else %}
 seed_mode = false
+{% endif %}
 
 # Comma separated list of peer IDs to keep private (will not be gossiped to other peers)
-% set private_peer_ids = [] %}
 {% if node_type == "sentry" and validator_id != "" %}
-private_peer_ids = {{ validator_id }}
+private_peer_ids = "{{ validator_id }}"
 {% else %}
 private_peer_ids = ""
 {% endif %}
