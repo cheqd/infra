@@ -1,0 +1,7 @@
+---
+- hosts: "*"
+  user: root
+  any_errors_fatal: true
+  gather_facts: no
+  roles:
+    - cheqd-stop
