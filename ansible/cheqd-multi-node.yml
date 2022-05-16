@@ -1,0 +1,15 @@
+---
+# WIP
+- hosts: "*"
+  user: root
+  any_errors_fatal: true
+  gather_facts: true
+  vars:
+    domain: ""
+    moniker: ""
+    sentry_id: ""
+    validator_id: ""
+    seed_id: ""
+  
+  roles:
+    - cheqd
