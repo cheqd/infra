@@ -23,7 +23,7 @@ resource "hcloud_server" "seed" {
     alias_ips = [
       trimsuffix(cidrsubnet(hcloud_network_subnet.rest_lb.ip_range, 8, 100 + index(keys(var.seed_server_config), each.key)), "/32"),
       trimsuffix(cidrsubnet(hcloud_network_subnet.rpc_lb.ip_range, 8, 100 + index(keys(var.seed_server_config), each.key)), "/32"),
-      trimsuffix(cidrsubnet(hcloud_network_subnet.grpc_lb.ip_range, 8, 100 + index(keys(var.seed_server_config), each.key)), "/32"),
+      trimsuffix(cidrsubnet(hcloud_network_subnet.standalone_servers.ip_range, 8, 100 + index(keys(var.seed_server_config), each.key)), "/32"),
     ]
   }
   placement_group_id = hcloud_placement_group.seed.id
@@ -90,7 +90,7 @@ resource "hcloud_server" "sentry" {
     alias_ips = [
       trimsuffix(cidrsubnet(hcloud_network_subnet.rest_lb.ip_range, 8, 150 + index(keys(var.sentry_server_config), each.key)), "/32"),
       trimsuffix(cidrsubnet(hcloud_network_subnet.rpc_lb.ip_range, 8, 150 + index(keys(var.sentry_server_config), each.key)), "/32"),
-      trimsuffix(cidrsubnet(hcloud_network_subnet.grpc_lb.ip_range, 8, 150 + index(keys(var.sentry_server_config), each.key)), "/32"),
+      trimsuffix(cidrsubnet(hcloud_network_subnet.standalone_servers.ip_range, 8, 150 + index(keys(var.sentry_server_config), each.key)), "/32"),
     ]
   }
   placement_group_id = hcloud_placement_group.sentry.id
@@ -200,6 +200,19 @@ resource "hcloud_placement_group" "validator" {
   labels = {
     "Network"   = var.network
     "NodeType"  = "validator"
+    "Terraform" = "True"
+  }
+}
+
+# ----------------------------------------------------------------------------------------------------------------------
+# Custom
+# ----------------------------------------------------------------------------------------------------------------------
+resource "hcloud_placement_group" "custom" {
+  name = "${var.network}-custom"
+  type = "spread"
+  labels = {
+    "Network"   = var.network
+    "ServerType" = "Custom"
     "Terraform" = "True"
   }
 }

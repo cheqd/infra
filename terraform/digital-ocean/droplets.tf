@@ -29,7 +29,6 @@ resource "digitalocean_droplet" "seed" {
     "${var.network}-node",
     "loadbalancer-rpc",
     "loadbalancer-rest",
-    "loadbalancer-grpc",
   ])
 }
 
@@ -87,7 +86,6 @@ resource "digitalocean_droplet" "sentry" {
     "${var.network}-node",
     "loadbalancer-rpc",
     "loadbalancer-rest",
-    "loadbalancer-grpc",
   ])
 }
 
