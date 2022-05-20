@@ -3,4 +3,4 @@
   systemd:
     name: cheqd-noded.service
     state: started
-    enabled: yes
+    enabled: true

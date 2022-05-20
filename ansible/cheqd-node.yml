@@ -1,5 +1,4 @@
 ---
-# WIP
 - hosts: "*"
   user: root
   any_errors_fatal: true
@@ -10,6 +9,5 @@
     sentry_id: ""
     validator_id: ""
     seed_id: ""
-  
   roles:
     - cheqd
