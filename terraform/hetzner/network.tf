@@ -25,13 +25,6 @@ resource "hcloud_network_subnet" "rpc_lb" {
   ip_range     = cidrsubnet(var.hetzner_network_ip_range, 8, 101)
 }
 
-resource "hcloud_network_subnet" "grpc_lb" {
-  network_id   = hcloud_network.cheqd_network.id
-  type         = "cloud"
-  network_zone = var.hetzner_zone
-  ip_range     = cidrsubnet(var.hetzner_network_ip_range, 8, 102)
-}
-
 resource "hcloud_network_subnet" "seed" {
   network_id   = hcloud_network.cheqd_network.id
   type         = "cloud"
@@ -51,6 +44,13 @@ resource "hcloud_network_subnet" "validator" {
   type         = "cloud"
   network_zone = var.hetzner_zone
   ip_range     = cidrsubnet(var.hetzner_network_ip_range, 8, 4)
+}
+
+resource "hcloud_network_subnet" "standalone_servers" {
+  network_id   = hcloud_network.cheqd_network.id
+  type         = "cloud"
+  network_zone = var.hetzner_zone
+  ip_range     = cidrsubnet(var.hetzner_network_ip_range, 8, 200)
 }
 
 resource "hcloud_firewall" "seed" {
