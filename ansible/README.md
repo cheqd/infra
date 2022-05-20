@@ -15,5 +15,5 @@ In order to control the behaviour of ansible playbook and specify desired config
 * **prometheus_enabled** - Specifies if your node(s) are going to export prometheus metrics. Default is *false*.
 * **p2p_port** - Specifies the port your nodes are going to use for communcation with other peers. Default is *25556*.
 * **domain** - A fully qualified domain name for your node. Optional, default is *inventory hostname*.
-* **version** - Choose the latest version from [here](https://github.com/cheqd/cheqd-node/releases). The default version is [here](./ansible/roles/cheqd/defaults/main.yml)
+* **version** - Choose the latest version from [here](https://github.com/cheqd/cheqd-node/releases). The default version is [here](./roles/cheqd/defaults/main.yml)
 * **enable_rpc_endpoint_externally** - Choose whether to enable public RPC endpoints. Default is *true*.
