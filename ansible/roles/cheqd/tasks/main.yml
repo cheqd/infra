@@ -1,51 +1,62 @@
 ---
 - name: Create service group
-  group: "name=cheqd system=yes"
+  ansible.builtin.group: "name=cheqd system=true"
 
 - name: Create service user
-  user: "name=cheqd home=/home/cheqd system=yes group=cheqd shell=/bin/bash"
+  ansible.builtin.user: "name=cheqd home=/home/cheqd system=true group=cheqd command=/bin/bash"
 
 - name: Change user folder to more permissive
-  file: "path=/home/cheqd mode=0755"
+  ansible.builtin.file: "path=/home/cheqd mode=0755"
 
 - name: Set .cheqdnode directory owner and group to cheqd
-  file:
+  ansible.builtin.file:
     path: /home/cheqd/.cheqdnode/
     owner: cheqd
     group: cheqd
     state: directory
-    recurse: yes
+    recurse: true
+
+- name: Set the log directory to be owned by syslog
+  ansible.builtin.file:
+    path: /home/cheqd/.cheqdnode/log/
+    owner: syslog
+    state: directory
+    recurse: true
+    mode: 0755
 
 - name: Creates config directory
-  become: yes
+  become: true
   become_user: cheqd
-  file:
+  ansible.builtin.file:
     path: /home/cheqd/.cheqdnode/config
     state: directory
+    mode: 0700
 
 - name: Install cheqd
-  apt:
+  ansible.builtin.apt:
     deb: https://github.com/cheqd/cheqd-node/releases/download/v{{ version }}/cheqd-node_{{ version }}_amd64.deb
 
 - name: Download the genesis file
-  get_url:
+  ansible.builtin.get_url:
     url: https://raw.githubusercontent.com/cheqd/cheqd-node/main/persistent_chains/{{ network }}/genesis.json
     dest: /home/cheqd/.cheqdnode/config/genesis.json
-    force: yes
-  become: yes
+    force: true
+    mode: 0644
+  become: true
   become_user: cheqd
   when: new_account
 
 - name: Store seeds inside an environment variable
-  uri:
-    url: https://raw.githubusercontent.com/cheqd/cheqd-node/main/persistent_chains/mainnet/seeds.txt
-    return_content: yes
+  ansible.builtin.uri:
+    url: https://raw.githubusercontent.com/cheqd/cheqd-node/main/persistent_chains/{{ network }}/seeds.txt
+    return_content: true
   register: seeds
-  become: yes
+  become: true
   become_user: cheqd
   when: new_account
 
-# TBD
+# WIP - Required for multi-node new account setup
+
 # - name: Register validator ID
 #   command:
 #   when: new_account and host == "validator"
@@ -59,25 +70,103 @@
 # - name: Register sentry ID
 #   command:
 #   when: new_account and host == "sentry"
-#   register: sentry_id 
+#   register: sentry_id
 
 - name: Update the config.toml file
-  become: yes
+  become: true
   become_user: cheqd
-  template: 
-    src: config.toml.j2 
+  ansible.builtin.template:
+    src: config.toml.j2
     dest: /home/cheqd/.cheqdnode/config/config.toml
+    mode: 0644
 
 - name: Update the app.toml file
-  become: yes
+  become: true
   become_user: cheqd
-  template:
+  ansible.builtin.template:
     src: app.toml.j2
     dest: /home/cheqd/.cheqdnode/config/app.toml
+    mode: 0644
 
-# TBD
-# - name: Download snapshot data
-  # uri:
-    # url: https://google.com
-  # dest: /home/cheqd/.cheqdnode/data
-  
+- name: Creates data directory
+  become: true
+  become_user: cheqd
+  ansible.builtin.file:
+    path: /home/cheqd/.cheqdnode/data
+    state: directory
+    mode: 0700
+
+- name: Register date variable
+  ansible.builtin.command: "date +%Y-%m-%d"
+  register: date
+  changed_when: date != ""
+
+- name: Download checksum file
+  ansible.builtin.get_url:
+    url: https://cheqd-node-backups.ams3.cdn.digitaloceanspaces.com/{{ network }}/latest/sha256sum.txt
+    dest: /home/cheqd/.cheqdnode/data
+    mode: 0744
+  become: true
+  become_user: cheqd
+
+- name: Read checksum file content
+  ansible.builtin.command: "cat /home/cheqd/.cheqdnode/data/sha256.txt | cut -f 1 -d ' '"
+  register: sha256
+  changed_when: sha256 != ""
+
+- name: Notification
+  ansible.builtin.debug:
+    msg: The latest snapshot data download is about to start. This might take a while.
+
+- name: Download latest snapshot
+  ansible.builtin.get_url:
+    url: https://cheqd-node-backups.ams3.cdn.digitaloceanspaces.com/{{ network }}/latest/cheqd-{{ network }}-1_{{ date.stdout }}.tar.gz
+    dest: /home/cheqd/.cheqdnode/data
+    checksum: "sha256:{{ sha256.stdout }}"
+    validate_certs: true
+    mode: 0644
+  become: true
+  become_user: cheqd
+  async: 7200
+  when: network == "mainnet"
+
+- name: Download latest snapshot
+  ansible.builtin.get_url:
+    url: https://cheqd-node-backups.ams3.cdn.digitaloceanspaces.com/{{ network }}/latest/cheqd-{{ network }}-4_{{ date.stdout }}.tar.gz
+    dest: /home/cheqd/.cheqdnode/data
+    checksum: "sha256:{{ sha256.stdout }}"
+    validate_certs: true
+    mode: 0644
+  become: true
+  become_user: cheqd
+  async: 7200
+  when: network == "testnet"
+
+- name: Install tar
+  ansible.builtin.apt:
+    name: tar
+    state: present
+
+- name: Unpack the latest snapshot data
+  ansible.builtin.command: "tar -xf /home/cheqd/.cheqdnode/data/cheqd-{{ network }}-4_{{ date.stdout }}.tar.gz -C /home/cheqd/.cheqdnode/data"
+  become: true
+  become_user: cheqd
+  when: network == "testnet"
+
+- name: Unpack the latest snapshot data
+  ansible.builtin.command: "tar -xf /home/cheqd/.cheqdnode/data/cheqd-{{ network }}-1_{{ date.stdout }}.tar.gz -C /home/cheqd/.cheqdnode/data"
+  become: true
+  become_user: cheqd
+  when: network == "mainnet"
+
+- name: Cleanup unused files
+  ansible.builtin.file:
+    path: /home/cheqd/.cheqdnode/data/cheqd-{{ network }}-4_{{ date.stdout }}.tar.gz
+    state: absent
+  when: network == "testnet"
+
+- name: Cleanup unused files
+  ansible.builtin.file:
+    path: /home/cheqd/.cheqdnode/data/cheqd-{{ network }}-1_{{ date.stdout }}.tar.gz
+    state: absent
+  when: network == "mainnet"
