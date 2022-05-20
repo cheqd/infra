@@ -88,10 +88,10 @@ MD032: true
 
 # Inline HTML <https://github.com/DavidAnson/markdownlint/blob/master/doc/Rules.md#md033>
 MD033:
-  allowed_elements: ['a', 'pre']
+  allowed_elements: ['a', 'pre', 'br']
 
 # Bare URL used <https://github.com/DavidAnson/markdownlint/blob/master/doc/Rules.md#md034>
-MD034: true
+MD034: false
 
 # Horizontal rule style <https://github.com/DavidAnson/markdownlint/blob/master/doc/Rules.md#md035>
 MD035:
