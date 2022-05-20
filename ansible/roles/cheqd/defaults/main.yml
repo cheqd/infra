@@ -1,9 +1,9 @@
 ---
 log_level: error
 new_account: true
-prometheus_enabled: "false"
-manually_defined: []
+prometheus_enabled: false
 enable_rpc_endpoint_externally: true
 network: mainnet
 version: 0.5.0
 p2p_port: 26656
+domain: "{{ inventory_hostname }}"
