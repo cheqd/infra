@@ -1,0 +1,19 @@
+name: "Release"
+on:
+  workflow_call:
+
+jobs:
+  
+  generate-docs:
+    name: "Generate Terraform Docs"
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Render terraform docs and push changes back to PR
+      uses: terraform-docs/gh-actions@main
+      with:
+        working-dir: ./terraform/digital-ocean,./terraform/hetzner
+        output-file: README.md
+        output-method: inject
+        git-push: true
