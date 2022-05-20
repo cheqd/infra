@@ -35,8 +35,9 @@ jobs:
     name: Linter for Terraform
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Tfsec Analysis
+      - uses: actions/checkout@v3
+
+      - name: TFSec Analysis
         uses: aquasecurity/tfsec-pr-commenter-action@v1.0.5
         with:
           tfsec_args: --soft-fail 
