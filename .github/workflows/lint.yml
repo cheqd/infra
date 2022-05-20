@@ -1,6 +1,6 @@
 name: "Lint"
 on:
-  workflow_call:
+  workflow_call
 defaults:
   run:
     shell: bash
@@ -32,6 +32,7 @@ jobs:
           use-quiet-mode: 'yes'
           use-verbose-mode: 'yes'
 
+  terraform-lint:
     name: Linter for Terraform
     runs-on: ubuntu-latest
     steps:
