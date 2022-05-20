@@ -1,9 +1,16 @@
-name: Terraform Static Code Analysis
-
+name: Linting and Static Analysis
 on:
-  pull_request:
-    branches: [main]
-
+  workflow_call:
+    pull_request_target:
+      branches:
+        - main
+    types:
+      - opened
+      - edited
+      - synchronize
+defaults:
+  run:
+    shell: bash
 concurrency:
   group: linter-${{ github.workflow }}-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
@@ -24,3 +31,40 @@ jobs:
         uses: bridgecrewio/checkov-action@master
         with:
           config_file: .checkov.yaml
+  md-link-check:
+    name: "Broken Markdown links"
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Run Markdown link check
+        uses: gaurav-nelson/github-action-markdown-link-check@v1
+        with:
+          config-file: '.github/linters/mlc_config.json'
+          use-quiet-mode: 'yes'
+          use-verbose-mode: 'yes'
+
+  super-lint:
+    name: "Super Linter"
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # Required to fetch version
+
+    - name: Run Super Linter
+      uses: github/super-linter/slim@v4
+      env:
+        IGNORE_GITIGNORED_FILES: true
+        DEFAULT_BRANCH: main
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        LOG_LEVEL: WARN
+        VALIDATE_ALL_CODEBASE: true
+        MULTI_STATUS: true
+        VALIDATE_BASH: true
+        VALIDATE_GITHUB_ACTIONS: true
+        VALIDATE_MARKDOWN: true
+        VALIDATE_XML: true
+        VALIDATE_YAML: true
