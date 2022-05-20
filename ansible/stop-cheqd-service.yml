@@ -2,6 +2,6 @@
 - hosts: "*"
   user: root
   any_errors_fatal: true
-  gather_facts: no
+  gather_facts: false
   roles:
-    - cheqd-stop
+    - cheqd_stop
