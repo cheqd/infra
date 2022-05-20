@@ -9,7 +9,7 @@ jobs:
 
   call-lint:
     name: "Lint"
-    uses: ./.github/workflows/lint.yml
+    uses: .github/workflows/lint.yml
 
   call-release:
     name: "Release"
