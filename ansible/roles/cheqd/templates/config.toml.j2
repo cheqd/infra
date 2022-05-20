@@ -186,7 +186,7 @@ laddr = "tcp://0.0.0.0:26656"
 {% if node_type == "validator" %}
 external_address = ""
 {% else %}
-external_address = "{{ inventory_hostname }}" + "." + "{{ region }} + "{{ domain }}" + ":26656"
+external_address = "{{ domain }}:26656"
 {% endif %}
 
 # Comma separated list of seed nodes to connect to
@@ -212,7 +212,7 @@ persistent_peers = "{{ seeds.content | trim }}"
     {%- if sentry_id != "" %}
 persistent_peers = "{{ seeds.content | trim }},{{ sentry_id }}@{{ sentry-private }}:{{ p2p_port }}"
     {%- elif sentry_id == "" and validator_id != "" %}
-persistent_peers = "{{ seeds.content | trim }},{{ validator_id }}@{{ validator-private }}:{{ p2p_port }}|
+persistent_peers = "{{ seeds.content | trim }},{{ validator_id }}@{{ validator-private }}:{{ p2p_port }}"
     {%- elif sentry_id == "" and validator_id == "" %}
 persistent_peers = "{{ seeds.content | trim }}"
     {% endif %}
@@ -248,8 +248,7 @@ max_num_inbound_peers = 50
 max_num_outbound_peers = 50
 
 # List of node IDs, to which a connection will be (re)established ignoring any existing limits
-{% if node_type == "sentry" %}
-
+{% if node_type == "sentry" %}  
     {%- if validator_id != "" and seed_id != "" %}
 unconditional_peer_ids =  "{{ validator_id }},{{ seed_id }}"
     {%- elif validator_id != "" and seed_id == "" %}
@@ -471,7 +470,7 @@ indexer = "kv"
 # When true, Prometheus metrics are served under /metrics on
 # PrometheusListenAddr.
 # Check out the documentation for the list of available metrics.
-prometheus = {{ prometheus_enabled }}
+prometheus = {{ prometheus_enabled | string | lower }}
 
 # Address to listen for Prometheus collector(s) connections
 prometheus_listen_addr = "0.0.0.0:26660"
