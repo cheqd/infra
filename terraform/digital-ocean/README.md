@@ -30,7 +30,6 @@ No modules.
 | [digitalocean_floating_ip.seed](https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs/resources/floating_ip) | resource |
 | [digitalocean_floating_ip.sentry](https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs/resources/floating_ip) | resource |
 | [digitalocean_floating_ip.validator](https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs/resources/floating_ip) | resource |
-| [digitalocean_loadbalancer.grpc_lb](https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs/resources/loadbalancer) | resource |
 | [digitalocean_loadbalancer.rest_lb](https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs/resources/loadbalancer) | resource |
 | [digitalocean_loadbalancer.rpc_lb](https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs/resources/loadbalancer) | resource |
 | [digitalocean_volume.seed_volumes](https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs/resources/volume) | resource |
@@ -48,11 +47,6 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_default_tags"></a> [default\_tags](#input\_default\_tags) | Tags to be applied to all available resources. | `list(string)` | n/a | yes |
-| <a name="input_do_grpc_health_check_port"></a> [do\_grpc\_health\_check\_port](#input\_do\_grpc\_health\_check\_port) | Target port that the gRPC Load Balancer will perform health checks. | `number` | n/a | yes |
-| <a name="input_do_grpc_health_check_protocol"></a> [do\_grpc\_health\_check\_protocol](#input\_do\_grpc\_health\_check\_protocol) | Protocol that the gRPC Load Balancer will use for health checks. | `string` | n/a | yes |
-| <a name="input_do_grpc_lb_algorithm"></a> [do\_grpc\_lb\_algorithm](#input\_do\_grpc\_lb\_algorithm) | gRPC Load Balancer algorithm to be used. | `string` | `"least_connections"` | no |
-| <a name="input_do_grpc_lb_config"></a> [do\_grpc\_lb\_config](#input\_do\_grpc\_lb\_config) | gRPC Load Balancer configuration. | `map(map(string))` | n/a | yes |
-| <a name="input_do_grpc_lb_size"></a> [do\_grpc\_lb\_size](#input\_do\_grpc\_lb\_size) | gRPC Load Balancer type/size. | `string` | `"lb-small"` | no |
 | <a name="input_do_image_name"></a> [do\_image\_name](#input\_do\_image\_name) | Desired OS to be installed on servers. | `string` | `"ubuntu-20-04-x64"` | no |
 | <a name="input_do_network_ip_range"></a> [do\_network\_ip\_range](#input\_do\_network\_ip\_range) | Digital Ocean VPC/Network IP range in CIDR notation. | `string` | n/a | yes |
 | <a name="input_do_region"></a> [do\_region](#input\_do\_region) | Ditigal Ocean Region. https://docs.digitalocean.com/products/platform/availability-matrix/ | `string` | n/a | yes |
