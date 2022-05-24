@@ -45,10 +45,9 @@ jobs:
           github_token: ${{ github.token }}
 
       - name: Run Checkov action
-        id: checkov
         uses: bridgecrewio/checkov-action@master
         with:
-          config_file: .checkov.yaml
+          config_file: '.github/linters/.checkov.yaml'
 
   super-lint:
     name: "Super Linter"
@@ -78,7 +77,6 @@ jobs:
         VALIDATE_JSON: true
         VALIDATE_MARKDOWN: true
         VALIDATE_OPENAPI: true
-        VALIDATE_TERRAFORM_TFLINT: true
         VALIDATE_TERRAGRUNT: true
         # VALIDATE_TSX: true
         # VALIDATE_TYPESCRIPT_ES: true
