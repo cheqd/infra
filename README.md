@@ -11,7 +11,7 @@ project is leargely divided into two parts:
 	running our Seed, Sentry or Validator modes, installing any debugging packages, setting up logs and metrics
 	collection.
 
-## 🔧 Pre-requisite
+## 🔧 Pre-requisites
 
 Before you start using this tooling, please make sure you have the following tools installed:
 - Terraform - [download link](https://www.terraform.io/downloads)
