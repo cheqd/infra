@@ -3,7 +3,7 @@
 [WIP]
 ## Overview
 
-Terragrunt code found here is written on top of the underlying [Terraform](terraform/) configuration.  
+Terragrunt code found here is written on top of the underlying [Terraform](../terraform/) configuration.  
 It will provision the following resources for the corresponding cloud provider.  
 
 ## How To

@@ -6,4 +6,4 @@ Terraform code found here was written for two separate cloud providers - [Digita
 
 All the submodules include their own documentation, where both providers have the list of all the variables, which must be set before we provision our infrastructure.
 
-Even that this code is self-sufficient, it was constructed with the idea of being utilised by [Terragrunt](terragrunt/). It is our recommendation that it is provisioned in such manner.
+Even that this code is self-sufficient, it was constructed with the idea of being utilised by [Terragrunt](../terragrunt/). It is our recommendation that it is provisioned in such manner.
