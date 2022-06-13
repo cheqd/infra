@@ -1,6 +1,7 @@
 # Terragrunt
 
 [WIP]
+
 ## Overview
 
 Terragrunt code found here is written on top of the underlying [Terraform](../terraform/) configuration.  
@@ -31,6 +32,7 @@ can be used to provision resources for both providers from the [mainnet](./mainn
 ## Resources
 
 Provided Terragrunt code is the end-to-end configuration for the entire infrastructure. It includes the following:
+
 - Seed node
 - Sentry node
 - Validator node

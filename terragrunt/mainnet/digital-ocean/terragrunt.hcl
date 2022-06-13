@@ -27,8 +27,8 @@ include "root" {
 # ---------------------------------------------------------------------------------------------------------------------
 # Dependencies selected here will determine the order in which resources for an environment/network will be created.
 # Each dependency in the list below has to be created before the resources described here.
-dependencies {
-}
+#dependencies {
+#}
 
 # ---------------------------------------------------------------------------------------------------------------------
 # Override parameters for this configuration.
@@ -53,7 +53,6 @@ inputs = {
   # Firewall configuration for SEED nodes.
   seed_firewall = {
     inbound = merge(
-      local.firewall_inbound_tendermint,
       local.firewall_inbound_p2p,
       local.firewall_inbound_tendermint_internal,
       local.firewall_inbound_rest_internal,
@@ -69,7 +68,6 @@ inputs = {
   # Firewall configuration for SENTRY nodes.
   sentry_firewall = {
     inbound = merge(
-      local.firewall_inbound_tendermint,
       local.firewall_inbound_p2p,
       local.firewall_inbound_tendermint_internal,
       local.firewall_inbound_rest_internal,
@@ -152,6 +150,14 @@ locals {
   }
 
   ## Custom Rules
+  firewall_inbound_ssh = {
+    "ssh-all" = {
+      protocol         = "tcp"
+      port_range       = "22"
+      source_addresses = "0.0.0.0/0,::/0"
+      description      = "SSH Public Access"
+    }
+  }
   firewall_inbound_tendermint_internal = {
     "tendermint_internal" = {
       protocol         = "tcp"

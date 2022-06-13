@@ -27,8 +27,8 @@ include "root" {
 # ---------------------------------------------------------------------------------------------------------------------
 # Dependencies selected here will determine the order in which resources for an environment/network will be created.
 # Each dependency in the list below has to be created before the resources described here.
-dependencies {
-}
+#dependencies {
+#}
 
 # ---------------------------------------------------------------------------------------------------------------------
 # Override parameters for this configuration.
