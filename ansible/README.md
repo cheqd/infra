@@ -1,8 +1,7 @@
 # Ansible
 
 ## Description
-
-In order to control the behaviour of ansible playbook and specify desired configuration of your node(s), you can define some variables in cheqd-node.yml file. Here is the list of required, optional and default variables, which can be overridden to change default configuration:
+In order to control the behaviour of ansible playbook and specify the desired configuration of your node(s), you can define certain variables in cheqd-node.yml file. Below is the list of required, optional and default variables, which can be overridden to change the default configuration.
 
 * **network** - Choose network. The options are *mainnet* and *testnet*. ***Required**
 * **moniker** - A custom human readable name for your node. ***Required**
