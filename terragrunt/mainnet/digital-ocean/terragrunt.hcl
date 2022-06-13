@@ -140,7 +140,7 @@ locals {
     }
   }
   ### Common Rules - Seed and Sentry
- 
+
   firewall_inbound_p2p = {
     "p2p_public" = {
       protocol         = "tcp"
