@@ -37,7 +37,7 @@ We've utilised this tool to keep the Terraform code clean. Examples and further 
 
 All the sub-modules include their own documentation, like `terraform/digital-ocean` has the list of all the variables, which must be set before we provision our infrastructure.
 
-### Repository breakdown
+## Repository breakdown
 
 ```text
 .
