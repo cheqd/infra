@@ -9,7 +9,7 @@
 # Use the open-sourced cheqd Terraform code located in the cheqd-infra repository.
 # ---------------------------------------------------------------------------------------------------------------------
 terraform {
-  source = "git::https://github.com/cheqd/cheqd-infra.git//terraform/digital-ocean?ref=${include.root.inputs.tag}"
+  source = "git::https://github.com/cheqd/infra.git//terraform/digital-ocean?ref=${include.root.inputs.tag}"
 }
 
 # ---------------------------------------------------------------------------------------------------------------------

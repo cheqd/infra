@@ -35,8 +35,8 @@ inputs = {
 remote_state {
   backend = "s3"
   config = {
-    endpoint                    = "https://ams3.digitaloceanspaces.com"
-    bucket                      = "cheqd-terraform-state-bucket"
+    endpoint                    = "<s3-bucket-endpoint-here>"
+    bucket                      = "<put-your-bucket-name-here>"
     region                      = "us-east-1"
     key                         = "${path_relative_to_include()}/terraform.tfstate"
     skip_credentials_validation = true
