@@ -41,7 +41,7 @@ resource "digitalocean_loadbalancer" "rpc_lb" {
     path     = "/health"
   }
 
-  droplet_tag = "loadbalancer-rpc"
+  droplet_tag = "${var.network}-loadbalancer-rpc"
 
   depends_on = [
     digitalocean_droplet.seed,
@@ -89,7 +89,7 @@ resource "digitalocean_loadbalancer" "rest_lb" {
     path     = "/node_info"
   }
 
-  droplet_tag = "loadbalancer-rest"
+  droplet_tag = "${var.network}-loadbalancer-rest"
 
   depends_on = [
     digitalocean_droplet.seed,

@@ -211,8 +211,8 @@ resource "hcloud_placement_group" "custom" {
   name = "${var.network}-custom"
   type = "spread"
   labels = {
-    "Network"   = var.network
+    "Network"    = var.network
     "ServerType" = "Custom"
-    "Terraform" = "True"
+    "Terraform"  = "True"
   }
 }

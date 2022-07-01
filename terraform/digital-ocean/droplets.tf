@@ -24,11 +24,11 @@ resource "digitalocean_droplet" "seed" {
   droplet_agent     = lookup(each.value, "enable_droplet_agent", true)
   backups           = lookup(each.value, "enable_backups", true)
   user_data         = templatefile("./templates/seed_user_data.tpl", var.seed_user_data)
-  tags              = concat(var.default_tags, [
+  tags = concat(var.default_tags, [
     "${var.network}-seed",
     "${var.network}-node",
-    "loadbalancer-rpc",
-    "loadbalancer-rest",
+    "${var.network}-loadbalancer-rpc",
+    "${var.network}-loadbalancer-rest",
   ])
 }
 
@@ -37,7 +37,7 @@ resource "digitalocean_volume" "seed_volumes" {
 
   region                  = each.value.region
   size                    = each.value.volume_size
-  name                    = "${each.key}-chain-data"
+  name                    = "${var.network}-${each.key}-chain-data"
   initial_filesystem_type = lookup(each.value, "fs_type", "xfs")
   description             = "Volume used for storing the chain data for ${each.key} droplet"
   tags                    = concat(var.default_tags, ["${var.network}-seed", "${var.network}-node"])
@@ -81,11 +81,11 @@ resource "digitalocean_droplet" "sentry" {
   backups           = lookup(each.value, "enable_backups", true)
   droplet_agent     = lookup(each.value, "enable_droplet_agent", true)
   user_data         = templatefile("./templates/sentry_user_data.tpl", var.sentry_user_data)
-  tags              = concat(var.default_tags, [
+  tags = concat(var.default_tags, [
     "${var.network}-sentry",
     "${var.network}-node",
-    "loadbalancer-rpc",
-    "loadbalancer-rest",
+    "${var.network}-loadbalancer-rpc",
+    "${var.network}-loadbalancer-rest",
   ])
 }
 
@@ -94,7 +94,7 @@ resource "digitalocean_volume" "sentry_volumes" {
 
   region                  = each.value.region
   size                    = each.value.volume_size
-  name                    = "${each.key}-chain-data"
+  name                    = "${var.network}-${each.key}-chain-data"
   initial_filesystem_type = lookup(each.value, "fs_type", "xfs")
   description             = "Volume used for storing the chain data for ${each.key} droplet"
   tags                    = concat(var.default_tags, ["${var.network}-sentry", "${var.network}-node"])
@@ -146,7 +146,7 @@ resource "digitalocean_volume" "validator_volumes" {
 
   region                  = each.value.region
   size                    = each.value.volume_size
-  name                    = "${each.key}-chain-data"
+  name                    = "${var.network}-${each.key}-chain-data"
   initial_filesystem_type = lookup(each.value, "fs_type", "xfs")
   description             = "Volume used for storing the chain data for ${each.key} droplet"
   tags                    = concat(var.default_tags, ["${var.network}-validator", "${var.network}-node"])
