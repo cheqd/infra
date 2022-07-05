@@ -21,7 +21,7 @@ For configuring our nodes, we use Ansible, an open source and free configuration
 ### Terraform
 
 [Terraform](https://www.terraform.io/downloads) is an open-source infrastructure as code software tool that enables you to safely and predictably create, change, and improve infrastructure. Being de facto the industry standard Infrastructure as Code tool, it is our pick for infrastructure provisioning.  
-Code located in its [respective directory](terraform/) can be used to provision the necessary infrastructure for [DigitalOcean]() and [Hetzner](https://www.hetzner.com/) cloud providers.
+Code located in its [respective directory](terraform/) can be used to provision the necessary infrastructure for DigitalOcean and Hetzner cloud providers.
 
 ### Terragrunt
 
