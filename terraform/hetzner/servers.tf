@@ -29,6 +29,8 @@ resource "hcloud_server" "seed" {
   placement_group_id = hcloud_placement_group.seed.id
   user_data          = templatefile("./templates/seed_user_data.tpl", var.seed_user_data)
   backups            = var.network == "testnet" || var.network == "mainnet" ? true : false
+  delete_protection  = var.network == "testnet" || var.network == "mainnet" ? true : false
+  rebuild_protection = var.network == "testnet" || var.network == "mainnet" ? true : false
 
   labels = {
     "ServerType" = "Node"
@@ -40,10 +42,11 @@ resource "hcloud_server" "seed" {
 resource "hcloud_volume" "seed" {
   for_each = var.seed_server_config
 
-  name     = "${var.network}-${each.key}-chain-data"
-  location = each.value.region
-  size     = each.value.volume_size
-  format   = lookup(each.value, "fs_type", "xfs")
+  name              = "${var.network}-${each.key}-chain-data"
+  location          = each.value.region
+  size              = each.value.volume_size
+  format            = lookup(each.value, "fs_type", "xfs")
+  delete_protection = var.network == "testnet" || var.network == "mainnet" ? true : false
 }
 
 resource "hcloud_volume_attachment" "seed" {
@@ -96,6 +99,8 @@ resource "hcloud_server" "sentry" {
   placement_group_id = hcloud_placement_group.sentry.id
   user_data          = templatefile("./templates/sentry_user_data.tpl", var.sentry_user_data)
   backups            = var.network == "testnet" || var.network == "mainnet" ? true : false
+  delete_protection  = var.network == "testnet" || var.network == "mainnet" ? true : false
+  rebuild_protection = var.network == "testnet" || var.network == "mainnet" ? true : false
 
   labels = {
     "ServerType" = "Node"
@@ -107,10 +112,11 @@ resource "hcloud_server" "sentry" {
 resource "hcloud_volume" "sentry" {
   for_each = var.sentry_server_config
 
-  name     = "${var.network}-${each.key}-chain-data"
-  location = each.value.region
-  size     = each.value.volume_size
-  format   = lookup(each.value, "fs_type", "xfs")
+  name              = "${var.network}-${each.key}-chain-data"
+  location          = each.value.region
+  size              = each.value.volume_size
+  format            = lookup(each.value, "fs_type", "xfs")
+  delete_protection = var.network == "testnet" || var.network == "mainnet" ? true : false
 }
 
 resource "hcloud_volume_attachment" "sentry" {
@@ -161,6 +167,8 @@ resource "hcloud_server" "validator" {
   placement_group_id = hcloud_placement_group.validator.id
   user_data          = templatefile("./templates/validator_user_data.tpl", var.validator_user_data)
   backups            = var.network == "testnet" || var.network == "mainnet" ? true : false
+  delete_protection  = var.network == "testnet" || var.network == "mainnet" ? true : false
+  rebuild_protection = var.network == "testnet" || var.network == "mainnet" ? true : false
 
   labels = {
     "ServerType" = "Node"
@@ -180,10 +188,11 @@ resource "hcloud_floating_ip" "validator" {
 resource "hcloud_volume" "validator" {
   for_each = var.validator_server_config
 
-  name     = "${var.network}-${each.key}-chain-data"
-  location = each.value.region
-  size     = each.value.volume_size
-  format   = lookup(each.value, "fs_type", "xfs")
+  name              = "${var.network}-${each.key}-chain-data"
+  location          = each.value.region
+  size              = each.value.volume_size
+  format            = lookup(each.value, "fs_type", "xfs")
+  delete_protection = var.network == "testnet" || var.network == "mainnet" ? true : false
 }
 
 resource "hcloud_volume_attachment" "validator" {
