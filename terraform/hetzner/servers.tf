@@ -26,6 +26,14 @@ resource "hcloud_server" "seed" {
       trimsuffix(cidrsubnet(hcloud_network_subnet.standalone_servers.ip_range, 8, 100 + index(keys(var.seed_server_config), each.key)), "/32"),
     ]
   }
+
+  // enables public access for this server  using Hetzner Primary IPs
+  public_net {
+    ipv4_enabled = true
+    ipv6_enabled = true
+    ipv4         = hcloud_primary_ip.seed[each.key].id
+  }
+
   placement_group_id = hcloud_placement_group.seed.id
   user_data          = templatefile("./templates/seed_user_data.tpl", var.seed_user_data)
   backups            = var.network == "testnet" || var.network == "mainnet" ? true : false
@@ -46,6 +54,14 @@ resource "hcloud_volume" "seed" {
   format   = lookup(each.value, "fs_type", "xfs")
 }
 
+resource "hcloud_floating_ip" "seed" {
+  for_each = hcloud_server.seed
+
+  type      = "ipv4"
+  name      = "${var.network}-${each.key}"
+  server_id = each.value.id
+}
+
 resource "hcloud_volume_attachment" "seed" {
   for_each = var.seed_server_config
 
@@ -54,12 +70,15 @@ resource "hcloud_volume_attachment" "seed" {
   automount = true
 }
 
-resource "hcloud_floating_ip" "seed" {
-  for_each = hcloud_server.seed
+// we need to pre-create the IPs otherwise the server auto generates and assigns these
+// Source: https://registry.terraform.io/providers/hetznercloud/hcloud/latest/docs/resources/server#primary-ips
+resource "hcloud_primary_ip" "seed" {
+  for_each = var.seed_server_config
 
-  type      = "ipv4"
-  name      = "${var.network}-${each.key}"
-  server_id = each.value.id
+  name          = "${var.network}-${each.key}"
+  assignee_type = "server"
+  type          = "ipv4"
+  auto_delete   = lookup(each.value, "auto_delete_primary_ip", true)
 }
 
 resource "hcloud_placement_group" "seed" {
@@ -93,6 +112,14 @@ resource "hcloud_server" "sentry" {
       trimsuffix(cidrsubnet(hcloud_network_subnet.standalone_servers.ip_range, 8, 150 + index(keys(var.sentry_server_config), each.key)), "/32"),
     ]
   }
+
+  // enables public access for this server  using Hetzner Primary IPs
+  public_net {
+    ipv4_enabled = true
+    ipv6_enabled = true
+    ipv4         = hcloud_primary_ip.sentry[each.key].id
+  }
+
   placement_group_id = hcloud_placement_group.sentry.id
   user_data          = templatefile("./templates/sentry_user_data.tpl", var.sentry_user_data)
   backups            = var.network == "testnet" || var.network == "mainnet" ? true : false
@@ -102,6 +129,14 @@ resource "hcloud_server" "sentry" {
     "NodeType"   = "sentry"
     "Terraform"  = "True"
   }
+}
+
+resource "hcloud_floating_ip" "sentry" {
+  for_each = hcloud_server.sentry
+
+  type      = "ipv4"
+  name      = "${var.network}-${each.key}"
+  server_id = each.value.id
 }
 
 resource "hcloud_volume" "sentry" {
@@ -121,12 +156,15 @@ resource "hcloud_volume_attachment" "sentry" {
   automount = true
 }
 
-resource "hcloud_floating_ip" "sentry" {
-  for_each = hcloud_server.sentry
+// we need to pre-create the IPs otherwise the server auto generates and assigns these
+// Source: https://registry.terraform.io/providers/hetznercloud/hcloud/latest/docs/resources/server#primary-ips
+resource "hcloud_primary_ip" "sentry" {
+  for_each = var.sentry_server_config
 
-  type      = "ipv4"
-  name      = "${var.network}-${each.key}"
-  server_id = each.value.id
+  name          = "${var.network}-${each.key}"
+  assignee_type = "server"
+  type          = "ipv4"
+  auto_delete   = lookup(each.value, "auto_delete_primary_ip", true)
 }
 
 resource "hcloud_placement_group" "sentry" {
@@ -137,6 +175,14 @@ resource "hcloud_placement_group" "sentry" {
     "NodeType"  = "sentry"
     "Terraform" = "True"
   }
+}
+
+resource "hcloud_floating_ip" "validator" {
+  for_each = hcloud_server.validator
+
+  type      = "ipv4"
+  name      = "${var.network}-${each.key}"
+  server_id = each.value.id
 }
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -158,6 +204,14 @@ resource "hcloud_server" "validator" {
       trimsuffix(cidrsubnet(hcloud_network_subnet.sentry.ip_range, 8, 200 + index(keys(var.validator_server_config), each.key)), "/32")
     ]
   }
+
+  // enables public access for this server  using Hetzner Primary IPs
+  public_net {
+    ipv4_enabled = true
+    ipv6_enabled = true
+    ipv4         = hcloud_primary_ip.validator[each.key].id
+  }
+
   placement_group_id = hcloud_placement_group.validator.id
   user_data          = templatefile("./templates/validator_user_data.tpl", var.validator_user_data)
   backups            = var.network == "testnet" || var.network == "mainnet" ? true : false
@@ -169,12 +223,15 @@ resource "hcloud_server" "validator" {
   }
 }
 
-resource "hcloud_floating_ip" "validator" {
-  for_each = hcloud_server.validator
+// we need to pre-create the IPs otherwise the server auto generates and assigns these
+// Source: https://registry.terraform.io/providers/hetznercloud/hcloud/latest/docs/resources/server#primary-ips
+resource "hcloud_primary_ip" "validator" {
+  for_each = var.validator_server_config
 
-  type      = "ipv4"
-  name      = "${var.network}-${each.key}"
-  server_id = each.value.id
+  name          = "${var.network}-${each.key}"
+  assignee_type = "server"
+  type          = "ipv4"
+  auto_delete   = lookup(each.value, "auto_delete_primary_ip", true)
 }
 
 resource "hcloud_volume" "validator" {

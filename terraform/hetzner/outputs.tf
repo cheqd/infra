@@ -53,8 +53,25 @@ output "validator_floating_ip" {
   description = "Set of Hetzner Floating IPs used by validator nodes"
 }
 
+output "seed_primary_ip" {
+  value       = hcloud_primary_ip.seed
+  description = "Set of Hetzner Primary IPs used by seed nodes"
+}
+
+output "sentry_primary_ip" {
+  value       = hcloud_primary_ip.sentry
+  description = "Set of Hetzner Primary IPs used by sentry nodes"
+}
+
+output "validator_primary_ip" {
+  value       = hcloud_primary_ip.validator
+  description = "Set of Hetzner Primary IPs used by validator nodes"
+}
+
 output "server_ips" {
   value = { for k, v in local.server_ips : k => {
+    // This format is kept here to keep it consistent with other cloud providers.
+    // We export from digital ocean as ipv4_address, so we do the same here
     ipv4_address = v.ip_address
     }
   }
