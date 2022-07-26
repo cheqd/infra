@@ -38,6 +38,21 @@ output "validator_servers" {
   description = "Set of Validator nodes running on Hetzner Cloud"
 }
 
+output "seed_floating_ip" {
+  value       = hcloud_floating_ip.seed
+  description = "Set of Hetzner Floating IPs used by seed nodes"
+}
+
+output "sentry_floating_ip" {
+  value       = hcloud_floating_ip.sentry
+  description = "Set of Hetzner Floating IPs used by sentry nodes"
+}
+
+output "validator_floating_ip" {
+  value       = hcloud_floating_ip.validator
+  description = "Set of Hetzner Floating IPs used by validator nodes"
+}
+
 output "seed_primary_ip" {
   value       = hcloud_primary_ip.seed
   description = "Set of Hetzner Primary IPs used by seed nodes"
@@ -65,8 +80,8 @@ output "server_ips" {
 
 locals {
   server_ips = merge(
-    hcloud_primary_ip.seed,
-    hcloud_primary_ip.sentry,
-    hcloud_primary_ip.validator,
+    hcloud_floating_ip.seed,
+    hcloud_floating_ip.sentry,
+    hcloud_floating_ip.validator,
   )
 }

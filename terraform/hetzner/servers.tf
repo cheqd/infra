@@ -54,6 +54,14 @@ resource "hcloud_volume" "seed" {
   format   = lookup(each.value, "fs_type", "xfs")
 }
 
+resource "hcloud_floating_ip" "seed" {
+  for_each = hcloud_server.seed
+
+  type      = "ipv4"
+  name      = "${var.network}-${each.key}"
+  server_id = each.value.id
+}
+
 resource "hcloud_volume_attachment" "seed" {
   for_each = var.seed_server_config
 
@@ -123,6 +131,14 @@ resource "hcloud_server" "sentry" {
   }
 }
 
+resource "hcloud_floating_ip" "sentry" {
+  for_each = hcloud_server.sentry
+
+  type      = "ipv4"
+  name      = "${var.network}-${each.key}"
+  server_id = each.value.id
+}
+
 resource "hcloud_volume" "sentry" {
   for_each = var.sentry_server_config
 
@@ -159,6 +175,14 @@ resource "hcloud_placement_group" "sentry" {
     "NodeType"  = "sentry"
     "Terraform" = "True"
   }
+}
+
+resource "hcloud_floating_ip" "validator" {
+  for_each = hcloud_server.validator
+
+  type      = "ipv4"
+  name      = "${var.network}-${each.key}"
+  server_id = each.value.id
 }
 
 # ----------------------------------------------------------------------------------------------------------------------
