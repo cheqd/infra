@@ -24,9 +24,9 @@ No modules.
 | [digitalocean_droplet.seed](https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs/resources/droplet) | resource |
 | [digitalocean_droplet.sentry](https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs/resources/droplet) | resource |
 | [digitalocean_droplet.validator](https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs/resources/droplet) | resource |
-| [digitalocean_firewall.seed](https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs/resources/firewall) | resource |
-| [digitalocean_firewall.sentry](https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs/resources/firewall) | resource |
-| [digitalocean_firewall.validator](https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs/resources/firewall) | resource |
+| [digitalocean_firewall.node-developer](https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs/resources/firewall) | resource |
+| [digitalocean_firewall.node-public](https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs/resources/firewall) | resource |
+| [digitalocean_firewall.node-restricted](https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs/resources/firewall) | resource |
 | [digitalocean_floating_ip.seed](https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs/resources/floating_ip) | resource |
 | [digitalocean_floating_ip.sentry](https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs/resources/floating_ip) | resource |
 | [digitalocean_floating_ip.validator](https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs/resources/floating_ip) | resource |
@@ -62,31 +62,31 @@ No modules.
 | <a name="input_do_rpc_lb_size"></a> [do\_rpc\_lb\_size](#input\_do\_rpc\_lb\_size) | RPC Load Balancer type/size. | `string` | `"lb-small"` | no |
 | <a name="input_do_token"></a> [do\_token](#input\_do\_token) | Authentication token for Digital Ocean. | `string` | n/a | yes |
 | <a name="input_network"></a> [network](#input\_network) | Digital Ocean VPC/Network name | `string` | n/a | yes |
+| <a name="input_node_firewall_developer"></a> [node\_firewall\_developer](#input\_node\_firewall\_developer) | Developer firewall rules for debugging purposes. | `map(map(map(string)))` | <pre>{<br>  "inbound": {},<br>  "outbound": {}<br>}</pre> | no |
+| <a name="input_node_firewall_public"></a> [node\_firewall\_public](#input\_node\_firewall\_public) | Common firewall rules for public traffic. | `map(map(map(string)))` | <pre>{<br>  "inbound": {},<br>  "outbound": {}<br>}</pre> | no |
+| <a name="input_node_firewall_restricted"></a> [node\_firewall\_restricted](#input\_node\_firewall\_restricted) | Common firewall rules for restricted traffic. | `map(map(map(string)))` | <pre>{<br>  "inbound": {},<br>  "outbound": {}<br>}</pre> | no |
 | <a name="input_seed_droplet_config"></a> [seed\_droplet\_config](#input\_seed\_droplet\_config) | Custom configuration for seed servers. | `map(map(string))` | n/a | yes |
-| <a name="input_seed_firewall"></a> [seed\_firewall](#input\_seed\_firewall) | Firewall rules for seed servers. | `map(map(map(string)))` | <pre>{<br>  "inbound": {},<br>  "outbound": {}<br>}</pre> | no |
 | <a name="input_seed_user_data"></a> [seed\_user\_data](#input\_seed\_user\_data) | User data to be applied on server boot for seed servers. | `map(string)` | `{}` | no |
 | <a name="input_sentry_droplet_config"></a> [sentry\_droplet\_config](#input\_sentry\_droplet\_config) | Custom configuration for sentry servers. | `map(map(string))` | n/a | yes |
-| <a name="input_sentry_firewall"></a> [sentry\_firewall](#input\_sentry\_firewall) | Firewall rules for sentry servers. | `map(map(map(string)))` | <pre>{<br>  "inbound": {},<br>  "outbound": {}<br>}</pre> | no |
 | <a name="input_sentry_user_data"></a> [sentry\_user\_data](#input\_sentry\_user\_data) | User data to be applied on server boot for sentry servers. | `map(string)` | `{}` | no |
 | <a name="input_validator_droplet_config"></a> [validator\_droplet\_config](#input\_validator\_droplet\_config) | Custom configuration for validator servers. | `map(map(string))` | n/a | yes |
-| <a name="input_validator_firewall"></a> [validator\_firewall](#input\_validator\_firewall) | Firewall rules for validator servers. | `map(map(map(string)))` | <pre>{<br>  "inbound": {},<br>  "outbound": {}<br>}</pre> | no |
 | <a name="input_validator_user_data"></a> [validator\_user\_data](#input\_validator\_user\_data) | User data to be applied on server boot for validator servers. | `map(string)` | `{}` | no |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
+| <a name="output_node_developer"></a> [node\_developer](#output\_node\_developer) | This firewall (managed by Cloud Provider) is used to restrict inbound/outbound developer(testing)traffic |
+| <a name="output_node_public"></a> [node\_public](#output\_node\_public) | This firewall (managed by Cloud Provider) is used to restrict inbound/outbound public traffic |
+| <a name="output_node_restricted"></a> [node\_restricted](#output\_node\_restricted) | This firewall is used to restrict inbound/outbound restricted(internal) traffic |
 | <a name="output_seed_droplets"></a> [seed\_droplets](#output\_seed\_droplets) | Set of seed nodes running on Digital Ocean |
-| <a name="output_seed_firewall"></a> [seed\_firewall](#output\_seed\_firewall) | This firewall (managed by Cloud Provider) is used to restrict inbound/outbound traffic for seed nodes |
 | <a name="output_seed_floating_ip"></a> [seed\_floating\_ip](#output\_seed\_floating\_ip) | Set of Digital Ocean Floating IPs used by seed nodes |
 | <a name="output_seed_volumes"></a> [seed\_volumes](#output\_seed\_volumes) | Set of volumes used by seed nodes |
 | <a name="output_sentry_droplets"></a> [sentry\_droplets](#output\_sentry\_droplets) | Set of sentry nodes running on Digital Ocean |
-| <a name="output_sentry_firewall"></a> [sentry\_firewall](#output\_sentry\_firewall) | This firewall (managed by Cloud Provider) is used to restrict inbound/outbound traffic for sentry nodes |
 | <a name="output_sentry_floating_ip"></a> [sentry\_floating\_ip](#output\_sentry\_floating\_ip) | Set of Digital Ocean Floating IPs used by sentry nodes |
 | <a name="output_sentry_volumes"></a> [sentry\_volumes](#output\_sentry\_volumes) | Set of volumes used by sentry nodes |
 | <a name="output_server_ips"></a> [server\_ips](#output\_server\_ips) | This is a Set of all server IPs (Seeds, Sentries, and Validators) with key as node name (like seed1-ap-mainnet) and their value the IPv4 Address of the node. This is useful for DNS mapping using a for\_each |
 | <a name="output_validator_droplets"></a> [validator\_droplets](#output\_validator\_droplets) | Set of Validator nodes running on Digital Ocean |
-| <a name="output_validator_firewall"></a> [validator\_firewall](#output\_validator\_firewall) | This firewall is used to restrict inbound/outbound traffic for validator nodes |
 | <a name="output_validator_floating_ip"></a> [validator\_floating\_ip](#output\_validator\_floating\_ip) | Set of Digital Ocean Floating IPs used by validator nodes |
 | <a name="output_vpc"></a> [vpc](#output\_vpc) | Private Network for the entire fleet of services running on Digital Ocean |
 <!-- END_TF_DOCS -->
