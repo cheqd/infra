@@ -21,6 +21,36 @@ variable "hetzner_network_ip_range" {
 }
 
 # ----------------------------------------------------------------------------------------------------------------------
+# Node Firewall
+# ----------------------------------------------------------------------------------------------------------------------
+variable "node_firewall_public" {
+  description = "Common firewall rules for public traffic."
+  type        = map(map(map(string)))
+  default = {
+    inbound  = {}
+    outbound = {}
+  }
+}
+
+variable "node_firewall_restricted" {
+  description = "Common firewall rules for restricted traffic."
+  type        = map(map(map(string)))
+  default = {
+    inbound  = {}
+    outbound = {}
+  }
+}
+
+variable "node_firewall_developer" {
+  description = "Developer firewall rules for debugging purposes."
+  type        = map(map(map(string)))
+  default = {
+    inbound  = {}
+    outbound = {}
+  }
+}
+
+# ----------------------------------------------------------------------------------------------------------------------
 # Geolocation
 # ----------------------------------------------------------------------------------------------------------------------
 variable "hetzner_region" {
@@ -42,15 +72,6 @@ variable "seed_server_config" {
   type        = map(map(string))
 }
 
-variable "seed_firewall" {
-  description = "Firewall rules for seed servers."
-  type        = map(map(map(string)))
-  default = {
-    inbound  = {}
-    outbound = {}
-  }
-}
-
 variable "seed_user_data" {
   description = "User data to be applied on server boot for seed servers."
   type        = map(string)
@@ -65,15 +86,6 @@ variable "sentry_server_config" {
   type        = map(map(string))
 }
 
-variable "sentry_firewall" {
-  description = "Firewall rules for sentry servers."
-  type        = map(map(map(string)))
-  default = {
-    inbound  = {}
-    outbound = {}
-  }
-}
-
 variable "sentry_user_data" {
   description = "User data to be applied on server boot for sentry servers."
   type        = map(string)
@@ -86,15 +98,6 @@ variable "sentry_user_data" {
 variable "validator_server_config" {
   description = "Custom configuration for validator servers."
   type        = map(map(string))
-}
-
-variable "validator_firewall" {
-  description = "Firewall rules for validator servers."
-  type        = map(map(map(string)))
-  default = {
-    inbound  = {}
-    outbound = {}
-  }
 }
 
 variable "validator_user_data" {

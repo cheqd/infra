@@ -28,11 +28,11 @@ resource "hcloud_server" "seed" {
   }
 
   // enables public access for this server  using Hetzner Primary IPs
-  public_net {
-    ipv4_enabled = true
-    ipv6_enabled = true
-    ipv4         = hcloud_primary_ip.seed[each.key].id
-  }
+  #  public_net {
+  #    ipv4_enabled = true
+  #    ipv6_enabled = true
+  #    ipv4         = hcloud_primary_ip.seed[each.key].id
+  #  }
 
   placement_group_id = hcloud_placement_group.seed.id
   user_data          = templatefile("./templates/seed_user_data.tpl", var.seed_user_data)
@@ -72,14 +72,15 @@ resource "hcloud_volume_attachment" "seed" {
 
 // we need to pre-create the IPs otherwise the server auto generates and assigns these
 // Source: https://registry.terraform.io/providers/hetznercloud/hcloud/latest/docs/resources/server#primary-ips
-resource "hcloud_primary_ip" "seed" {
-  for_each = var.seed_server_config
-
-  name          = "${var.network}-${each.key}"
-  assignee_type = "server"
-  type          = "ipv4"
-  auto_delete   = lookup(each.value, "auto_delete_primary_ip", true)
-}
+#resource "hcloud_primary_ip" "seed" {
+#  for_each = var.seed_server_config
+#
+#  name          = "${var.network}-${each.key}"
+#  assignee_type = "server"
+##  assignee_id   = hcloud_server.seed[each.key].id
+#  type          = "ipv4"
+#  auto_delete   = lookup(each.value, "auto_delete_primary_ip", true)
+#}
 
 resource "hcloud_placement_group" "seed" {
   name = "${var.network}-seed"
@@ -114,11 +115,11 @@ resource "hcloud_server" "sentry" {
   }
 
   // enables public access for this server  using Hetzner Primary IPs
-  public_net {
-    ipv4_enabled = true
-    ipv6_enabled = true
-    ipv4         = hcloud_primary_ip.sentry[each.key].id
-  }
+  #  public_net {
+  #    ipv4_enabled = true
+  #    ipv6_enabled = true
+  #    ipv4         = hcloud_primary_ip.sentry[each.key].id
+  #  }
 
   placement_group_id = hcloud_placement_group.sentry.id
   user_data          = templatefile("./templates/sentry_user_data.tpl", var.sentry_user_data)
@@ -158,14 +159,15 @@ resource "hcloud_volume_attachment" "sentry" {
 
 // we need to pre-create the IPs otherwise the server auto generates and assigns these
 // Source: https://registry.terraform.io/providers/hetznercloud/hcloud/latest/docs/resources/server#primary-ips
-resource "hcloud_primary_ip" "sentry" {
-  for_each = var.sentry_server_config
-
-  name          = "${var.network}-${each.key}"
-  assignee_type = "server"
-  type          = "ipv4"
-  auto_delete   = lookup(each.value, "auto_delete_primary_ip", true)
-}
+#resource "hcloud_primary_ip" "sentry" {
+#  for_each = var.sentry_server_config
+#
+#  name          = "${var.network}-${each.key}"
+#  assignee_type = "server"
+##  assignee_id   = hcloud_server.sentry[each_key].id
+#  type          = "ipv4"
+#  auto_delete   = lookup(each.value, "auto_delete_primary_ip", true)
+#}
 
 resource "hcloud_placement_group" "sentry" {
   name = "${var.network}-sentry"
@@ -206,11 +208,11 @@ resource "hcloud_server" "validator" {
   }
 
   // enables public access for this server  using Hetzner Primary IPs
-  public_net {
-    ipv4_enabled = true
-    ipv6_enabled = true
-    ipv4         = hcloud_primary_ip.validator[each.key].id
-  }
+  #  public_net {
+  #    ipv4_enabled = true
+  #    ipv6_enabled = true
+  #    ipv4         = hcloud_primary_ip.validator[each.key].id
+  #  }
 
   placement_group_id = hcloud_placement_group.validator.id
   user_data          = templatefile("./templates/validator_user_data.tpl", var.validator_user_data)
@@ -225,14 +227,15 @@ resource "hcloud_server" "validator" {
 
 // we need to pre-create the IPs otherwise the server auto generates and assigns these
 // Source: https://registry.terraform.io/providers/hetznercloud/hcloud/latest/docs/resources/server#primary-ips
-resource "hcloud_primary_ip" "validator" {
-  for_each = var.validator_server_config
-
-  name          = "${var.network}-${each.key}"
-  assignee_type = "server"
-  type          = "ipv4"
-  auto_delete   = lookup(each.value, "auto_delete_primary_ip", true)
-}
+#resource "hcloud_primary_ip" "validator" {
+#  for_each = var.validator_server_config
+#
+#  name          = "${var.network}-${each.key}"
+#  assignee_type = "server"
+##  assignee_id   = hcloud_server.validator[each.key].id
+#  type          = "ipv4"
+#  auto_delete   = lookup(each.value, "auto_delete_primary_ip", true)
+#}
 
 resource "hcloud_volume" "validator" {
   for_each = var.validator_server_config
