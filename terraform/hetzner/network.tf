@@ -2,8 +2,9 @@
 # Network
 # ----------------------------------------------------------------------------------------------------------------------
 resource "hcloud_network" "cheqd_network" {
-  name     = var.network
-  ip_range = var.hetzner_network_ip_range
+  name              = var.network
+  ip_range          = var.hetzner_network_ip_range
+  delete_protection  = var.network == "testnet" || var.network == "mainnet" ? true : false
 
   labels = {
     "Network"   = var.network
