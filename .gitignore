@@ -59,7 +59,7 @@ Temporary Items
 .idea/**
 .idea_modules/**
 .prettierrc
-
+*.iml
 
 ### LANGUAGE/FRAMEWORK SPECIFIC EXCLUSIONS ###
 

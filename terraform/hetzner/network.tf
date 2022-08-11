@@ -107,6 +107,9 @@ resource "hcloud_firewall" "node_restricted" {
   apply_to {
     label_selector = "NodeType=seed"
   }
+  apply_to {
+    label_selector = "NodeType=validator"
+  }
 
   dynamic "rule" {
     for_each = var.node_firewall_restricted.inbound

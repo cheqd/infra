@@ -64,11 +64,11 @@ resource "digitalocean_firewall" "node-restricted" {
     }
   }
 
-  tags = ["${var.network}-seed", "${var.network}-sentry"]
+  tags = ["${var.network}-seed", "${var.network}-sentry", "${var.network}-validator"]
 }
 
 # ----------------------------------------------------------------------------------------------------------------------
-# Developer node Firewall
+# Developer Node Firewall
 # ----------------------------------------------------------------------------------------------------------------------
 resource "digitalocean_firewall" "node-developer" {
   name  = "${var.network}-node-developer"
