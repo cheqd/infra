@@ -2,8 +2,9 @@
 # Network
 # ----------------------------------------------------------------------------------------------------------------------
 resource "hcloud_network" "cheqd_network" {
-  name     = var.network
-  ip_range = var.hetzner_network_ip_range
+  name              = var.network
+  ip_range          = var.hetzner_network_ip_range
+  delete_protection = var.network == "testnet" || var.network == "mainnet" ? true : false
 
   labels = {
     "Network"   = var.network
@@ -53,9 +54,9 @@ resource "hcloud_network_subnet" "standalone_servers" {
   ip_range     = cidrsubnet(var.hetzner_network_ip_range, 8, 200)
 }
 
-resource "hcloud_firewall" "seed" {
-  count = (length(var.seed_firewall.inbound) > 0 || length(var.seed_firewall.outbound) > 0) ? 1 : 0
-  name  = "${var.network}-seed"
+resource "hcloud_firewall" "node_public" {
+  count = (length(var.node_firewall_public.inbound) > 0 || length(var.node_firewall_public.outbound) > 0) ? 1 : 0
+  name  = "${var.network}-node-public"
 
   labels = {
     "Terraform" = "True"
@@ -63,9 +64,12 @@ resource "hcloud_firewall" "seed" {
   apply_to {
     label_selector = "NodeType=seed"
   }
+  apply_to {
+    label_selector = "NodeType=sentry"
+  }
 
   dynamic "rule" {
-    for_each = var.seed_firewall.inbound
+    for_each = var.node_firewall_public.inbound
 
     content {
       direction   = "in"
@@ -77,7 +81,7 @@ resource "hcloud_firewall" "seed" {
   }
 
   dynamic "rule" {
-    for_each = var.seed_firewall.outbound
+    for_each = var.node_firewall_public.outbound
 
     content {
       direction       = "out"
@@ -90,9 +94,9 @@ resource "hcloud_firewall" "seed" {
   }
 }
 
-resource "hcloud_firewall" "sentry" {
-  count = (length(var.sentry_firewall.inbound) > 0 || length(var.sentry_firewall.outbound) > 0) ? 1 : 0
-  name  = "${var.network}-sentry"
+resource "hcloud_firewall" "node_restricted" {
+  count = (length(var.node_firewall_restricted.inbound) > 0 || length(var.node_firewall_restricted.outbound) > 0) ? 1 : 0
+  name  = "${var.network}-node-restricted"
 
   labels = {
     "Terraform" = "True"
@@ -100,9 +104,15 @@ resource "hcloud_firewall" "sentry" {
   apply_to {
     label_selector = "NodeType=sentry"
   }
+  apply_to {
+    label_selector = "NodeType=seed"
+  }
+  apply_to {
+    label_selector = "NodeType=validator"
+  }
 
   dynamic "rule" {
-    for_each = var.sentry_firewall.inbound
+    for_each = var.node_firewall_restricted.inbound
 
     content {
       direction   = "in"
@@ -114,7 +124,7 @@ resource "hcloud_firewall" "sentry" {
   }
 
   dynamic "rule" {
-    for_each = var.sentry_firewall.outbound
+    for_each = var.node_firewall_restricted.outbound
 
     content {
       direction       = "out"
@@ -127,19 +137,25 @@ resource "hcloud_firewall" "sentry" {
   }
 }
 
-resource "hcloud_firewall" "validator" {
-  count = (length(var.validator_firewall.inbound) > 0 || length(var.validator_firewall.outbound) > 0) ? 1 : 0
-  name  = "${var.network}-validator"
+resource "hcloud_firewall" "node_developer" {
+  count = (length(var.node_firewall_developer.inbound) > 0 || length(var.node_firewall_developer.outbound) > 0) ? 1 : 0
+  name  = "${var.network}-developer"
 
   labels = {
     "Terraform" = "True"
+  }
+  apply_to {
+    label_selector = "NodeType=sentry"
+  }
+  apply_to {
+    label_selector = "NodeType=seed"
   }
   apply_to {
     label_selector = "NodeType=validator"
   }
 
   dynamic "rule" {
-    for_each = var.validator_firewall.inbound
+    for_each = var.node_firewall_developer.inbound
 
     content {
       direction   = "in"
@@ -151,7 +167,7 @@ resource "hcloud_firewall" "validator" {
   }
 
   dynamic "rule" {
-    for_each = var.validator_firewall.outbound
+    for_each = var.node_firewall_developer.outbound
 
     content {
       direction       = "out"

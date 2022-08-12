@@ -8,9 +8,9 @@ output "seed_volumes" {
   description = "Set of volumes used by seed nodes"
 }
 
-output "seeds_firewall" {
-  value       = hcloud_firewall.seed
-  description = "This firewall is used to restrict inbound/outbound traffic for seed nodes"
+output "node_firewall_public" {
+  value       = hcloud_firewall.node_public
+  description = "This firewall is used to restrict inbound/outbound public traffic for nodes"
 }
 
 output "sentry_servers" {
@@ -23,9 +23,9 @@ output "sentry_volumes" {
   description = "Set of volumes used by sentry nodes"
 }
 
-output "sentries_firewall" {
-  value       = hcloud_firewall.sentry
-  description = "This firewall is used to restrict inbound/outbound traffic for sentry nodes"
+output "node_firewall_restricted" {
+  value       = hcloud_firewall.node_restricted
+  description = "This firewall is used to restrict inbound/outbound restricted traffic for nodes"
 }
 
 output "vpc" {
@@ -53,20 +53,20 @@ output "validator_floating_ip" {
   description = "Set of Hetzner Floating IPs used by validator nodes"
 }
 
-output "seed_primary_ip" {
-  value       = hcloud_primary_ip.seed
-  description = "Set of Hetzner Primary IPs used by seed nodes"
-}
-
-output "sentry_primary_ip" {
-  value       = hcloud_primary_ip.sentry
-  description = "Set of Hetzner Primary IPs used by sentry nodes"
-}
-
-output "validator_primary_ip" {
-  value       = hcloud_primary_ip.validator
-  description = "Set of Hetzner Primary IPs used by validator nodes"
-}
+#output "seed_primary_ip" {
+#  value       = hcloud_primary_ip.seed
+#  description = "Set of Hetzner Primary IPs used by seed nodes"
+#}
+#
+#output "sentry_primary_ip" {
+#  value       = hcloud_primary_ip.sentry
+#  description = "Set of Hetzner Primary IPs used by sentry nodes"
+#}
+#
+#output "validator_primary_ip" {
+#  value       = hcloud_primary_ip.validator
+#  description = "Set of Hetzner Primary IPs used by validator nodes"
+#}
 
 output "server_ips" {
   value = { for k, v in local.server_ips : k => {

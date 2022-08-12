@@ -8,9 +8,9 @@ output "seed_volumes" {
   description = "Set of volumes used by seed nodes"
 }
 
-output "seed_firewall" {
-  value       = digitalocean_firewall.seed
-  description = "This firewall (managed by Cloud Provider) is used to restrict inbound/outbound traffic for seed nodes"
+output "node_developer" {
+  value       = digitalocean_firewall.node-developer
+  description = "This firewall (managed by Cloud Provider) is used to restrict inbound/outbound developer(testing)traffic"
 }
 
 output "sentry_droplets" {
@@ -23,9 +23,9 @@ output "sentry_volumes" {
   description = "Set of volumes used by sentry nodes"
 }
 
-output "sentry_firewall" {
-  value       = digitalocean_firewall.sentry
-  description = "This firewall (managed by Cloud Provider) is used to restrict inbound/outbound traffic for sentry nodes"
+output "node_public" {
+  value       = digitalocean_firewall.node-public
+  description = "This firewall (managed by Cloud Provider) is used to restrict inbound/outbound public traffic"
 }
 
 output "vpc" {
@@ -33,9 +33,9 @@ output "vpc" {
   description = "Private Network for the entire fleet of services running on Digital Ocean"
 }
 
-output "validator_firewall" {
-  value       = digitalocean_firewall.validator
-  description = "This firewall is used to restrict inbound/outbound traffic for validator nodes"
+output "node_restricted" {
+  value       = digitalocean_firewall.node-restricted
+  description = "This firewall is used to restrict inbound/outbound restricted(internal) traffic"
 }
 
 output "validator_droplets" {
