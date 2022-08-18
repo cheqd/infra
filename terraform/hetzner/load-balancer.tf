@@ -47,8 +47,9 @@ resource "hcloud_load_balancer_service" "rpc_lb" {
     timeout  = 5
     retries  = 3
     http {
-      path         = "/health"
-      status_codes = ["2??"]
+      path         = "/status"
+      status_codes = ["200"]
+      response     = "\"catching_up\": false"
     }
   }
 }
