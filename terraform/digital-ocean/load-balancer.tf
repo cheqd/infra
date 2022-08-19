@@ -38,7 +38,7 @@ resource "digitalocean_loadbalancer" "rpc_lb" {
   healthcheck {
     protocol = var.do_rpc_health_check_protocol
     port     = var.do_rpc_health_check_port
-    path     = "/health"
+    path     = "/status"
   }
 
   droplet_tag = "${var.network}-loadbalancer-rpc"
@@ -86,7 +86,7 @@ resource "digitalocean_loadbalancer" "rest_lb" {
   healthcheck {
     protocol = var.do_rest_health_check_protocol
     port     = var.do_rest_health_check_port
-    path     = "/node_info"
+    path     = "/syncing"
   }
 
   droplet_tag = "${var.network}-loadbalancer-rest"
