@@ -49,7 +49,7 @@ No modules.
 | <a name="input_default_tags"></a> [default\_tags](#input\_default\_tags) | Tags to be applied to all available resources. | `list(string)` | n/a | yes |
 | <a name="input_do_image_name"></a> [do\_image\_name](#input\_do\_image\_name) | Desired OS to be installed on servers. | `string` | `"ubuntu-20-04-x64"` | no |
 | <a name="input_do_network_ip_range"></a> [do\_network\_ip\_range](#input\_do\_network\_ip\_range) | DigitalOcean VPC/Network IP range in CIDR notation. | `string` | n/a | yes |
-| <a name="input_do_region"></a> [do\_region](#input\_do\_region) | DigitalOcean Region. https://docs.digitalocean.com/products/platform/availability-matrix/ | `string` | n/a | yes |
+| <a name="input_do_region"></a> [do\_region](#input\_do\_region) | DigitalOcean Region | `string` | n/a | yes |
 | <a name="input_do_rest_health_check_port"></a> [do\_rest\_health\_check\_port](#input\_do\_rest\_health\_check\_port) | Target port that the Rest Load Balancer will perform health checks. | `number` | `80` | no |
 | <a name="input_do_rest_health_check_protocol"></a> [do\_rest\_health\_check\_protocol](#input\_do\_rest\_health\_check\_protocol) | Protocol that the Rest Load Balancer will use for health checks. | `string` | `"http"` | no |
 | <a name="input_do_rest_lb_algorithm"></a> [do\_rest\_lb\_algorithm](#input\_do\_rest\_lb\_algorithm) | Rest Load Balancer algorithm to be used. | `string` | `"least_connections"` | no |
