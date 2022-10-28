@@ -29,7 +29,7 @@ inputs = {
 # ---------------------------------------------------------------------------------------------------------------------
 # Common Remote state for all configurations.
 # ---------------------------------------------------------------------------------------------------------------------
-# The Remote state uses a common Digital Ocean Spaces bucket. What differs between networks/environments is key for
+# The Remote state uses a common DigitalOcean Spaces bucket. What differs between networks/environments is key for
 # those buckets. Value of the key is determined by the network variable, taken from network/environment-specific
 # network.hcl file.
 remote_state {

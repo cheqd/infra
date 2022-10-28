@@ -1,7 +1,7 @@
 # ----------------------------------------------------------------------------------------------------------------------
 # TERRAGRUNT CONFIGURATION
 # ----------------------------------------------------------------------------------------------------------------------
-# This is a Digital Ocean specific configuration that provisions components for a desired network (e.g. testnet).
+# This is a DigitalOcean specific configuration that provisions components for a desired network (e.g. testnet).
 # Terraform code used by the Terragrunt configuration described here is located at the following path:
 # github.com/cheqd/cheqd-infra/terraform/digital-ocean/
 
@@ -35,15 +35,15 @@ include "root" {
 # ---------------------------------------------------------------------------------------------------------------------
 # Inputs which will be fed to the Terraform configuration selected above
 inputs = {
-  # Digital Ocean authorisation token. Passed as an environment variable.
+  # DigitalOcean authorisation token. Passed as an environment variable.
   do_token = get_env("DO_TOKEN")
-  # Digital Ocean default tags which will be applied to resources which accept them.
+  # DigitalOcean default tags which will be applied to resources which accept them.
   default_tags = ["Terraform", "Mainnet"]
 
-  # Digital Ocean Region in which the resources will be provisioned.
+  # DigitalOcean Region in which the resources will be provisioned.
   do_region = "ams3"
-  # Digital Ocean Network/VPC network range in which the resources will be created.
-  # Note: Digital Ocean considers internal traffic to be secure, and does not allow restricting it.
+  # DigitalOcean Network/VPC network range in which the resources will be created.
+  # Note: DigitalOcean considers internal traffic to be secure, and does not allow restricting it.
   do_network_ip_range = "10.100.0.0/16"
 
   # Droplet configuration for SEED nodes.
