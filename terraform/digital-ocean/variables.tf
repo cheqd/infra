@@ -2,7 +2,7 @@
 # Authentication
 # ----------------------------------------------------------------------------------------------------------------------
 variable "do_token" {
-  description = "Authentication token for DigitalOcean."
+  description = "Authentication token for DigitalOcean"
   type        = string
   sensitive   = true
 }
@@ -16,7 +16,7 @@ variable "network" {
 }
 
 variable "do_network_ip_range" {
-  description = "DigitalOcean VPC/Network IP range in CIDR notation."
+  description = "DigitalOcean VPC/Network IP range in CIDR notation"
   type        = string
 }
 
@@ -24,7 +24,7 @@ variable "do_network_ip_range" {
 # Geolocation
 # ----------------------------------------------------------------------------------------------------------------------
 variable "do_region" {
-  description = "DigitalOcean Region."
+  description = "DigitalOcean Region"
   type        = string
 }
 
@@ -32,7 +32,7 @@ variable "do_region" {
 # Node Firewall
 # ----------------------------------------------------------------------------------------------------------------------
 variable "node_firewall_public" {
-  description = "Common firewall rules for public traffic."
+  description = "Common firewall rules for public traffic"
   type        = map(map(map(string)))
   default = {
     inbound  = {}
@@ -41,7 +41,7 @@ variable "node_firewall_public" {
 }
 
 variable "node_firewall_restricted" {
-  description = "Common firewall rules for restricted traffic."
+  description = "Common firewall rules for restricted traffic"
   type        = map(map(map(string)))
   default = {
     inbound  = {}
@@ -50,7 +50,7 @@ variable "node_firewall_restricted" {
 }
 
 variable "node_firewall_developer" {
-  description = "Developer firewall rules for debugging purposes."
+  description = "Developer firewall rules for debugging purposes"
   type        = map(map(map(string)))
   default = {
     inbound  = {}
@@ -62,12 +62,12 @@ variable "node_firewall_developer" {
 # Seed node
 # ----------------------------------------------------------------------------------------------------------------------
 variable "seed_droplet_config" {
-  description = "Custom configuration for seed servers."
+  description = "Custom configuration for seed servers"
   type        = map(map(string))
 }
 
 variable "seed_user_data" {
-  description = "User data to be applied on server boot for seed servers."
+  description = "User data to be applied on server boot for seed servers"
   type        = map(string)
   default     = {}
 }
@@ -76,12 +76,12 @@ variable "seed_user_data" {
 # Sentry node
 # ----------------------------------------------------------------------------------------------------------------------
 variable "sentry_droplet_config" {
-  description = "Custom configuration for sentry servers."
+  description = "Custom configuration for sentry servers"
   type        = map(map(string))
 }
 
 variable "sentry_user_data" {
-  description = "User data to be applied on server boot for sentry servers."
+  description = "User data to be applied on server boot for sentry servers"
   type        = map(string)
   default     = {}
 }
@@ -90,12 +90,12 @@ variable "sentry_user_data" {
 # Validator node
 # ----------------------------------------------------------------------------------------------------------------------
 variable "validator_droplet_config" {
-  description = "Custom configuration for validator servers."
+  description = "Custom configuration for validator servers"
   type        = map(map(string))
 }
 
 variable "validator_user_data" {
-  description = "User data to be applied on server boot for validator servers."
+  description = "User data to be applied on server boot for validator servers"
   type        = map(string)
   default     = {}
 }
@@ -104,29 +104,29 @@ variable "validator_user_data" {
 # Load Balancer - RPC
 # ----------------------------------------------------------------------------------------------------------------------
 variable "do_rpc_lb_config" {
-  description = "RPC Load Balancer configuration."
+  description = "RPC Load Balancer configuration"
   type        = map(map(string))
 }
 
 variable "do_rpc_lb_algorithm" {
-  description = "RPC Load Balancer algorithm to be used."
+  description = "RPC Load Balancer algorithm to be used"
   type        = string
   default     = "least_connections"
 }
 
 variable "do_rpc_lb_size" {
-  description = "RPC Load Balancer type/size."
+  description = "RPC Load Balancer type/size"
   type        = string
   default     = "lb-small"
 }
 
 variable "do_rpc_health_check_port" {
-  description = "Target port that the RPC Load Balancer will perform health checks."
+  description = "Target port that the RPC Load Balancer will perform health checks"
   type        = number
 }
 
 variable "do_rpc_health_check_protocol" {
-  description = "Protocol that the RPC Load Balancer will use for health checks."
+  description = "Protocol that the RPC Load Balancer will use for health checks"
   type        = string
 }
 
@@ -134,30 +134,30 @@ variable "do_rpc_health_check_protocol" {
 # Load Balancer - Rest
 # ----------------------------------------------------------------------------------------------------------------------
 variable "do_rest_lb_config" {
-  description = "Rest Load Balancer configuration."
+  description = "Rest Load Balancer configuration"
   type        = map(map(string))
 }
 
 variable "do_rest_lb_algorithm" {
-  description = "Rest Load Balancer algorithm to be used."
+  description = "Rest Load Balancer algorithm to be used"
   type        = string
   default     = "least_connections"
 }
 
 variable "do_rest_lb_size" {
-  description = "Rest Load Balancer type/size."
+  description = "Rest Load Balancer type/size"
   type        = string
   default     = "lb-small"
 }
 
 variable "do_rest_health_check_port" {
-  description = "Target port that the Rest Load Balancer will perform health checks."
+  description = "Target port that the Rest Load Balancer will perform health checks"
   type        = number
   default     = 80
 }
 
 variable "do_rest_health_check_protocol" {
-  description = "Protocol that the Rest Load Balancer will use for health checks."
+  description = "Protocol that the Rest Load Balancer will use for health checks"
   type        = string
   default     = "http"
 }
@@ -166,12 +166,12 @@ variable "do_rest_health_check_protocol" {
 # Miscellaneous
 # ----------------------------------------------------------------------------------------------------------------------
 variable "do_image_name" {
-  description = "Desired OS to be installed on servers."
+  description = "Desired OS to be installed on servers"
   type        = string
   default     = "ubuntu-20-04-x64"
 }
 
 variable "default_tags" {
-  description = "Tags to be applied to all available resources."
+  description = "Tags to be applied to all available resources"
   type        = list(string)
 }

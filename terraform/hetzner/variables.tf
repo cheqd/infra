@@ -2,7 +2,7 @@
 # Authentication
 # ----------------------------------------------------------------------------------------------------------------------
 variable "hcloud_token" {
-  description = "Authentication token for Hetzner."
+  description = "Authentication token for Hetzner"
   type        = string
   sensitive   = true
 }
@@ -11,12 +11,12 @@ variable "hcloud_token" {
 # Network
 # ----------------------------------------------------------------------------------------------------------------------
 variable "network" {
-  description = "Hetzner VPC/Network name."
+  description = "Hetzner VPC/Network name"
   type        = string
 }
 
 variable "hetzner_network_ip_range" {
-  description = "Hezner VPC/Network IP range in CIDR notation."
+  description = "Hezner VPC/Network IP range in CIDR notation"
   type        = string
 }
 
@@ -24,7 +24,7 @@ variable "hetzner_network_ip_range" {
 # Node Firewall
 # ----------------------------------------------------------------------------------------------------------------------
 variable "node_firewall_public" {
-  description = "Common firewall rules for public traffic."
+  description = "Common firewall rules for public traffic"
   type        = map(map(map(string)))
   default = {
     inbound  = {}
@@ -33,7 +33,7 @@ variable "node_firewall_public" {
 }
 
 variable "node_firewall_restricted" {
-  description = "Common firewall rules for restricted traffic."
+  description = "Common firewall rules for restricted traffic"
   type        = map(map(map(string)))
   default = {
     inbound  = {}
@@ -42,7 +42,7 @@ variable "node_firewall_restricted" {
 }
 
 variable "node_firewall_developer" {
-  description = "Developer firewall rules for debugging purposes."
+  description = "Developer firewall rules for debugging purposes"
   type        = map(map(map(string)))
   default = {
     inbound  = {}
@@ -54,12 +54,12 @@ variable "node_firewall_developer" {
 # Geolocation
 # ----------------------------------------------------------------------------------------------------------------------
 variable "hetzner_region" {
-  description = "Hetzner dedicated region for resources to be provisioned in."
+  description = "Hetzner dedicated region for resources to be provisioned in"
   type        = string
 }
 
 variable "hetzner_zone" {
-  description = "Hetzner zone for network subnets. Can be one of 'eu-central' or 'us-east'."
+  description = "Hetzner zone for network subnets. Can be one of 'eu-central' or 'us-east'"
   type        = string
   default     = "eu-central"
 }
@@ -68,12 +68,12 @@ variable "hetzner_zone" {
 # Seed node
 # ----------------------------------------------------------------------------------------------------------------------
 variable "seed_server_config" {
-  description = "Custom configuration for seed servers."
+  description = "Custom configuration for seed servers"
   type        = map(map(string))
 }
 
 variable "seed_user_data" {
-  description = "User data to be applied on server boot for seed servers."
+  description = "User data to be applied on server boot for seed servers"
   type        = map(string)
   default     = {}
 }
@@ -82,12 +82,12 @@ variable "seed_user_data" {
 # Sentry node
 # ----------------------------------------------------------------------------------------------------------------------
 variable "sentry_server_config" {
-  description = "Custom configuration for seed servers."
+  description = "Custom configuration for seed servers"
   type        = map(map(string))
 }
 
 variable "sentry_user_data" {
-  description = "User data to be applied on server boot for sentry servers."
+  description = "User data to be applied on server boot for sentry servers"
   type        = map(string)
   default     = {}
 }
@@ -96,12 +96,12 @@ variable "sentry_user_data" {
 # Validator node
 # ----------------------------------------------------------------------------------------------------------------------
 variable "validator_server_config" {
-  description = "Custom configuration for validator servers."
+  description = "Custom configuration for validator servers"
   type        = map(map(string))
 }
 
 variable "validator_user_data" {
-  description = "User data to be applied on server boot for validator servers."
+  description = "User data to be applied on server boot for validator servers"
   type        = map(string)
   default     = {}
 }
@@ -119,7 +119,7 @@ variable "hetzner_lb_type" {
 # Miscellaneous
 # ----------------------------------------------------------------------------------------------------------------------
 variable "hetzner_image_name" {
-  description = "Desired OS to be installed on servers."
+  description = "Desired OS to be installed on servers"
   type        = string
   default     = "ubuntu-20.04"
 }

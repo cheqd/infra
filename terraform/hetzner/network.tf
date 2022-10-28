@@ -76,7 +76,7 @@ resource "hcloud_firewall" "node_public" {
       protocol    = lookup(rule.value, "protocol", "tcp")
       source_ips  = split(",", rule.value.source_addresses)
       port        = rule.value["port_range"]
-      description = lookup(rule.value, "description", "Inbound rules created by Terraform.")
+      description = lookup(rule.value, "description", "Inbound rules created by Terraform")
     }
   }
 
@@ -88,7 +88,7 @@ resource "hcloud_firewall" "node_public" {
       protocol        = lookup(rule.value, "protocol", "tcp")
       destination_ips = split(",", rule.value.destination_addresses)
       port            = rule.value["port_range"]
-      description     = lookup(rule.value, "description", "Outbound rules created by Terraform.")
+      description     = lookup(rule.value, "description", "Outbound rules created by Terraform")
     }
 
   }
@@ -119,7 +119,7 @@ resource "hcloud_firewall" "node_restricted" {
       protocol    = lookup(rule.value, "protocol", "tcp")
       source_ips  = split(",", rule.value.source_addresses)
       port        = rule.value["port_range"]
-      description = lookup(rule.value, "description", "Inbound rules created by Terraform.")
+      description = lookup(rule.value, "description", "Inbound rules created by Terraform")
     }
   }
 
@@ -131,7 +131,7 @@ resource "hcloud_firewall" "node_restricted" {
       protocol        = lookup(rule.value, "protocol", "tcp")
       destination_ips = split(",", rule.value.destination_addresses)
       port            = rule.value["port_range"]
-      description     = lookup(rule.value, "description", "Outbound rules created by Terraform.")
+      description     = lookup(rule.value, "description", "Outbound rules created by Terraform")
     }
 
   }
@@ -162,7 +162,7 @@ resource "hcloud_firewall" "node_developer" {
       protocol    = lookup(rule.value, "protocol", "tcp")
       source_ips  = split(",", rule.value.source_addresses)
       port        = rule.value["port_range"]
-      description = lookup(rule.value, "description", "Inbound rules created by Terraform.")
+      description = lookup(rule.value, "description", "Inbound rules created by Terraform")
     }
   }
 
@@ -174,7 +174,7 @@ resource "hcloud_firewall" "node_developer" {
       protocol        = lookup(rule.value, "protocol", "tcp")
       destination_ips = split(",", rule.value.destination_addresses)
       port            = rule.value["port_range"]
-      description     = lookup(rule.value, "description", "Outbound rules created by Terraform.")
+      description     = lookup(rule.value, "description", "Outbound rules created by Terraform")
     }
   }
 }
