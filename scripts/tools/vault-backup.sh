@@ -67,9 +67,9 @@ if "$backup"; then
     echo "Backing up secrets to Vault server. You have 10 second to cancel this (use CTRL+c)"
     sleep 10
     vault kv put cheqd/"$MONIKER"-node-key passcode=@"$CHEQD_HOME"/.cheqdnode/config/node_key.json
-    vault kv put cheqd/"$MONIKER"-priv-validator-key passcode=@$CHEQD_HOME/.cheqdnode/config/priv_validator_key.json
-	vault kv put cheqd/"$MONIKER"-priv-validator-state passcode=@$CHEQD_HOME/.cheqdnode/data/priv_validator_state.json
-	vault kv put cheqd/"$MONIKER"-upgrade-info passcode=@$CHEQD_HOME/.cheqdnode/data/upgrade-info.json
+    vault kv put cheqd/"$MONIKER"-priv-validator-key passcode=@"$CHEQD_HOME"/.cheqdnode/config/priv_validator_key.json
+	vault kv put cheqd/"$MONIKER"-priv-validator-state passcode=@"$CHEQD_HOME"/.cheqdnode/data/priv_validator_state.json
+	vault kv put cheqd/"$MONIKER"-upgrade-info passcode=@"$CHEQD_HOME"/.cheqdnode/data/upgrade-info.json
 	echo "Done"
 	exit 0
 fi
