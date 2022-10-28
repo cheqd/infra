@@ -14,7 +14,7 @@ Currently we support [DigitalOcean](https://www.digitalocean.com/) and [Hetzner]
 
 ### Node configuration
 
-For configuring our nodes, we use Ansible, an open source and free configuration management tool. We use Ansible for running our [seed](https://docs.tendermint.com/master/spec/p2p/node.html#seeds), [sentry](https://docs.tendermint.com/master/spec/p2p/node.html#sentry-node), and [validator nodes](https://docs.tendermint.com/v0.35/nodes/validators.html). We also use it for installing any debugging packages, setting up logs and metrics collection using [Datadog](https://www.datadoghq.com/).
+For configuring our nodes, we use Ansible, an open source and free configuration management tool. We use Ansible for running our [seed](https://docs.tendermint.com/master/spec/p2p/node.html#seeds), [sentry](https://docs.tendermint.com/master/spec/p2p/node.html#sentry-node), and [validator nodes](https://docs.tendermint.com/v0.34/tendermint-core/validators.html). We also use it for installing any debugging packages, setting up logs and metrics collection using [Datadog](https://www.datadoghq.com/).
 
 ## Pre-Requisites
 
