@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -oex
+set -euo pipefail
 # VAULT_ADDR
 # VAULT_NAMESPACE
 # VAULT_TOKEN
