@@ -64,22 +64,22 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_hcloud_token"></a> [hcloud\_token](#input\_hcloud\_token) | Authentication token for Hetzner. | `string` | n/a | yes |
-| <a name="input_hetzner_image_name"></a> [hetzner\_image\_name](#input\_hetzner\_image\_name) | Desired OS to be installed on servers. | `string` | `"ubuntu-20.04"` | no |
+| <a name="input_hcloud_token"></a> [hcloud\_token](#input\_hcloud\_token) | Authentication token for Hetzner | `string` | n/a | yes |
+| <a name="input_hetzner_image_name"></a> [hetzner\_image\_name](#input\_hetzner\_image\_name) | Desired OS to be installed on servers | `string` | `"ubuntu-20.04"` | no |
 | <a name="input_hetzner_lb_type"></a> [hetzner\_lb\_type](#input\_hetzner\_lb\_type) | Type of the Hetzner's Load Balancer/ | `string` | `"lb11"` | no |
-| <a name="input_hetzner_network_ip_range"></a> [hetzner\_network\_ip\_range](#input\_hetzner\_network\_ip\_range) | Hezner VPC/Network IP range in CIDR notation. | `string` | n/a | yes |
-| <a name="input_hetzner_region"></a> [hetzner\_region](#input\_hetzner\_region) | Hetzner dedicated region for resources to be provisioned in. | `string` | n/a | yes |
-| <a name="input_hetzner_zone"></a> [hetzner\_zone](#input\_hetzner\_zone) | Hetzner zone for network subnets. Can be one of 'eu-central' or 'us-east'. | `string` | `"eu-central"` | no |
-| <a name="input_network"></a> [network](#input\_network) | Hetzner VPC/Network name. | `string` | n/a | yes |
-| <a name="input_node_firewall_developer"></a> [node\_firewall\_developer](#input\_node\_firewall\_developer) | Developer firewall rules for debugging purposes. | `map(map(map(string)))` | <pre>{<br>  "inbound": {},<br>  "outbound": {}<br>}</pre> | no |
-| <a name="input_node_firewall_public"></a> [node\_firewall\_public](#input\_node\_firewall\_public) | Common firewall rules for public traffic. | `map(map(map(string)))` | <pre>{<br>  "inbound": {},<br>  "outbound": {}<br>}</pre> | no |
-| <a name="input_node_firewall_restricted"></a> [node\_firewall\_restricted](#input\_node\_firewall\_restricted) | Common firewall rules for restricted traffic. | `map(map(map(string)))` | <pre>{<br>  "inbound": {},<br>  "outbound": {}<br>}</pre> | no |
-| <a name="input_seed_server_config"></a> [seed\_server\_config](#input\_seed\_server\_config) | Custom configuration for seed servers. | `map(map(string))` | n/a | yes |
-| <a name="input_seed_user_data"></a> [seed\_user\_data](#input\_seed\_user\_data) | User data to be applied on server boot for seed servers. | `map(string)` | `{}` | no |
-| <a name="input_sentry_server_config"></a> [sentry\_server\_config](#input\_sentry\_server\_config) | Custom configuration for seed servers. | `map(map(string))` | n/a | yes |
-| <a name="input_sentry_user_data"></a> [sentry\_user\_data](#input\_sentry\_user\_data) | User data to be applied on server boot for sentry servers. | `map(string)` | `{}` | no |
-| <a name="input_validator_server_config"></a> [validator\_server\_config](#input\_validator\_server\_config) | Custom configuration for validator servers. | `map(map(string))` | n/a | yes |
-| <a name="input_validator_user_data"></a> [validator\_user\_data](#input\_validator\_user\_data) | User data to be applied on server boot for validator servers. | `map(string)` | `{}` | no |
+| <a name="input_hetzner_network_ip_range"></a> [hetzner\_network\_ip\_range](#input\_hetzner\_network\_ip\_range) | Hezner VPC/Network IP range in CIDR notation | `string` | n/a | yes |
+| <a name="input_hetzner_region"></a> [hetzner\_region](#input\_hetzner\_region) | Hetzner dedicated region for resources to be provisioned in | `string` | n/a | yes |
+| <a name="input_hetzner_zone"></a> [hetzner\_zone](#input\_hetzner\_zone) | Hetzner zone for network subnets. Can be one of 'eu-central' or 'us-east' | `string` | `"eu-central"` | no |
+| <a name="input_network"></a> [network](#input\_network) | Hetzner VPC/Network name | `string` | n/a | yes |
+| <a name="input_node_firewall_developer"></a> [node\_firewall\_developer](#input\_node\_firewall\_developer) | Developer firewall rules for debugging purposes | `map(map(map(string)))` | <pre>{<br>  "inbound": {},<br>  "outbound": {}<br>}</pre> | no |
+| <a name="input_node_firewall_public"></a> [node\_firewall\_public](#input\_node\_firewall\_public) | Common firewall rules for public traffic | `map(map(map(string)))` | <pre>{<br>  "inbound": {},<br>  "outbound": {}<br>}</pre> | no |
+| <a name="input_node_firewall_restricted"></a> [node\_firewall\_restricted](#input\_node\_firewall\_restricted) | Common firewall rules for restricted traffic | `map(map(map(string)))` | <pre>{<br>  "inbound": {},<br>  "outbound": {}<br>}</pre> | no |
+| <a name="input_seed_server_config"></a> [seed\_server\_config](#input\_seed\_server\_config) | Custom configuration for seed servers | `map(map(string))` | n/a | yes |
+| <a name="input_seed_user_data"></a> [seed\_user\_data](#input\_seed\_user\_data) | User data to be applied on server boot for seed servers | `map(string)` | `{}` | no |
+| <a name="input_sentry_server_config"></a> [sentry\_server\_config](#input\_sentry\_server\_config) | Custom configuration for seed servers | `map(map(string))` | n/a | yes |
+| <a name="input_sentry_user_data"></a> [sentry\_user\_data](#input\_sentry\_user\_data) | User data to be applied on server boot for sentry servers | `map(string)` | `{}` | no |
+| <a name="input_validator_server_config"></a> [validator\_server\_config](#input\_validator\_server\_config) | Custom configuration for validator servers | `map(map(string))` | n/a | yes |
+| <a name="input_validator_user_data"></a> [validator\_user\_data](#input\_validator\_user\_data) | User data to be applied on server boot for validator servers | `map(string)` | `{}` | no |
 
 ## Outputs
 

@@ -46,31 +46,31 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_default_tags"></a> [default\_tags](#input\_default\_tags) | Tags to be applied to all available resources. | `list(string)` | n/a | yes |
-| <a name="input_do_image_name"></a> [do\_image\_name](#input\_do\_image\_name) | Desired OS to be installed on servers. | `string` | `"ubuntu-20-04-x64"` | no |
-| <a name="input_do_network_ip_range"></a> [do\_network\_ip\_range](#input\_do\_network\_ip\_range) | DigitalOcean VPC/Network IP range in CIDR notation. | `string` | n/a | yes |
+| <a name="input_default_tags"></a> [default\_tags](#input\_default\_tags) | Tags to be applied to all available resources | `list(string)` | n/a | yes |
+| <a name="input_do_image_name"></a> [do\_image\_name](#input\_do\_image\_name) | Desired OS to be installed on servers | `string` | `"ubuntu-20-04-x64"` | no |
+| <a name="input_do_network_ip_range"></a> [do\_network\_ip\_range](#input\_do\_network\_ip\_range) | DigitalOcean VPC/Network IP range in CIDR notation | `string` | n/a | yes |
 | <a name="input_do_region"></a> [do\_region](#input\_do\_region) | DigitalOcean Region | `string` | n/a | yes |
-| <a name="input_do_rest_health_check_port"></a> [do\_rest\_health\_check\_port](#input\_do\_rest\_health\_check\_port) | Target port that the Rest Load Balancer will perform health checks. | `number` | `80` | no |
-| <a name="input_do_rest_health_check_protocol"></a> [do\_rest\_health\_check\_protocol](#input\_do\_rest\_health\_check\_protocol) | Protocol that the Rest Load Balancer will use for health checks. | `string` | `"http"` | no |
-| <a name="input_do_rest_lb_algorithm"></a> [do\_rest\_lb\_algorithm](#input\_do\_rest\_lb\_algorithm) | Rest Load Balancer algorithm to be used. | `string` | `"least_connections"` | no |
-| <a name="input_do_rest_lb_config"></a> [do\_rest\_lb\_config](#input\_do\_rest\_lb\_config) | Rest Load Balancer configuration. | `map(map(string))` | n/a | yes |
-| <a name="input_do_rest_lb_size"></a> [do\_rest\_lb\_size](#input\_do\_rest\_lb\_size) | Rest Load Balancer type/size. | `string` | `"lb-small"` | no |
-| <a name="input_do_rpc_health_check_port"></a> [do\_rpc\_health\_check\_port](#input\_do\_rpc\_health\_check\_port) | Target port that the RPC Load Balancer will perform health checks. | `number` | n/a | yes |
-| <a name="input_do_rpc_health_check_protocol"></a> [do\_rpc\_health\_check\_protocol](#input\_do\_rpc\_health\_check\_protocol) | Protocol that the RPC Load Balancer will use for health checks. | `string` | n/a | yes |
-| <a name="input_do_rpc_lb_algorithm"></a> [do\_rpc\_lb\_algorithm](#input\_do\_rpc\_lb\_algorithm) | RPC Load Balancer algorithm to be used. | `string` | `"least_connections"` | no |
-| <a name="input_do_rpc_lb_config"></a> [do\_rpc\_lb\_config](#input\_do\_rpc\_lb\_config) | RPC Load Balancer configuration. | `map(map(string))` | n/a | yes |
-| <a name="input_do_rpc_lb_size"></a> [do\_rpc\_lb\_size](#input\_do\_rpc\_lb\_size) | RPC Load Balancer type/size. | `string` | `"lb-small"` | no |
-| <a name="input_do_token"></a> [do\_token](#input\_do\_token) | Authentication token for DigitalOcean. | `string` | n/a | yes |
+| <a name="input_do_rest_health_check_port"></a> [do\_rest\_health\_check\_port](#input\_do\_rest\_health\_check\_port) | Target port that the Rest Load Balancer will perform health checks | `number` | `80` | no |
+| <a name="input_do_rest_health_check_protocol"></a> [do\_rest\_health\_check\_protocol](#input\_do\_rest\_health\_check\_protocol) | Protocol that the Rest Load Balancer will use for health checks | `string` | `"http"` | no |
+| <a name="input_do_rest_lb_algorithm"></a> [do\_rest\_lb\_algorithm](#input\_do\_rest\_lb\_algorithm) | Rest Load Balancer algorithm to be used | `string` | `"least_connections"` | no |
+| <a name="input_do_rest_lb_config"></a> [do\_rest\_lb\_config](#input\_do\_rest\_lb\_config) | Rest Load Balancer configuration | `map(map(string))` | n/a | yes |
+| <a name="input_do_rest_lb_size"></a> [do\_rest\_lb\_size](#input\_do\_rest\_lb\_size) | Rest Load Balancer type/size | `string` | `"lb-small"` | no |
+| <a name="input_do_rpc_health_check_port"></a> [do\_rpc\_health\_check\_port](#input\_do\_rpc\_health\_check\_port) | Target port that the RPC Load Balancer will perform health checks | `number` | n/a | yes |
+| <a name="input_do_rpc_health_check_protocol"></a> [do\_rpc\_health\_check\_protocol](#input\_do\_rpc\_health\_check\_protocol) | Protocol that the RPC Load Balancer will use for health checks | `string` | n/a | yes |
+| <a name="input_do_rpc_lb_algorithm"></a> [do\_rpc\_lb\_algorithm](#input\_do\_rpc\_lb\_algorithm) | RPC Load Balancer algorithm to be used | `string` | `"least_connections"` | no |
+| <a name="input_do_rpc_lb_config"></a> [do\_rpc\_lb\_config](#input\_do\_rpc\_lb\_config) | RPC Load Balancer configuration | `map(map(string))` | n/a | yes |
+| <a name="input_do_rpc_lb_size"></a> [do\_rpc\_lb\_size](#input\_do\_rpc\_lb\_size) | RPC Load Balancer type/size | `string` | `"lb-small"` | no |
+| <a name="input_do_token"></a> [do\_token](#input\_do\_token) | Authentication token for DigitalOcean | `string` | n/a | yes |
 | <a name="input_network"></a> [network](#input\_network) | DigitalOcean VPC/Network name | `string` | n/a | yes |
-| <a name="input_node_firewall_developer"></a> [node\_firewall\_developer](#input\_node\_firewall\_developer) | Developer firewall rules for debugging purposes. | `map(map(map(string)))` | <pre>{<br>  "inbound": {},<br>  "outbound": {}<br>}</pre> | no |
-| <a name="input_node_firewall_public"></a> [node\_firewall\_public](#input\_node\_firewall\_public) | Common firewall rules for public traffic. | `map(map(map(string)))` | <pre>{<br>  "inbound": {},<br>  "outbound": {}<br>}</pre> | no |
-| <a name="input_node_firewall_restricted"></a> [node\_firewall\_restricted](#input\_node\_firewall\_restricted) | Common firewall rules for restricted traffic. | `map(map(map(string)))` | <pre>{<br>  "inbound": {},<br>  "outbound": {}<br>}</pre> | no |
-| <a name="input_seed_droplet_config"></a> [seed\_droplet\_config](#input\_seed\_droplet\_config) | Custom configuration for seed servers. | `map(map(string))` | n/a | yes |
-| <a name="input_seed_user_data"></a> [seed\_user\_data](#input\_seed\_user\_data) | User data to be applied on server boot for seed servers. | `map(string)` | `{}` | no |
-| <a name="input_sentry_droplet_config"></a> [sentry\_droplet\_config](#input\_sentry\_droplet\_config) | Custom configuration for sentry servers. | `map(map(string))` | n/a | yes |
-| <a name="input_sentry_user_data"></a> [sentry\_user\_data](#input\_sentry\_user\_data) | User data to be applied on server boot for sentry servers. | `map(string)` | `{}` | no |
-| <a name="input_validator_droplet_config"></a> [validator\_droplet\_config](#input\_validator\_droplet\_config) | Custom configuration for validator servers. | `map(map(string))` | n/a | yes |
-| <a name="input_validator_user_data"></a> [validator\_user\_data](#input\_validator\_user\_data) | User data to be applied on server boot for validator servers. | `map(string)` | `{}` | no |
+| <a name="input_node_firewall_developer"></a> [node\_firewall\_developer](#input\_node\_firewall\_developer) | Developer firewall rules for debugging purposes | `map(map(map(string)))` | <pre>{<br>  "inbound": {},<br>  "outbound": {}<br>}</pre> | no |
+| <a name="input_node_firewall_public"></a> [node\_firewall\_public](#input\_node\_firewall\_public) | Common firewall rules for public traffic | `map(map(map(string)))` | <pre>{<br>  "inbound": {},<br>  "outbound": {}<br>}</pre> | no |
+| <a name="input_node_firewall_restricted"></a> [node\_firewall\_restricted](#input\_node\_firewall\_restricted) | Common firewall rules for restricted traffic | `map(map(map(string)))` | <pre>{<br>  "inbound": {},<br>  "outbound": {}<br>}</pre> | no |
+| <a name="input_seed_droplet_config"></a> [seed\_droplet\_config](#input\_seed\_droplet\_config) | Custom configuration for seed servers | `map(map(string))` | n/a | yes |
+| <a name="input_seed_user_data"></a> [seed\_user\_data](#input\_seed\_user\_data) | User data to be applied on server boot for seed servers | `map(string)` | `{}` | no |
+| <a name="input_sentry_droplet_config"></a> [sentry\_droplet\_config](#input\_sentry\_droplet\_config) | Custom configuration for sentry servers | `map(map(string))` | n/a | yes |
+| <a name="input_sentry_user_data"></a> [sentry\_user\_data](#input\_sentry\_user\_data) | User data to be applied on server boot for sentry servers | `map(string)` | `{}` | no |
+| <a name="input_validator_droplet_config"></a> [validator\_droplet\_config](#input\_validator\_droplet\_config) | Custom configuration for validator servers | `map(map(string))` | n/a | yes |
+| <a name="input_validator_user_data"></a> [validator\_user\_data](#input\_validator\_user\_data) | User data to be applied on server boot for validator servers | `map(string)` | `{}` | no |
 
 ## Outputs
 
