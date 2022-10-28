@@ -71,7 +71,7 @@ output "validator_floating_ip" {
 output "server_ips" {
   value = { for k, v in local.server_ips : k => {
     // This format is kept here to keep it consistent with other cloud providers.
-    // We export from digital ocean as ipv4_address, so we do the same here
+    // We export from DigitalOcean as ipv4_address, so we do the same here
     ipv4_address = v.ip_address
     }
   }

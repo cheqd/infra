@@ -2,7 +2,7 @@
 # Authentication
 # ----------------------------------------------------------------------------------------------------------------------
 variable "do_token" {
-  description = "Authentication token for Digital Ocean."
+  description = "Authentication token for DigitalOcean."
   type        = string
   sensitive   = true
 }
@@ -11,12 +11,12 @@ variable "do_token" {
 # Network
 # ----------------------------------------------------------------------------------------------------------------------
 variable "network" {
-  description = "Digital Ocean VPC/Network name"
+  description = "DigitalOcean VPC/Network name"
   type        = string
 }
 
 variable "do_network_ip_range" {
-  description = "Digital Ocean VPC/Network IP range in CIDR notation."
+  description = "DigitalOcean VPC/Network IP range in CIDR notation."
   type        = string
 }
 
@@ -24,7 +24,7 @@ variable "do_network_ip_range" {
 # Geolocation
 # ----------------------------------------------------------------------------------------------------------------------
 variable "do_region" {
-  description = "Ditigal Ocean Region. https://docs.digitalocean.com/products/platform/availability-matrix/"
+  description = "DigitalOcean Region."
   type        = string
 }
 

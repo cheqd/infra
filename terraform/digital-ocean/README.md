@@ -48,8 +48,8 @@ No modules.
 |------|-------------|------|---------|:--------:|
 | <a name="input_default_tags"></a> [default\_tags](#input\_default\_tags) | Tags to be applied to all available resources. | `list(string)` | n/a | yes |
 | <a name="input_do_image_name"></a> [do\_image\_name](#input\_do\_image\_name) | Desired OS to be installed on servers. | `string` | `"ubuntu-20-04-x64"` | no |
-| <a name="input_do_network_ip_range"></a> [do\_network\_ip\_range](#input\_do\_network\_ip\_range) | Digital Ocean VPC/Network IP range in CIDR notation. | `string` | n/a | yes |
-| <a name="input_do_region"></a> [do\_region](#input\_do\_region) | Ditigal Ocean Region. https://docs.digitalocean.com/products/platform/availability-matrix/ | `string` | n/a | yes |
+| <a name="input_do_network_ip_range"></a> [do\_network\_ip\_range](#input\_do\_network\_ip\_range) | DigitalOcean VPC/Network IP range in CIDR notation. | `string` | n/a | yes |
+| <a name="input_do_region"></a> [do\_region](#input\_do\_region) | DigitalOcean Region. https://docs.digitalocean.com/products/platform/availability-matrix/ | `string` | n/a | yes |
 | <a name="input_do_rest_health_check_port"></a> [do\_rest\_health\_check\_port](#input\_do\_rest\_health\_check\_port) | Target port that the Rest Load Balancer will perform health checks. | `number` | `80` | no |
 | <a name="input_do_rest_health_check_protocol"></a> [do\_rest\_health\_check\_protocol](#input\_do\_rest\_health\_check\_protocol) | Protocol that the Rest Load Balancer will use for health checks. | `string` | `"http"` | no |
 | <a name="input_do_rest_lb_algorithm"></a> [do\_rest\_lb\_algorithm](#input\_do\_rest\_lb\_algorithm) | Rest Load Balancer algorithm to be used. | `string` | `"least_connections"` | no |
@@ -60,8 +60,8 @@ No modules.
 | <a name="input_do_rpc_lb_algorithm"></a> [do\_rpc\_lb\_algorithm](#input\_do\_rpc\_lb\_algorithm) | RPC Load Balancer algorithm to be used. | `string` | `"least_connections"` | no |
 | <a name="input_do_rpc_lb_config"></a> [do\_rpc\_lb\_config](#input\_do\_rpc\_lb\_config) | RPC Load Balancer configuration. | `map(map(string))` | n/a | yes |
 | <a name="input_do_rpc_lb_size"></a> [do\_rpc\_lb\_size](#input\_do\_rpc\_lb\_size) | RPC Load Balancer type/size. | `string` | `"lb-small"` | no |
-| <a name="input_do_token"></a> [do\_token](#input\_do\_token) | Authentication token for Digital Ocean. | `string` | n/a | yes |
-| <a name="input_network"></a> [network](#input\_network) | Digital Ocean VPC/Network name | `string` | n/a | yes |
+| <a name="input_do_token"></a> [do\_token](#input\_do\_token) | Authentication token for DigitalOcean. | `string` | n/a | yes |
+| <a name="input_network"></a> [network](#input\_network) | DigitalOcean VPC/Network name | `string` | n/a | yes |
 | <a name="input_node_firewall_developer"></a> [node\_firewall\_developer](#input\_node\_firewall\_developer) | Developer firewall rules for debugging purposes. | `map(map(map(string)))` | <pre>{<br>  "inbound": {},<br>  "outbound": {}<br>}</pre> | no |
 | <a name="input_node_firewall_public"></a> [node\_firewall\_public](#input\_node\_firewall\_public) | Common firewall rules for public traffic. | `map(map(map(string)))` | <pre>{<br>  "inbound": {},<br>  "outbound": {}<br>}</pre> | no |
 | <a name="input_node_firewall_restricted"></a> [node\_firewall\_restricted](#input\_node\_firewall\_restricted) | Common firewall rules for restricted traffic. | `map(map(map(string)))` | <pre>{<br>  "inbound": {},<br>  "outbound": {}<br>}</pre> | no |
@@ -79,14 +79,14 @@ No modules.
 | <a name="output_node_developer"></a> [node\_developer](#output\_node\_developer) | This firewall (managed by Cloud Provider) is used to restrict inbound/outbound developer(testing)traffic |
 | <a name="output_node_public"></a> [node\_public](#output\_node\_public) | This firewall (managed by Cloud Provider) is used to restrict inbound/outbound public traffic |
 | <a name="output_node_restricted"></a> [node\_restricted](#output\_node\_restricted) | This firewall is used to restrict inbound/outbound restricted(internal) traffic |
-| <a name="output_seed_droplets"></a> [seed\_droplets](#output\_seed\_droplets) | Set of seed nodes running on Digital Ocean |
-| <a name="output_seed_floating_ip"></a> [seed\_floating\_ip](#output\_seed\_floating\_ip) | Set of Digital Ocean Floating IPs used by seed nodes |
+| <a name="output_seed_droplets"></a> [seed\_droplets](#output\_seed\_droplets) | Set of seed nodes running on DigitalOcean |
+| <a name="output_seed_floating_ip"></a> [seed\_floating\_ip](#output\_seed\_floating\_ip) | Set of DigitalOcean Floating IPs used by seed nodes |
 | <a name="output_seed_volumes"></a> [seed\_volumes](#output\_seed\_volumes) | Set of volumes used by seed nodes |
-| <a name="output_sentry_droplets"></a> [sentry\_droplets](#output\_sentry\_droplets) | Set of sentry nodes running on Digital Ocean |
-| <a name="output_sentry_floating_ip"></a> [sentry\_floating\_ip](#output\_sentry\_floating\_ip) | Set of Digital Ocean Floating IPs used by sentry nodes |
+| <a name="output_sentry_droplets"></a> [sentry\_droplets](#output\_sentry\_droplets) | Set of sentry nodes running on DigitalOcean |
+| <a name="output_sentry_floating_ip"></a> [sentry\_floating\_ip](#output\_sentry\_floating\_ip) | Set of DigitalOcean Floating IPs used by sentry nodes |
 | <a name="output_sentry_volumes"></a> [sentry\_volumes](#output\_sentry\_volumes) | Set of volumes used by sentry nodes |
 | <a name="output_server_ips"></a> [server\_ips](#output\_server\_ips) | This is a Set of all server IPs (Seeds, Sentries, and Validators) with key as node name (like seed1-ap-mainnet) and their value the IPv4 Address of the node. This is useful for DNS mapping using a for\_each |
-| <a name="output_validator_droplets"></a> [validator\_droplets](#output\_validator\_droplets) | Set of Validator nodes running on Digital Ocean |
-| <a name="output_validator_floating_ip"></a> [validator\_floating\_ip](#output\_validator\_floating\_ip) | Set of Digital Ocean Floating IPs used by validator nodes |
-| <a name="output_vpc"></a> [vpc](#output\_vpc) | Private Network for the entire fleet of services running on Digital Ocean |
+| <a name="output_validator_droplets"></a> [validator\_droplets](#output\_validator\_droplets) | Set of Validator nodes running on DigitalOcean |
+| <a name="output_validator_floating_ip"></a> [validator\_floating\_ip](#output\_validator\_floating\_ip) | Set of DigitalOcean Floating IPs used by validator nodes |
+| <a name="output_vpc"></a> [vpc](#output\_vpc) | Private Network for the entire fleet of services running on DigitalOcean |
 <!-- END_TF_DOCS -->

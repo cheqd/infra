@@ -1,6 +1,6 @@
 output "seed_droplets" {
   value       = digitalocean_droplet.seed
-  description = "Set of seed nodes running on Digital Ocean"
+  description = "Set of seed nodes running on DigitalOcean"
 }
 
 output "seed_volumes" {
@@ -15,7 +15,7 @@ output "node_developer" {
 
 output "sentry_droplets" {
   value       = digitalocean_droplet.sentry
-  description = "Set of sentry nodes running on Digital Ocean"
+  description = "Set of sentry nodes running on DigitalOcean"
 }
 
 output "sentry_volumes" {
@@ -30,7 +30,7 @@ output "node_public" {
 
 output "vpc" {
   value       = digitalocean_vpc.cheqd_network
-  description = "Private Network for the entire fleet of services running on Digital Ocean"
+  description = "Private Network for the entire fleet of services running on DigitalOcean"
 }
 
 output "node_restricted" {
@@ -40,22 +40,22 @@ output "node_restricted" {
 
 output "validator_droplets" {
   value       = digitalocean_droplet.validator
-  description = "Set of Validator nodes running on Digital Ocean"
+  description = "Set of Validator nodes running on DigitalOcean"
 }
 
 output "seed_floating_ip" {
   value       = digitalocean_floating_ip.seed
-  description = "Set of Digital Ocean Floating IPs used by seed nodes"
+  description = "Set of DigitalOcean Floating IPs used by seed nodes"
 }
 
 output "sentry_floating_ip" {
   value       = digitalocean_floating_ip.sentry
-  description = "Set of Digital Ocean Floating IPs used by sentry nodes"
+  description = "Set of DigitalOcean Floating IPs used by sentry nodes"
 }
 
 output "validator_floating_ip" {
   value       = digitalocean_floating_ip.validator
-  description = "Set of Digital Ocean Floating IPs used by validator nodes"
+  description = "Set of DigitalOcean Floating IPs used by validator nodes"
 }
 
 output "server_ips" {
