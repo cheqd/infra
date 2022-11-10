@@ -38,7 +38,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: TFSec Analysis
-        uses: aquasecurity/tfsec-pr-commenter-action@v1.3.0
+        uses: aquasecurity/tfsec-pr-commenter-action@v1.3.1
         with:
           tfsec_args: --soft-fail 
           github_token: ${{ github.token }}
