@@ -1,5 +1,9 @@
 # DevOps & Automation Tooling for cheqd
 
+[![GitHub license](https://img.shields.io/github/license/cheqd/.github?color=blue&style=flat-square)](https://github.com/cheqd/.github/blob/main/LICENSE) [![GitHub contributors](https://img.shields.io/github/contributors/cheqd/.github?label=contributors%20%E2%9D%A4%EF%B8%8F&style=flat-square)](https://github.com/cheqd/.github/graphs/contributors)
+
+[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/cheqd/infra/dispatch.yml?label=workflows&style=flat-square)](https://github.com/cheqd/.github/actions/workflows/dispatch.yml) ![GitHub repo size](https://img.shields.io/github/repo-size/cheqd/.github?style=flat-square)
+
 The goal of this project is to make infrastructure provisioning and configuration dead simple for [cheqd network](https://github.com/cheqd/cheqd-node).
 
 ## Objectives
