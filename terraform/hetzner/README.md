@@ -33,9 +33,7 @@ No modules.
 | [hcloud_load_balancer_network.rpc_lb](https://registry.terraform.io/providers/hetznercloud/hcloud/latest/docs/resources/load_balancer_network) | resource |
 | [hcloud_load_balancer_service.rest_lb](https://registry.terraform.io/providers/hetznercloud/hcloud/latest/docs/resources/load_balancer_service) | resource |
 | [hcloud_load_balancer_service.rpc_lb](https://registry.terraform.io/providers/hetznercloud/hcloud/latest/docs/resources/load_balancer_service) | resource |
-| [hcloud_load_balancer_target.rest_lb_seed](https://registry.terraform.io/providers/hetznercloud/hcloud/latest/docs/resources/load_balancer_target) | resource |
 | [hcloud_load_balancer_target.rest_lb_sentry](https://registry.terraform.io/providers/hetznercloud/hcloud/latest/docs/resources/load_balancer_target) | resource |
-| [hcloud_load_balancer_target.rpc_lb_seed](https://registry.terraform.io/providers/hetznercloud/hcloud/latest/docs/resources/load_balancer_target) | resource |
 | [hcloud_load_balancer_target.rpc_lb_sentry](https://registry.terraform.io/providers/hetznercloud/hcloud/latest/docs/resources/load_balancer_target) | resource |
 | [hcloud_network.cheqd_network](https://registry.terraform.io/providers/hetznercloud/hcloud/latest/docs/resources/network) | resource |
 | [hcloud_network_subnet.rest_lb](https://registry.terraform.io/providers/hetznercloud/hcloud/latest/docs/resources/network_subnet) | resource |
