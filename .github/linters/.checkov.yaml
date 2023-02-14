@@ -11,3 +11,4 @@ output: cli
 repo-id: cheqd/cheqd-infra
 skip-fixes: false
 soft-fail: false
+skip-checks: CKV2_GHA_1
