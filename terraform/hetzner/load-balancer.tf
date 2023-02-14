@@ -49,16 +49,9 @@ resource "hcloud_load_balancer_service" "rpc_lb" {
     http {
       path         = "/status"
       status_codes = ["200"]
-      response     = "\"catching_up\": false"
+      response     = "\"catching_up\":false"
     }
   }
-}
-
-resource "hcloud_load_balancer_target" "rpc_lb_seed" {
-  type             = "label_selector"
-  load_balancer_id = hcloud_load_balancer.rpc_lb.id
-  label_selector   = "NodeType=seed"
-  use_private_ip   = true
 }
 
 resource "hcloud_load_balancer_target" "rpc_lb_sentry" {
@@ -110,18 +103,11 @@ resource "hcloud_load_balancer_service" "rest_lb" {
     timeout  = 5
     retries  = 3
     http {
-      path         = "/syncing"
+      path         = "/cosmos/base/tendermint/v1beta1/syncing"
       status_codes = ["200"]
-      response     = "\"syncing\":false"
+      response     = "\"syncing\": false"
     }
   }
-}
-
-resource "hcloud_load_balancer_target" "rest_lb_seed" {
-  type             = "label_selector"
-  load_balancer_id = hcloud_load_balancer.rest_lb.id
-  label_selector   = "NodeType=seed"
-  use_private_ip   = true
 }
 
 resource "hcloud_load_balancer_target" "rest_lb_sentry" {

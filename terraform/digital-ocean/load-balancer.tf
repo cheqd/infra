@@ -86,7 +86,7 @@ resource "digitalocean_loadbalancer" "rest_lb" {
   healthcheck {
     protocol = var.do_rest_health_check_protocol
     port     = var.do_rest_health_check_port
-    path     = "/syncing"
+    path     = "/cosmos/base/tendermint/v1beta1/syncing"
   }
 
   droplet_tag = "${var.network}-loadbalancer-rest"
