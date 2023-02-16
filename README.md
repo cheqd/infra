@@ -4,9 +4,9 @@
 
 [![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/cheqd/infra/dispatch.yml?label=workflows&style=flat-square)](https://github.com/cheqd/infra/actions/workflows/dispatch.yml) ![GitHub repo size](https://img.shields.io/github/repo-size/cheqd/infra?style=flat-square)
 
-The goal of this project is to make infrastructure provisioning and configuration dead simple for [cheqd network](https://github.com/cheqd/cheqd-node).
-
 ## Objectives
+
+The goal of this project is to make infrastructure provisioning and configuration dead simple for [cheqd network](https://github.com/cheqd/cheqd-node).
 
 We aim to make DevOps and automation for cheqd network simpler by accelerating the following:
 
