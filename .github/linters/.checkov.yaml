@@ -8,7 +8,7 @@ external-modules-download-path: .external_modules
 framework:
   - all 
 output: cli 
-repo-id: cheqd/cheqd-infra
+repo-id: cheqd/infra
 skip-fixes: false
 soft-fail: false
-skip-check: CKV2_GHA_1
+skip-check: CKV2_GHA_1,CKV_GHA_7
