@@ -49,7 +49,7 @@ resource "hcloud_load_balancer_service" "rpc_lb" {
     http {
       path         = "/status"
       status_codes = ["200"]
-      response     = "\"catching_up\":false"
+      response     = "false"
     }
   }
 }
@@ -105,7 +105,7 @@ resource "hcloud_load_balancer_service" "rest_lb" {
     http {
       path         = "/cosmos/base/tendermint/v1beta1/syncing"
       status_codes = ["200"]
-      response     = "\"syncing\": false"
+      response     = "false"
     }
   }
 }
