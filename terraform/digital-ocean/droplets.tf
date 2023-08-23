@@ -27,6 +27,8 @@ resource "digitalocean_droplet" "seed" {
   tags = concat(var.default_tags, [
     "${var.network}-seed",
     "${var.network}-node",
+    "${var.network}-loadbalancer-rpc",
+    "${var.network}-loadbalancer-rest",
   ])
 }
 
