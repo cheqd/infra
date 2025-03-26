@@ -44,6 +44,7 @@ resource "hcloud_server" "seed" {
     "ServerType" = "Node"
     "NodeType"   = "seed"
     "Terraform"  = "True"
+    "Archive"    = "${each.value.archive}"
   }
 }
 

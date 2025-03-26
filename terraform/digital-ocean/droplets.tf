@@ -95,8 +95,8 @@ resource "digitalocean_volume" "sentry_volumes" {
   region                  = each.value.region
   size                    = each.value.volume_size
   name                    = "${var.network}-${each.key}-chain-data"
-  initial_filesystem_type = lookup(each.value, "fs_type", "xfs")
-  description             = "Volume used for storing the chain data for ${each.key} droplet"
+  # initial_filesystem_type = lookup(each.value, "fs_type", "xfs")
+  # description             = "Volume used for storing the chain data for ${each.key} droplet"
   tags                    = concat(var.default_tags, ["${var.network}-sentry", "${var.network}-node"])
 }
 
@@ -116,6 +116,61 @@ resource "digitalocean_floating_ip" "sentry" {
     digitalocean_droplet.sentry,
     digitalocean_volume.sentry_volumes,
     digitalocean_volume_attachment.sentry,
+  ]
+}
+
+# ----------------------------------------------------------------------------------------------------------------------
+# Archive
+# ----------------------------------------------------------------------------------------------------------------------
+resource "digitalocean_droplet" "archive" {
+
+  for_each = var.archive_droplet_config
+
+  graceful_shutdown = true
+  ipv6              = true
+  size              = each.value.size
+  image             = var.do_image_name
+  region            = each.value.region
+  vpc_uuid          = digitalocean_vpc.cheqd_network_archive.id
+  name              = "${var.network}-${each.key}"
+  ssh_keys          = [data.digitalocean_ssh_key.cheqd.id]
+  monitoring        = lookup(each.value, "monitoring", true)
+  backups           = lookup(each.value, "enable_backups", true)
+  droplet_agent     = lookup(each.value, "enable_droplet_agent", true)
+  user_data         = templatefile("./templates/sentry_user_data.tpl", var.sentry_user_data)
+  tags = concat(var.default_tags, [
+    "${var.network}-archive",
+    "${var.network}-node",
+  ])
+}
+
+resource "digitalocean_volume" "archive_volumes" {
+  for_each = var.archive_droplet_config
+
+  region                  = each.value.region
+  size                    = each.value.volume_size
+  name                    = "${var.network}-${each.key}-chain-data"
+  # initial_filesystem_type = lookup(each.value, "fs_type", "xfs")
+  # description             = "Volume used for storing the chain data for ${each.key} droplet"
+  tags                    = concat(var.default_tags, ["${var.network}-sentry", "${var.network}-node"])
+}
+
+resource "digitalocean_volume_attachment" "archive" {
+  for_each = var.archive_droplet_config
+
+  droplet_id = digitalocean_droplet.archive[each.key].id
+  volume_id  = digitalocean_volume.archive_volumes[each.key].id
+}
+
+resource "digitalocean_floating_ip" "archive" {
+  for_each = digitalocean_droplet.archive
+
+  region     = each.value.region
+  droplet_id = each.value.id
+  depends_on = [
+    digitalocean_droplet.archive,
+    digitalocean_volume.archive_volumes,
+    digitalocean_volume_attachment.archive,
   ]
 }
 
@@ -169,4 +224,8 @@ resource "digitalocean_floating_ip" "validator" {
     digitalocean_volume.validator_volumes,
     digitalocean_volume_attachment.validator,
   ]
+  lifecycle {
+            prevent_destroy = true
+    }
+
 }

@@ -1,11 +1,18 @@
 # ----------------------------------------------------------------------------------------------------------------------
-# Network
+# Networks
 # ----------------------------------------------------------------------------------------------------------------------
 resource "digitalocean_vpc" "cheqd_network" {
   name        = var.network
   region      = var.do_region
   ip_range    = var.do_network_ip_range
   description = "VPC for ${var.network}"
+}
+
+resource "digitalocean_vpc" "cheqd_network_archive" {
+  name        = "${var.network}-archive"
+  region      = var.archive_region
+  ip_range    = "10.102.0.0/24"
+  description = "VPC for ${var.network} archive resources"
 }
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -36,7 +43,7 @@ resource "digitalocean_firewall" "node-public" {
     }
   }
 
-  tags = ["${var.network}-seed", "${var.network}-sentry"]
+  tags = ["${var.network}-seed", "${var.network}-sentry", "${var.network}-archive"]
 }
 
 resource "digitalocean_firewall" "node-restricted" {
@@ -51,6 +58,7 @@ resource "digitalocean_firewall" "node-restricted" {
       protocol         = lookup(inbound_rule.value, "protocol", "tcp")
       source_addresses = lookup(inbound_rule.value, "source_addresses", "undefined") != "undefined" ? split(",", inbound_rule.value.source_addresses) : null
       source_tags      = lookup(inbound_rule.value, "source_tags", "undefined") != "undefined" ? split(",", inbound_rule.value.source_tags) : null
+      source_load_balancer_uids = contains(["1317", "26657"], inbound_rule.value["port_range"]) ? [digitalocean_loadbalancer.rest_lb.id, digitalocean_loadbalancer.rpc_lb.id] : null
     }
   }
 
@@ -64,7 +72,7 @@ resource "digitalocean_firewall" "node-restricted" {
     }
   }
 
-  tags = ["${var.network}-seed", "${var.network}-sentry", "${var.network}-validator"]
+  tags = ["${var.network}-seed", "${var.network}-sentry", "${var.network}-node"]
 }
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -95,5 +103,5 @@ resource "digitalocean_firewall" "node-developer" {
     }
   }
 
-  tags = ["${var.network}-seed", "${var.network}-sentry", "${var.network}-validator"]
+  tags = ["${var.network}-seed", "${var.network}-sentry", "${var.network}-archive"]
 }

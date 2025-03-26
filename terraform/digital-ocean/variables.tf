@@ -87,7 +87,26 @@ variable "sentry_user_data" {
 }
 
 # ----------------------------------------------------------------------------------------------------------------------
-# Validator node
+# Archive node
+# ----------------------------------------------------------------------------------------------------------------------
+variable "archive_droplet_config" {
+  description = "Custom configuration for archive servers"
+  type        = map(map(string))
+}
+
+variable "archive_user_data" {
+  description = "User data to be applied on server boot for archive servers"
+  type        = map(string)
+  default     = {}
+}
+
+variable "archive_region" {
+  description = "DO Region for archive node resources"
+  type        = string
+}
+
+# ----------------------------------------------------------------------------------------------------------------------
+# Validator nodeUser data to be applied on server boot for archive servers
 # ----------------------------------------------------------------------------------------------------------------------
 variable "validator_droplet_config" {
   description = "Custom configuration for validator servers"
