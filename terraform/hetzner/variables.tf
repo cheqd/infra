@@ -115,11 +115,17 @@ variable "hetzner_lb_type" {
   default     = "lb11"
 }
 
+variable "archive_lb" {
+  description = "Whether to create archive LB or not"
+  type        = bool
+  default     = false
+}
+
 # ----------------------------------------------------------------------------------------------------------------------
 # Miscellaneous
 # ----------------------------------------------------------------------------------------------------------------------
 variable "hetzner_image_name" {
   description = "Desired OS to be installed on servers"
   type        = string
-  default     = "ubuntu-20.04"
+  default     = "ubuntu-24.04"
 }

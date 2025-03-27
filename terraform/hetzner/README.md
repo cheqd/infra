@@ -27,12 +27,20 @@ No modules.
 | [hcloud_floating_ip.seed](https://registry.terraform.io/providers/hetznercloud/hcloud/latest/docs/resources/floating_ip) | resource |
 | [hcloud_floating_ip.sentry](https://registry.terraform.io/providers/hetznercloud/hcloud/latest/docs/resources/floating_ip) | resource |
 | [hcloud_floating_ip.validator](https://registry.terraform.io/providers/hetznercloud/hcloud/latest/docs/resources/floating_ip) | resource |
+| [hcloud_load_balancer.archive_rest_lb](https://registry.terraform.io/providers/hetznercloud/hcloud/latest/docs/resources/load_balancer) | resource |
+| [hcloud_load_balancer.archive_rpc_lb](https://registry.terraform.io/providers/hetznercloud/hcloud/latest/docs/resources/load_balancer) | resource |
 | [hcloud_load_balancer.rest_lb](https://registry.terraform.io/providers/hetznercloud/hcloud/latest/docs/resources/load_balancer) | resource |
 | [hcloud_load_balancer.rpc_lb](https://registry.terraform.io/providers/hetznercloud/hcloud/latest/docs/resources/load_balancer) | resource |
+| [hcloud_load_balancer_network.archive_rest_lb](https://registry.terraform.io/providers/hetznercloud/hcloud/latest/docs/resources/load_balancer_network) | resource |
+| [hcloud_load_balancer_network.archive_rpc_lb](https://registry.terraform.io/providers/hetznercloud/hcloud/latest/docs/resources/load_balancer_network) | resource |
 | [hcloud_load_balancer_network.rest_lb](https://registry.terraform.io/providers/hetznercloud/hcloud/latest/docs/resources/load_balancer_network) | resource |
 | [hcloud_load_balancer_network.rpc_lb](https://registry.terraform.io/providers/hetznercloud/hcloud/latest/docs/resources/load_balancer_network) | resource |
+| [hcloud_load_balancer_service.archive_rest_lb](https://registry.terraform.io/providers/hetznercloud/hcloud/latest/docs/resources/load_balancer_service) | resource |
+| [hcloud_load_balancer_service.archive_rpc_lb](https://registry.terraform.io/providers/hetznercloud/hcloud/latest/docs/resources/load_balancer_service) | resource |
 | [hcloud_load_balancer_service.rest_lb](https://registry.terraform.io/providers/hetznercloud/hcloud/latest/docs/resources/load_balancer_service) | resource |
 | [hcloud_load_balancer_service.rpc_lb](https://registry.terraform.io/providers/hetznercloud/hcloud/latest/docs/resources/load_balancer_service) | resource |
+| [hcloud_load_balancer_target.archive_rest_lb_seed](https://registry.terraform.io/providers/hetznercloud/hcloud/latest/docs/resources/load_balancer_target) | resource |
+| [hcloud_load_balancer_target.archive_rpc_lb_seed](https://registry.terraform.io/providers/hetznercloud/hcloud/latest/docs/resources/load_balancer_target) | resource |
 | [hcloud_load_balancer_target.rest_lb_sentry](https://registry.terraform.io/providers/hetznercloud/hcloud/latest/docs/resources/load_balancer_target) | resource |
 | [hcloud_load_balancer_target.rpc_lb_sentry](https://registry.terraform.io/providers/hetznercloud/hcloud/latest/docs/resources/load_balancer_target) | resource |
 | [hcloud_network.cheqd_network](https://registry.terraform.io/providers/hetznercloud/hcloud/latest/docs/resources/network) | resource |
@@ -56,22 +64,24 @@ No modules.
 | [hcloud_volume_attachment.sentry](https://registry.terraform.io/providers/hetznercloud/hcloud/latest/docs/resources/volume_attachment) | resource |
 | [hcloud_volume_attachment.validator](https://registry.terraform.io/providers/hetznercloud/hcloud/latest/docs/resources/volume_attachment) | resource |
 | [hcloud_certificate.cheqd](https://registry.terraform.io/providers/hetznercloud/hcloud/latest/docs/data-sources/certificate) | data source |
+| [hcloud_certificate.cheqd-archive](https://registry.terraform.io/providers/hetznercloud/hcloud/latest/docs/data-sources/certificate) | data source |
 | [hcloud_ssh_key.cheqd](https://registry.terraform.io/providers/hetznercloud/hcloud/latest/docs/data-sources/ssh_key) | data source |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_archive_lb"></a> [archive\_lb](#input\_archive\_lb) | Whether to create archive LB or not | `bool` | `false` | no |
 | <a name="input_hcloud_token"></a> [hcloud\_token](#input\_hcloud\_token) | Authentication token for Hetzner | `string` | n/a | yes |
-| <a name="input_hetzner_image_name"></a> [hetzner\_image\_name](#input\_hetzner\_image\_name) | Desired OS to be installed on servers | `string` | `"ubuntu-20.04"` | no |
+| <a name="input_hetzner_image_name"></a> [hetzner\_image\_name](#input\_hetzner\_image\_name) | Desired OS to be installed on servers | `string` | `"ubuntu-24.04"` | no |
 | <a name="input_hetzner_lb_type"></a> [hetzner\_lb\_type](#input\_hetzner\_lb\_type) | Type of the Hetzner's Load Balancer/ | `string` | `"lb11"` | no |
 | <a name="input_hetzner_network_ip_range"></a> [hetzner\_network\_ip\_range](#input\_hetzner\_network\_ip\_range) | Hezner VPC/Network IP range in CIDR notation | `string` | n/a | yes |
 | <a name="input_hetzner_region"></a> [hetzner\_region](#input\_hetzner\_region) | Hetzner dedicated region for resources to be provisioned in | `string` | n/a | yes |
 | <a name="input_hetzner_zone"></a> [hetzner\_zone](#input\_hetzner\_zone) | Hetzner zone for network subnets. Can be one of 'eu-central' or 'us-east' | `string` | `"eu-central"` | no |
 | <a name="input_network"></a> [network](#input\_network) | Hetzner VPC/Network name | `string` | n/a | yes |
-| <a name="input_node_firewall_developer"></a> [node\_firewall\_developer](#input\_node\_firewall\_developer) | Developer firewall rules for debugging purposes | `map(map(map(string)))` | <pre>{<br>  "inbound": {},<br>  "outbound": {}<br>}</pre> | no |
-| <a name="input_node_firewall_public"></a> [node\_firewall\_public](#input\_node\_firewall\_public) | Common firewall rules for public traffic | `map(map(map(string)))` | <pre>{<br>  "inbound": {},<br>  "outbound": {}<br>}</pre> | no |
-| <a name="input_node_firewall_restricted"></a> [node\_firewall\_restricted](#input\_node\_firewall\_restricted) | Common firewall rules for restricted traffic | `map(map(map(string)))` | <pre>{<br>  "inbound": {},<br>  "outbound": {}<br>}</pre> | no |
+| <a name="input_node_firewall_developer"></a> [node\_firewall\_developer](#input\_node\_firewall\_developer) | Developer firewall rules for debugging purposes | `map(map(map(string)))` | <pre>{<br/>  "inbound": {},<br/>  "outbound": {}<br/>}</pre> | no |
+| <a name="input_node_firewall_public"></a> [node\_firewall\_public](#input\_node\_firewall\_public) | Common firewall rules for public traffic | `map(map(map(string)))` | <pre>{<br/>  "inbound": {},<br/>  "outbound": {}<br/>}</pre> | no |
+| <a name="input_node_firewall_restricted"></a> [node\_firewall\_restricted](#input\_node\_firewall\_restricted) | Common firewall rules for restricted traffic | `map(map(map(string)))` | <pre>{<br/>  "inbound": {},<br/>  "outbound": {}<br/>}</pre> | no |
 | <a name="input_seed_server_config"></a> [seed\_server\_config](#input\_seed\_server\_config) | Custom configuration for seed servers | `map(map(string))` | n/a | yes |
 | <a name="input_seed_user_data"></a> [seed\_user\_data](#input\_seed\_user\_data) | User data to be applied on server boot for seed servers | `map(string)` | `{}` | no |
 | <a name="input_sentry_server_config"></a> [sentry\_server\_config](#input\_sentry\_server\_config) | Custom configuration for seed servers | `map(map(string))` | n/a | yes |

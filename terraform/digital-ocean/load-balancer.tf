@@ -5,6 +5,10 @@ data "digitalocean_certificate" "cheqd" {
   name = "${var.network}-certificate"
 }
 
+data "digitalocean_certificate" "cheqd-archive" {
+  name = var.do_archive_lb_certificate_name
+}
+
 # ----------------------------------------------------------------------------------------------------------------------
 # Load Balancer - RPC
 # ----------------------------------------------------------------------------------------------------------------------
@@ -33,7 +37,7 @@ resource "digitalocean_loadbalancer" "rpc_lb" {
     type = "none"
   }
 
-  redirect_http_to_https = true
+  redirect_http_to_https = false
 
   healthcheck {
     protocol = var.do_rpc_health_check_protocol
@@ -42,6 +46,52 @@ resource "digitalocean_loadbalancer" "rpc_lb" {
   }
 
   droplet_tag = "${var.network}-loadbalancer-rpc"
+
+  depends_on = [
+    digitalocean_droplet.seed,
+    digitalocean_droplet.sentry,
+    digitalocean_volume.seed_volumes,
+    digitalocean_volume.sentry_volumes,
+    digitalocean_volume_attachment.seed,
+    digitalocean_volume_attachment.sentry,
+  ]
+}
+
+resource "digitalocean_loadbalancer" "archive_rpc_lb" {
+  count    = var.archive_lb ? 1 : 0
+  name     = "${var.network}-archive-rpc-lb"
+  region   = var.archive_region
+  vpc_uuid = digitalocean_vpc.cheqd_network.id
+
+  algorithm = var.do_rpc_lb_algorithm
+  size      = var.do_rpc_lb_size
+
+  dynamic "forwarding_rule" {
+    for_each = var.do_rpc_lb_config
+
+    content {
+      entry_port      = forwarding_rule.value.entry_port
+      entry_protocol  = forwarding_rule.value.entry_protocol
+      target_port     = forwarding_rule.value.target_port
+      target_protocol = forwarding_rule.value.target_protocol
+
+      certificate_name = parseint(forwarding_rule.value.entry_port, 10) == 443 ? data.digitalocean_certificate.cheqd-archive.name : null
+    }
+  }
+
+  sticky_sessions {
+    type = "none"
+  }
+
+  redirect_http_to_https = true
+
+  healthcheck {
+    protocol = var.do_rpc_health_check_protocol
+    port     = var.do_rpc_health_check_port
+    path     = "/status"
+  }
+
+  droplet_tag = "${var.network}-archive"
 
   depends_on = [
     digitalocean_droplet.seed,
@@ -90,6 +140,52 @@ resource "digitalocean_loadbalancer" "rest_lb" {
   }
 
   droplet_tag = "${var.network}-loadbalancer-rest"
+
+  depends_on = [
+    digitalocean_droplet.seed,
+    digitalocean_droplet.sentry,
+    digitalocean_volume.seed_volumes,
+    digitalocean_volume.sentry_volumes,
+    digitalocean_volume_attachment.seed,
+    digitalocean_volume_attachment.sentry,
+  ]
+}
+
+resource "digitalocean_loadbalancer" "archive_rest_lb" {
+  count    = var.archive_lb ? 1 : 0
+  name     = "${var.network}-archive-rest-lb"
+  region   = var.archive_region
+  vpc_uuid = digitalocean_vpc.cheqd_network.id
+
+  algorithm = var.do_rest_lb_algorithm
+  size      = var.do_rest_lb_size
+
+  dynamic "forwarding_rule" {
+    for_each = var.do_rest_lb_config
+
+    content {
+      entry_port      = forwarding_rule.value.entry_port
+      entry_protocol  = forwarding_rule.value.entry_protocol
+      target_port     = forwarding_rule.value.target_port
+      target_protocol = forwarding_rule.value.target_protocol
+
+      certificate_name = parseint(forwarding_rule.value.entry_port, 10) == 443 ? data.digitalocean_certificate.cheqd-archive.name : null
+    }
+  }
+
+  sticky_sessions {
+    type = "none"
+  }
+
+  redirect_http_to_https = true
+
+  healthcheck {
+    protocol = var.do_rest_health_check_protocol
+    port     = var.do_rest_health_check_port
+    path     = "/cosmos/base/tendermint/v1beta1/syncing"
+  }
+
+  droplet_tag = "${var.network}-archive"
 
   depends_on = [
     digitalocean_droplet.seed,
