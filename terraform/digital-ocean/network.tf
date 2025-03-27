@@ -8,13 +8,6 @@ resource "digitalocean_vpc" "cheqd_network" {
   description = "VPC for ${var.network}"
 }
 
-resource "digitalocean_vpc" "cheqd_network_archive" {
-  name        = "${var.network}-archive"
-  region      = var.archive_region
-  ip_range    = "10.102.0.0/24"
-  description = "VPC for ${var.network} archive resources"
-}
-
 # ----------------------------------------------------------------------------------------------------------------------
 # Common Node Firewall
 # ----------------------------------------------------------------------------------------------------------------------

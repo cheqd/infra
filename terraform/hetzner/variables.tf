@@ -127,5 +127,5 @@ variable "archive_lb" {
 variable "hetzner_image_name" {
   description = "Desired OS to be installed on servers"
   type        = string
-  default     = "ubuntu-20.04"
+  default     = "ubuntu-24.04"
 }

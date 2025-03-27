@@ -5,6 +5,10 @@ data "digitalocean_certificate" "cheqd" {
   name = "${var.network}-certificate"
 }
 
+data "digitalocean_certificate" "cheqd-archive" {
+  name = var.do_archive_lb_certificate_name
+}
+
 # ----------------------------------------------------------------------------------------------------------------------
 # Load Balancer - RPC
 # ----------------------------------------------------------------------------------------------------------------------
@@ -54,10 +58,10 @@ resource "digitalocean_loadbalancer" "rpc_lb" {
 }
 
 resource "digitalocean_loadbalancer" "archive_rpc_lb" {
-  count    = (length(var.archive_droplet_config) > 0) ? 1 : 0
+  count    = var.archive_lb ? 1 : 0
   name     = "${var.network}-archive-rpc-lb"
   region   = var.archive_region
-  vpc_uuid = digitalocean_vpc.cheqd_network_archive.id
+  vpc_uuid = digitalocean_vpc.cheqd_network.id
 
   algorithm = var.do_rpc_lb_algorithm
   size      = var.do_rpc_lb_size
@@ -71,7 +75,7 @@ resource "digitalocean_loadbalancer" "archive_rpc_lb" {
       target_port     = forwarding_rule.value.target_port
       target_protocol = forwarding_rule.value.target_protocol
 
-      certificate_name = parseint(forwarding_rule.value.entry_port, 10) == 443 ? data.digitalocean_certificate.cheqd.name : null
+      certificate_name = parseint(forwarding_rule.value.entry_port, 10) == 443 ? data.digitalocean_certificate.cheqd-archive.name : null
     }
   }
 
@@ -79,7 +83,7 @@ resource "digitalocean_loadbalancer" "archive_rpc_lb" {
     type = "none"
   }
 
-  redirect_http_to_https = false
+  redirect_http_to_https = true
 
   healthcheck {
     protocol = var.do_rpc_health_check_protocol
@@ -148,10 +152,10 @@ resource "digitalocean_loadbalancer" "rest_lb" {
 }
 
 resource "digitalocean_loadbalancer" "archive_rest_lb" {
-  count    = (length(var.archive_droplet_config) > 0) ? 1 : 0
+  count    = var.archive_lb ? 1 : 0
   name     = "${var.network}-archive-rest-lb"
   region   = var.archive_region
-  vpc_uuid = digitalocean_vpc.cheqd_network_archive.id
+  vpc_uuid = digitalocean_vpc.cheqd_network.id
 
   algorithm = var.do_rest_lb_algorithm
   size      = var.do_rest_lb_size
@@ -165,7 +169,7 @@ resource "digitalocean_loadbalancer" "archive_rest_lb" {
       target_port     = forwarding_rule.value.target_port
       target_protocol = forwarding_rule.value.target_protocol
 
-      certificate_name = parseint(forwarding_rule.value.entry_port, 10) == 443 ? data.digitalocean_certificate.cheqd.name : null
+      certificate_name = parseint(forwarding_rule.value.entry_port, 10) == 443 ? data.digitalocean_certificate.cheqd-archive.name : null
     }
   }
 

@@ -46,6 +46,10 @@ resource "hcloud_server" "seed" {
     "Terraform"  = "True"
     "Archive"    = "${each.value.archive}"
   }
+  lifecycle {
+    # Prevent recreation of droplet when image changes
+    ignore_changes = [image]
+  }
 }
 
 resource "hcloud_volume" "seed" {
@@ -135,6 +139,11 @@ resource "hcloud_server" "sentry" {
     "ServerType" = "Node"
     "NodeType"   = "sentry"
     "Terraform"  = "True"
+    "Archive"    = "${each.value.archive}"
+  }
+  lifecycle {
+    # Prevent recreation of droplet when image changes
+    ignore_changes = [image]
   }
 }
 
@@ -231,6 +240,10 @@ resource "hcloud_server" "validator" {
     "ServerType" = "Node"
     "NodeType"   = "validator"
     "Terraform"  = "True"
+  }
+  lifecycle {
+    # Prevent recreation of droplet when image changes
+    ignore_changes = [image]
   }
 }
 

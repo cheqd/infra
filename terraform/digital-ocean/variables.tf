@@ -63,7 +63,7 @@ variable "node_firewall_developer" {
 # ----------------------------------------------------------------------------------------------------------------------
 variable "seed_droplet_config" {
   description = "Custom configuration for seed servers"
-  type        = map(map(string))
+  type        = map(any)
 }
 
 variable "seed_user_data" {
@@ -77,7 +77,7 @@ variable "seed_user_data" {
 # ----------------------------------------------------------------------------------------------------------------------
 variable "sentry_droplet_config" {
   description = "Custom configuration for sentry servers"
-  type        = map(map(string))
+  type        = map(any)
 }
 
 variable "sentry_user_data" {
@@ -91,7 +91,7 @@ variable "sentry_user_data" {
 # ----------------------------------------------------------------------------------------------------------------------
 variable "archive_droplet_config" {
   description = "Custom configuration for archive servers"
-  type        = map(map(string))
+  type        = map(any)
 }
 
 variable "archive_user_data" {
@@ -103,6 +103,7 @@ variable "archive_user_data" {
 variable "archive_region" {
   description = "DO Region for archive node resources"
   type        = string
+  default     = "sgp1"
 }
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -110,7 +111,7 @@ variable "archive_region" {
 # ----------------------------------------------------------------------------------------------------------------------
 variable "validator_droplet_config" {
   description = "Custom configuration for validator servers"
-  type        = map(map(string))
+  type        = map(any)
 }
 
 variable "validator_user_data" {
@@ -187,10 +188,21 @@ variable "do_rest_health_check_protocol" {
 variable "do_image_name" {
   description = "Desired OS to be installed on servers"
   type        = string
-  default     = "ubuntu-20-04-x64"
+  default     = "ubuntu-24-04-x64"
 }
 
 variable "default_tags" {
   description = "Tags to be applied to all available resources"
   type        = list(string)
+}
+
+variable "archive_lb" {
+  description = "Whether to create an archive load balancer"
+  type        = bool
+  default     = false
+}
+
+variable "do_archive_lb_certificate_name" {
+  description = "Name of the archive load balancer certificate"
+  type        = string
 }
