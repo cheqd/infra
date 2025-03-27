@@ -21,33 +21,45 @@ No modules.
 
 | Name | Type |
 |------|------|
+| [digitalocean_droplet.archive](https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs/resources/droplet) | resource |
 | [digitalocean_droplet.seed](https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs/resources/droplet) | resource |
 | [digitalocean_droplet.sentry](https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs/resources/droplet) | resource |
 | [digitalocean_droplet.validator](https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs/resources/droplet) | resource |
 | [digitalocean_firewall.node-developer](https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs/resources/firewall) | resource |
 | [digitalocean_firewall.node-public](https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs/resources/firewall) | resource |
 | [digitalocean_firewall.node-restricted](https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs/resources/firewall) | resource |
+| [digitalocean_floating_ip.archive](https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs/resources/floating_ip) | resource |
 | [digitalocean_floating_ip.seed](https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs/resources/floating_ip) | resource |
 | [digitalocean_floating_ip.sentry](https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs/resources/floating_ip) | resource |
 | [digitalocean_floating_ip.validator](https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs/resources/floating_ip) | resource |
+| [digitalocean_loadbalancer.archive_rest_lb](https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs/resources/loadbalancer) | resource |
+| [digitalocean_loadbalancer.archive_rpc_lb](https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs/resources/loadbalancer) | resource |
 | [digitalocean_loadbalancer.rest_lb](https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs/resources/loadbalancer) | resource |
 | [digitalocean_loadbalancer.rpc_lb](https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs/resources/loadbalancer) | resource |
+| [digitalocean_volume.archive_volumes](https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs/resources/volume) | resource |
 | [digitalocean_volume.seed_volumes](https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs/resources/volume) | resource |
 | [digitalocean_volume.sentry_volumes](https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs/resources/volume) | resource |
 | [digitalocean_volume.validator_volumes](https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs/resources/volume) | resource |
+| [digitalocean_volume_attachment.archive](https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs/resources/volume_attachment) | resource |
 | [digitalocean_volume_attachment.seed](https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs/resources/volume_attachment) | resource |
 | [digitalocean_volume_attachment.sentry](https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs/resources/volume_attachment) | resource |
 | [digitalocean_volume_attachment.validator](https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs/resources/volume_attachment) | resource |
 | [digitalocean_vpc.cheqd_network](https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs/resources/vpc) | resource |
 | [digitalocean_certificate.cheqd](https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs/data-sources/certificate) | data source |
+| [digitalocean_certificate.cheqd-archive](https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs/data-sources/certificate) | data source |
 | [digitalocean_ssh_key.cheqd](https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs/data-sources/ssh_key) | data source |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_archive_droplet_config"></a> [archive\_droplet\_config](#input\_archive\_droplet\_config) | Custom configuration for archive servers | `map(any)` | n/a | yes |
+| <a name="input_archive_lb"></a> [archive\_lb](#input\_archive\_lb) | Whether to create an archive load balancer | `bool` | `false` | no |
+| <a name="input_archive_region"></a> [archive\_region](#input\_archive\_region) | DO Region for archive node resources | `string` | `"sgp1"` | no |
+| <a name="input_archive_user_data"></a> [archive\_user\_data](#input\_archive\_user\_data) | User data to be applied on server boot for archive servers | `map(string)` | `{}` | no |
 | <a name="input_default_tags"></a> [default\_tags](#input\_default\_tags) | Tags to be applied to all available resources | `list(string)` | n/a | yes |
-| <a name="input_do_image_name"></a> [do\_image\_name](#input\_do\_image\_name) | Desired OS to be installed on servers | `string` | `"ubuntu-20-04-x64"` | no |
+| <a name="input_do_archive_lb_certificate_name"></a> [do\_archive\_lb\_certificate\_name](#input\_do\_archive\_lb\_certificate\_name) | Name of the archive load balancer certificate | `string` | n/a | yes |
+| <a name="input_do_image_name"></a> [do\_image\_name](#input\_do\_image\_name) | Desired OS to be installed on servers | `string` | `"ubuntu-24-04-x64"` | no |
 | <a name="input_do_network_ip_range"></a> [do\_network\_ip\_range](#input\_do\_network\_ip\_range) | DigitalOcean VPC/Network IP range in CIDR notation | `string` | n/a | yes |
 | <a name="input_do_region"></a> [do\_region](#input\_do\_region) | DigitalOcean Region | `string` | n/a | yes |
 | <a name="input_do_rest_health_check_port"></a> [do\_rest\_health\_check\_port](#input\_do\_rest\_health\_check\_port) | Target port that the Rest Load Balancer will perform health checks | `number` | `80` | no |
@@ -62,14 +74,14 @@ No modules.
 | <a name="input_do_rpc_lb_size"></a> [do\_rpc\_lb\_size](#input\_do\_rpc\_lb\_size) | RPC Load Balancer type/size | `string` | `"lb-small"` | no |
 | <a name="input_do_token"></a> [do\_token](#input\_do\_token) | Authentication token for DigitalOcean | `string` | n/a | yes |
 | <a name="input_network"></a> [network](#input\_network) | DigitalOcean VPC/Network name | `string` | n/a | yes |
-| <a name="input_node_firewall_developer"></a> [node\_firewall\_developer](#input\_node\_firewall\_developer) | Developer firewall rules for debugging purposes | `map(map(map(string)))` | <pre>{<br>  "inbound": {},<br>  "outbound": {}<br>}</pre> | no |
-| <a name="input_node_firewall_public"></a> [node\_firewall\_public](#input\_node\_firewall\_public) | Common firewall rules for public traffic | `map(map(map(string)))` | <pre>{<br>  "inbound": {},<br>  "outbound": {}<br>}</pre> | no |
-| <a name="input_node_firewall_restricted"></a> [node\_firewall\_restricted](#input\_node\_firewall\_restricted) | Common firewall rules for restricted traffic | `map(map(map(string)))` | <pre>{<br>  "inbound": {},<br>  "outbound": {}<br>}</pre> | no |
-| <a name="input_seed_droplet_config"></a> [seed\_droplet\_config](#input\_seed\_droplet\_config) | Custom configuration for seed servers | `map(map(string))` | n/a | yes |
+| <a name="input_node_firewall_developer"></a> [node\_firewall\_developer](#input\_node\_firewall\_developer) | Developer firewall rules for debugging purposes | `map(map(map(string)))` | <pre>{<br/>  "inbound": {},<br/>  "outbound": {}<br/>}</pre> | no |
+| <a name="input_node_firewall_public"></a> [node\_firewall\_public](#input\_node\_firewall\_public) | Common firewall rules for public traffic | `map(map(map(string)))` | <pre>{<br/>  "inbound": {},<br/>  "outbound": {}<br/>}</pre> | no |
+| <a name="input_node_firewall_restricted"></a> [node\_firewall\_restricted](#input\_node\_firewall\_restricted) | Common firewall rules for restricted traffic | `map(map(map(string)))` | <pre>{<br/>  "inbound": {},<br/>  "outbound": {}<br/>}</pre> | no |
+| <a name="input_seed_droplet_config"></a> [seed\_droplet\_config](#input\_seed\_droplet\_config) | Custom configuration for seed servers | `map(any)` | n/a | yes |
 | <a name="input_seed_user_data"></a> [seed\_user\_data](#input\_seed\_user\_data) | User data to be applied on server boot for seed servers | `map(string)` | `{}` | no |
-| <a name="input_sentry_droplet_config"></a> [sentry\_droplet\_config](#input\_sentry\_droplet\_config) | Custom configuration for sentry servers | `map(map(string))` | n/a | yes |
+| <a name="input_sentry_droplet_config"></a> [sentry\_droplet\_config](#input\_sentry\_droplet\_config) | Custom configuration for sentry servers | `map(any)` | n/a | yes |
 | <a name="input_sentry_user_data"></a> [sentry\_user\_data](#input\_sentry\_user\_data) | User data to be applied on server boot for sentry servers | `map(string)` | `{}` | no |
-| <a name="input_validator_droplet_config"></a> [validator\_droplet\_config](#input\_validator\_droplet\_config) | Custom configuration for validator servers | `map(map(string))` | n/a | yes |
+| <a name="input_validator_droplet_config"></a> [validator\_droplet\_config](#input\_validator\_droplet\_config) | Custom configuration for validator servers | `map(any)` | n/a | yes |
 | <a name="input_validator_user_data"></a> [validator\_user\_data](#input\_validator\_user\_data) | User data to be applied on server boot for validator servers | `map(string)` | `{}` | no |
 
 ## Outputs
