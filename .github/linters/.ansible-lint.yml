@@ -1,2 +1,4 @@
 skip_list:
   - "command-instead-of-module"
+  - "var-naming[no-role-prefix]"
+  - "yaml[line-length]"

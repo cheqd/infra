@@ -69,9 +69,9 @@ No modules.
 | <a name="input_hetzner_region"></a> [hetzner\_region](#input\_hetzner\_region) | Hetzner dedicated region for resources to be provisioned in | `string` | n/a | yes |
 | <a name="input_hetzner_zone"></a> [hetzner\_zone](#input\_hetzner\_zone) | Hetzner zone for network subnets. Can be one of 'eu-central' or 'us-east' | `string` | `"eu-central"` | no |
 | <a name="input_network"></a> [network](#input\_network) | Hetzner VPC/Network name | `string` | n/a | yes |
-| <a name="input_node_firewall_developer"></a> [node\_firewall\_developer](#input\_node\_firewall\_developer) | Developer firewall rules for debugging purposes | `map(map(map(string)))` | <pre>{<br>  "inbound": {},<br>  "outbound": {}<br>}</pre> | no |
-| <a name="input_node_firewall_public"></a> [node\_firewall\_public](#input\_node\_firewall\_public) | Common firewall rules for public traffic | `map(map(map(string)))` | <pre>{<br>  "inbound": {},<br>  "outbound": {}<br>}</pre> | no |
-| <a name="input_node_firewall_restricted"></a> [node\_firewall\_restricted](#input\_node\_firewall\_restricted) | Common firewall rules for restricted traffic | `map(map(map(string)))` | <pre>{<br>  "inbound": {},<br>  "outbound": {}<br>}</pre> | no |
+| <a name="input_node_firewall_developer"></a> [node\_firewall\_developer](#input\_node\_firewall\_developer) | Developer firewall rules for debugging purposes | `map(map(map(string)))` | <pre>{<br/>  "inbound": {},<br/>  "outbound": {}<br/>}</pre> | no |
+| <a name="input_node_firewall_public"></a> [node\_firewall\_public](#input\_node\_firewall\_public) | Common firewall rules for public traffic | `map(map(map(string)))` | <pre>{<br/>  "inbound": {},<br/>  "outbound": {}<br/>}</pre> | no |
+| <a name="input_node_firewall_restricted"></a> [node\_firewall\_restricted](#input\_node\_firewall\_restricted) | Common firewall rules for restricted traffic | `map(map(map(string)))` | <pre>{<br/>  "inbound": {},<br/>  "outbound": {}<br/>}</pre> | no |
 | <a name="input_seed_server_config"></a> [seed\_server\_config](#input\_seed\_server\_config) | Custom configuration for seed servers | `map(map(string))` | n/a | yes |
 | <a name="input_seed_user_data"></a> [seed\_user\_data](#input\_seed\_user\_data) | User data to be applied on server boot for seed servers | `map(string)` | `{}` | no |
 | <a name="input_sentry_server_config"></a> [sentry\_server\_config](#input\_sentry\_server\_config) | Custom configuration for seed servers | `map(map(string))` | n/a | yes |

@@ -1,12 +1,26 @@
 ---
+- name: Update and upgrade apt packages
+  ansible.builtin.apt:
+    update_cache: true
+    upgrade: dist
+
 - name: Create service group
-  ansible.builtin.group: "name=cheqd system=true"
+  ansible.builtin.group:
+    name: cheqd
+    system: true
 
 - name: Create service user
-  ansible.builtin.user: "name=cheqd home=/home/cheqd system=true group=cheqd command=/bin/bash"
+  ansible.builtin.user:
+    name: cheqd
+    home: /home/cheqd
+    system: true
+    group: cheqd
+    shell: /bin/bash
 
 - name: Change user folder to more permissive
-  ansible.builtin.file: "path=/home/cheqd mode=0755"
+  ansible.builtin.file:
+    path: /home/cheqd
+    mode: "0755"
 
 - name: Set .cheqdnode directory owner and group to cheqd
   ansible.builtin.file:
@@ -16,39 +30,113 @@
     state: directory
     recurse: true
 
-- name: Set the log directory to be owned by syslog
-  ansible.builtin.file:
-    path: /home/cheqd/.cheqdnode/log/
-    owner: syslog
-    state: directory
-    recurse: true
-    mode: 0755
-
 - name: Creates config directory
   become: true
   become_user: cheqd
   ansible.builtin.file:
     path: /home/cheqd/.cheqdnode/config
     state: directory
-    mode: 0700
+    mode: "0700"
 
-- name: Install cheqd
-  ansible.builtin.apt:
-    deb: https://github.com/cheqd/cheqd-node/releases/download/v{{ version }}/cheqd-node_{{ version }}_amd64.deb
+- name: Create cosmovisor directory structure
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "cheqd"
+    group: "cheqd"
+    mode: '0755'
+  with_items:
+    - "{{ cosmovisor_dir }}"
+    - "{{ cosmovisor_dir }}/genesis"
+    - "{{ cosmovisor_dir }}/genesis/bin"
+
+- name: Download cheqd-noded binary to cosmovisor genesis
+  ansible.builtin.get_url:
+    url: "https://github.com/cheqd/cheqd-node/releases/download/v{{ version }}/cheqd-noded-{{ version }}-linux-{{ system_architecture }}.tar.gz"
+    dest: "{{ cosmovisor_dir }}/genesis/bin/cheqd-noded"
+    mode: '0755'
+    owner: "cheqd"
+    group: "cheqd"
+
+- name: Create cosmovisor current symlink
+  ansible.builtin.file:
+    src: "{{ cosmovisor_dir }}/genesis"
+    dest: "{{ cosmovisor_dir }}/current"
+    state: link
+    owner: "cheqd"
+    group: "cheqd"
+
+- name: Create system-wide cheqd-noded symlink
+  ansible.builtin.file:
+    src: "{{ cosmovisor_dir }}/current/bin/cheqd-noded"
+    dest: "/usr/bin/cheqd-noded"
+    state: link
+    owner: root
+    group: root
+
+- name: Download cosmovisor binary
+  ansible.builtin.get_url:
+    url: >-
+      https://github.com/cosmos/cosmos-sdk/releases/download/cosmovisor%2F{{ cosmovisor_version }}/cosmovisor-{{ cosmovisor_version }}-linux-{{ system_architecture }}.tar.gz
+    dest: "/tmp/cosmovisor-{{ cosmovisor_version }}-linux-amd64.tar.gz"
+    mode: '0644'
+    owner: root
+    group: root
+
+- name: Extract cosmovisor archive
+  ansible.builtin.unarchive:
+    src: "/tmp/cosmovisor-{{ cosmovisor_version }}-linux-amd64.tar.gz"
+    dest: "/tmp/"
+    remote_src: true
+    creates: "/tmp/cosmovisor-{{ cosmovisor_version }}-linux-amd64"
+
+- name: Move cosmovisor binary to /usr/bin
+  ansible.builtin.copy:
+    src: "/tmp/cosmovisor"
+    dest: "/usr/bin/cosmovisor"
+    mode: "0755"
+    owner: root
+    group: root
+    remote_src: true
+
+- name: Clean up temporary files
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - "/tmp/cosmovisor-{{ cosmovisor_version }}-linux-amd64.tar.gz"
+    - "/tmp/LICENSE"
+    - "/tmp/README.md"
+
+- name: Template systemd service file
+  ansible.builtin.template:
+    src: cheqd-cosmovisor.service.j2
+    dest: "/usr/lib/systemd/system/cheqd-cosmovisor.service"
+    owner: root
+    group: root
+    mode: '0644'
+  become: true
+
+- name: Reload systemd daemon and enable service
+  ansible.builtin.systemd_service:
+    name: cheqd-cosmovisor
+    daemon_reload: true
+    enabled: true
+  become: true
 
 - name: Download the genesis file
   ansible.builtin.get_url:
-    url: https://raw.githubusercontent.com/cheqd/cheqd-node/main/persistent_chains/{{ network }}/genesis.json
+    url: https://raw.githubusercontent.com/cheqd/cheqd-node/main/networks/{{ network }}/genesis.json
     dest: /home/cheqd/.cheqdnode/config/genesis.json
     force: true
-    mode: 0644
+    mode: "0644"
   become: true
   become_user: cheqd
   when: new_account
 
 - name: Store seeds inside an environment variable
   ansible.builtin.uri:
-    url: https://raw.githubusercontent.com/cheqd/cheqd-node/main/persistent_chains/{{ network }}/seeds.txt
+    url: https://raw.githubusercontent.com/cheqd/cheqd-node/main/networks/{{ network }}/seeds.txt
     return_content: true
   register: seeds
   become: true
@@ -78,7 +166,7 @@
   ansible.builtin.template:
     src: config.toml.j2
     dest: /home/cheqd/.cheqdnode/config/config.toml
-    mode: 0644
+    mode: "0644"
 
 - name: Update the app.toml file
   become: true
@@ -86,7 +174,15 @@
   ansible.builtin.template:
     src: app.toml.j2
     dest: /home/cheqd/.cheqdnode/config/app.toml
-    mode: 0644
+    mode: "0644"
+
+- name: Add price-feeder.toml file
+  become: true
+  become_user: cheqd
+  ansible.builtin.template:
+    src: price-feeder.toml.j2
+    dest: /home/cheqd/.cheqdnode/config/price-feeder.toml
+    mode: "0644"
 
 - name: Creates data directory
   become: true
@@ -94,79 +190,66 @@
   ansible.builtin.file:
     path: /home/cheqd/.cheqdnode/data
     state: directory
-    mode: 0700
+    mode: "0700"
 
-- name: Register date variable
-  ansible.builtin.command: "date +%Y-%m-%d"
-  register: date
-  changed_when: date != ""
-
-- name: Download checksum file
-  ansible.builtin.get_url:
-    url: https://cheqd-node-backups.ams3.cdn.digitaloceanspaces.com/{{ network }}/latest/sha256sum.txt
-    dest: /home/cheqd/.cheqdnode/data
-    mode: 0744
+- name: Create priv_validator_state.json file
   become: true
   become_user: cheqd
+  ansible.builtin.template:
+    src: priv_validator_state.json.j2
+    dest: /home/cheqd/.cheqdnode/data/priv_validator_state.json
+    mode: "0644"
 
-- name: Read checksum file content
-  ansible.builtin.command: "cat /home/cheqd/.cheqdnode/data/sha256.txt | cut -f 1 -d ' '"
-  register: sha256
-  changed_when: sha256 != ""
+- name: Configure state sync data
+  when: statesync_enabled
+  block:
+    - name: Get latest block height from RPC
+      ansible.builtin.uri:
+        url: "{{ 'https://rpc.cheqd.network:443' if network == 'testnet' else 'https://rpc.cheqd.net:443' }}/block"
+        return_content: true
+      register: latest_block_response
 
-- name: Notification
-  ansible.builtin.debug:
-    msg: The latest snapshot data download is about to start. This might take a while.
+    - name: Calculate trust height
+      ansible.builtin.set_fact:
+        statesync_trust_height: "{{ (latest_block_response.json.result.block.header.height | int) - 2000 }}"
 
-- name: Download latest snapshot
-  ansible.builtin.get_url:
-    url: https://cheqd-node-backups.ams3.cdn.digitaloceanspaces.com/{{ network }}/latest/cheqd-{{ network }}-1_{{ date.stdout }}.tar.gz
-    dest: /home/cheqd/.cheqdnode/data
-    checksum: "sha256:{{ sha256.stdout }}"
-    validate_certs: true
-    mode: 0644
-  become: true
-  become_user: cheqd
-  async: 7200
-  when: network == "mainnet"
+    - name: Get trust hash at trust height
+      ansible.builtin.uri:
+        url: "{{ 'https://rpc.cheqd.network:443' if network == 'testnet' else 'https://rpc.cheqd.net:443' }}/block?height={{ statesync_trust_height }}"
+        return_content: true
+      register: trust_block_response
 
-- name: Download latest snapshot
-  ansible.builtin.get_url:
-    url: https://cheqd-node-backups.ams3.cdn.digitaloceanspaces.com/{{ network }}/latest/cheqd-{{ network }}-4_{{ date.stdout }}.tar.gz
-    dest: /home/cheqd/.cheqdnode/data
-    checksum: "sha256:{{ sha256.stdout }}"
-    validate_certs: true
-    mode: 0644
-  become: true
-  become_user: cheqd
-  async: 7200
-  when: network == "testnet"
+    - name: Set trust hash fact
+      ansible.builtin.set_fact:
+        statesync_trust_hash: "{{ trust_block_response.json.result.block_id.hash }}"
 
-- name: Install tar
-  ansible.builtin.apt:
-    name: tar
-    state: present
+    - name: Enable state sync in config.toml
+      become: true
+      become_user: cheqd
+      ansible.builtin.lineinfile:
+        path: /home/cheqd/.cheqdnode/config/config.toml
+        regexp: '^enable\s*=.*'
+        line: 'enable = true'
+        insertafter: '^\[statesync\]'
 
-- name: Unpack the latest snapshot data
-  ansible.builtin.command: "tar -xf /home/cheqd/.cheqdnode/data/cheqd-{{ network }}-4_{{ date.stdout }}.tar.gz -C /home/cheqd/.cheqdnode/data"
-  become: true
-  become_user: cheqd
-  when: network == "testnet"
+    - name: Configure state sync trust_height
+      become: true
+      become_user: cheqd
+      ansible.builtin.lineinfile:
+        path: /home/cheqd/.cheqdnode/config/config.toml
+        regexp: '^trust_height\s*=.*'
+        line: 'trust_height = {{ statesync_trust_height }}'
+        insertafter: '^\[statesync\]'
 
-- name: Unpack the latest snapshot data
-  ansible.builtin.command: "tar -xf /home/cheqd/.cheqdnode/data/cheqd-{{ network }}-1_{{ date.stdout }}.tar.gz -C /home/cheqd/.cheqdnode/data"
-  become: true
-  become_user: cheqd
-  when: network == "mainnet"
-
-- name: Cleanup unused files
-  ansible.builtin.file:
-    path: /home/cheqd/.cheqdnode/data/cheqd-{{ network }}-4_{{ date.stdout }}.tar.gz
-    state: absent
-  when: network == "testnet"
-
-- name: Cleanup unused files
-  ansible.builtin.file:
-    path: /home/cheqd/.cheqdnode/data/cheqd-{{ network }}-1_{{ date.stdout }}.tar.gz
-    state: absent
-  when: network == "mainnet"
+    - name: Configure state sync trust_hash
+      become: true
+      become_user: cheqd
+      ansible.builtin.lineinfile:
+        path: /home/cheqd/.cheqdnode/config/config.toml
+        regexp: '^trust_hash\s*=.*'
+        line: 'trust_hash = "{{ statesync_trust_hash }}"'
+        insertafter: '^\[statesync\]'
+  rescue:
+    - name: State sync configuration failed
+      ansible.builtin.fail:
+        msg: "Failed to configure state sync. RPC endpoint may be unavailable or returned invalid data."

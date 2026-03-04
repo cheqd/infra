@@ -8,7 +8,7 @@
 # The minimum gas prices a validator is willing to accept for processing a
 # transaction. A transaction's fees must meet the minimum of any denomination
 # specified in this config (e.g. 0.25token1;0.0001token2).
-minimum-gas-prices = "25ncheq"
+minimum-gas-prices = "5000ncheq"
 
 # default: the last 100 states are kept in addition to every 500th state; pruning at 10 block intervals
 # nothing: all historic states will be saved, nothing will be deleted (i.e. archiving node)
@@ -67,7 +67,7 @@ index-events = []
 [telemetry]
 
 # Prefixed with keys to separate services.
-service-name = "{{ moniker }} - {{ node_type }}"
+service-name = "{{ moniker | default(ansible_hostname) }} - {{ node_type }}"
 
 # Enabled enables the application telemetry functionality. When enabled,
 # an in-memory sink is also enabled by default. Operators may also enabled
@@ -186,7 +186,16 @@ enable-unsafe-cors = false
 
 # snapshot-interval specifies the block interval at which local state sync snapshots are
 # taken (0 to disable). Must be a multiple of pruning-keep-every.
-snapshot-interval = 100
+snapshot-interval = 0
 
 # snapshot-keep-recent specifies the number of recent snapshots to keep and serve (0 to keep all).
-snapshot-keep-recent = 2
+snapshot-keep-recent = 0
+
+###############################################################################
+###                         Pricefeeder                                     ###
+###############################################################################
+
+[pricefeeder]
+config_path = "/home/cheqd/.cheqdnode/config/price-feeder.toml"
+log_level = "info"
+enable = true

@@ -3,7 +3,11 @@ log_level: error
 new_account: true
 prometheus_enabled: false
 enable_rpc_endpoint_externally: true
-network: mainnet
-version: 0.5.0
+network: "mainnet"
+version: 4.2.1
 p2p_port: 26656
 domain: "{{ inventory_hostname }}"
+system_architecture: "amd64"
+cosmovisor_dir: "/home/cheqd/.cheqdnode/cosmovisor"
+cosmovisor_version: "v1.3.0"
+statesync_enabled: true

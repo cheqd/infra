@@ -62,9 +62,9 @@ No modules.
 | <a name="input_do_rpc_lb_size"></a> [do\_rpc\_lb\_size](#input\_do\_rpc\_lb\_size) | RPC Load Balancer type/size | `string` | `"lb-small"` | no |
 | <a name="input_do_token"></a> [do\_token](#input\_do\_token) | Authentication token for DigitalOcean | `string` | n/a | yes |
 | <a name="input_network"></a> [network](#input\_network) | DigitalOcean VPC/Network name | `string` | n/a | yes |
-| <a name="input_node_firewall_developer"></a> [node\_firewall\_developer](#input\_node\_firewall\_developer) | Developer firewall rules for debugging purposes | `map(map(map(string)))` | <pre>{<br>  "inbound": {},<br>  "outbound": {}<br>}</pre> | no |
-| <a name="input_node_firewall_public"></a> [node\_firewall\_public](#input\_node\_firewall\_public) | Common firewall rules for public traffic | `map(map(map(string)))` | <pre>{<br>  "inbound": {},<br>  "outbound": {}<br>}</pre> | no |
-| <a name="input_node_firewall_restricted"></a> [node\_firewall\_restricted](#input\_node\_firewall\_restricted) | Common firewall rules for restricted traffic | `map(map(map(string)))` | <pre>{<br>  "inbound": {},<br>  "outbound": {}<br>}</pre> | no |
+| <a name="input_node_firewall_developer"></a> [node\_firewall\_developer](#input\_node\_firewall\_developer) | Developer firewall rules for debugging purposes | `map(map(map(string)))` | <pre>{<br/>  "inbound": {},<br/>  "outbound": {}<br/>}</pre> | no |
+| <a name="input_node_firewall_public"></a> [node\_firewall\_public](#input\_node\_firewall\_public) | Common firewall rules for public traffic | `map(map(map(string)))` | <pre>{<br/>  "inbound": {},<br/>  "outbound": {}<br/>}</pre> | no |
+| <a name="input_node_firewall_restricted"></a> [node\_firewall\_restricted](#input\_node\_firewall\_restricted) | Common firewall rules for restricted traffic | `map(map(map(string)))` | <pre>{<br/>  "inbound": {},<br/>  "outbound": {}<br/>}</pre> | no |
 | <a name="input_seed_droplet_config"></a> [seed\_droplet\_config](#input\_seed\_droplet\_config) | Custom configuration for seed servers | `map(map(string))` | n/a | yes |
 | <a name="input_seed_user_data"></a> [seed\_user\_data](#input\_seed\_user\_data) | User data to be applied on server boot for seed servers | `map(string)` | `{}` | no |
 | <a name="input_sentry_droplet_config"></a> [sentry\_droplet\_config](#input\_sentry\_droplet\_config) | Custom configuration for sentry servers | `map(map(string))` | n/a | yes |
