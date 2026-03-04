@@ -249,3 +249,7 @@
         regexp: '^trust_hash\s*=.*'
         line: 'trust_hash = "{{ statesync_trust_hash }}"'
         insertafter: '^\[statesync\]'
+  rescue:
+    - name: State sync configuration failed
+      ansible.builtin.fail:
+        msg: "Failed to configure state sync. RPC endpoint may be unavailable or returned invalid data."
