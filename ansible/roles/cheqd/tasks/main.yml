@@ -1,17 +1,26 @@
 ---
 - name: Update and upgrade apt packages
-  apt:
-    update_cache: yes
+  ansible.builtin.apt:
+    update_cache: true
     upgrade: dist
 
 - name: Create service group
-  ansible.builtin.group: "name=cheqd system=true"
+  ansible.builtin.group:
+    name: cheqd
+    system: true
 
 - name: Create service user
-  ansible.builtin.user: "name=cheqd home=/home/cheqd system=true group=cheqd shell=/bin/bash"
+  ansible.builtin.user:
+    name: cheqd
+    home: /home/cheqd
+    system: true
+    group: cheqd
+    shell: /bin/bash
 
 - name: Change user folder to more permissive
-  ansible.builtin.file: "path=/home/cheqd mode=0755"
+  ansible.builtin.file:
+    path: /home/cheqd
+    mode: "0755"
 
 - name: Set .cheqdnode directory owner and group to cheqd
   ansible.builtin.file:
@@ -27,10 +36,10 @@
   ansible.builtin.file:
     path: /home/cheqd/.cheqdnode/config
     state: directory
-    mode: 0700
+    mode: "0700"
 
 - name: Create cosmovisor directory structure
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     state: directory
     owner: "cheqd"
@@ -42,15 +51,15 @@
     - "{{ cosmovisor_dir }}/genesis/bin"
 
 - name: Download cheqd-noded binary to cosmovisor genesis
-  get_url:
-    url: "https://github.com/cheqd/cheqd-node/releases/download/v{{ version }}/cheqd-noded-{{ version }}-linux-{{ system_architecture}}.tar.gz"
+  ansible.builtin.get_url:
+    url: "https://github.com/cheqd/cheqd-node/releases/download/v{{ version }}/cheqd-noded-{{ version }}-linux-{{ system_architecture }}.tar.gz"
     dest: "{{ cosmovisor_dir }}/genesis/bin/cheqd-noded"
     mode: '0755'
     owner: "cheqd"
     group: "cheqd"
 
 - name: Create cosmovisor current symlink
-  file:
+  ansible.builtin.file:
     src: "{{ cosmovisor_dir }}/genesis"
     dest: "{{ cosmovisor_dir }}/current"
     state: link
@@ -58,7 +67,7 @@
     group: "cheqd"
 
 - name: Create system-wide cheqd-noded symlink
-  file:
+  ansible.builtin.file:
     src: "{{ cosmovisor_dir }}/current/bin/cheqd-noded"
     dest: "/usr/bin/cheqd-noded"
     state: link
@@ -66,31 +75,32 @@
     group: root
 
 - name: Download cosmovisor binary
-  get_url:
-    url: "https://github.com/cosmos/cosmos-sdk/releases/download/cosmovisor%2F{{ cosmovisor_version }}/cosmovisor-{{ cosmovisor_version }}-linux-{{ system_architecture}}.tar.gz"
+  ansible.builtin.get_url:
+    url: >-
+      https://github.com/cosmos/cosmos-sdk/releases/download/cosmovisor%2F{{ cosmovisor_version }}/cosmovisor-{{ cosmovisor_version }}-linux-{{ system_architecture }}.tar.gz
     dest: "/tmp/cosmovisor-{{ cosmovisor_version }}-linux-amd64.tar.gz"
     mode: '0644'
     owner: root
     group: root
 
 - name: Extract cosmovisor archive
-  unarchive:
+  ansible.builtin.unarchive:
     src: "/tmp/cosmovisor-{{ cosmovisor_version }}-linux-amd64.tar.gz"
     dest: "/tmp/"
-    remote_src: yes
+    remote_src: true
     creates: "/tmp/cosmovisor-{{ cosmovisor_version }}-linux-amd64"
 
 - name: Move cosmovisor binary to /usr/bin
-  copy:
+  ansible.builtin.copy:
     src: "/tmp/cosmovisor"
     dest: "/usr/bin/cosmovisor"
-    mode: '0755'
+    mode: "0755"
     owner: root
     group: root
-    remote_src: yes
+    remote_src: true
 
 - name: Clean up temporary files
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     state: absent
   with_items:
@@ -99,7 +109,7 @@
     - "/tmp/README.md"
 
 - name: Template systemd service file
-  template:
+  ansible.builtin.template:
     src: cheqd-cosmovisor.service.j2
     dest: "/usr/lib/systemd/system/cheqd-cosmovisor.service"
     owner: root
@@ -110,8 +120,8 @@
 - name: Reload systemd daemon and enable service
   ansible.builtin.systemd_service:
     name: cheqd-cosmovisor
-    daemon_reload: yes
-    enabled: yes
+    daemon_reload: true
+    enabled: true
   become: true
 
 - name: Download the genesis file
@@ -119,7 +129,7 @@
     url: https://raw.githubusercontent.com/cheqd/cheqd-node/main/networks/{{ network }}/genesis.json
     dest: /home/cheqd/.cheqdnode/config/genesis.json
     force: true
-    mode: 0644
+    mode: "0644"
   become: true
   become_user: cheqd
   when: new_account
@@ -156,7 +166,7 @@
   ansible.builtin.template:
     src: config.toml.j2
     dest: /home/cheqd/.cheqdnode/config/config.toml
-    mode: 0644
+    mode: "0644"
 
 - name: Update the app.toml file
   become: true
@@ -164,7 +174,7 @@
   ansible.builtin.template:
     src: app.toml.j2
     dest: /home/cheqd/.cheqdnode/config/app.toml
-    mode: 0644
+    mode: "0644"
 
 - name: Add price-feeder.toml file
   become: true
@@ -172,7 +182,7 @@
   ansible.builtin.template:
     src: price-feeder.toml.j2
     dest: /home/cheqd/.cheqdnode/config/price-feeder.toml
-    mode: 0644
+    mode: "0644"
 
 - name: Creates data directory
   become: true
@@ -180,7 +190,7 @@
   ansible.builtin.file:
     path: /home/cheqd/.cheqdnode/data
     state: directory
-    mode: 0700
+    mode: "0700"
 
 - name: Create priv_validator_state.json file
   become: true
@@ -188,7 +198,7 @@
   ansible.builtin.template:
     src: priv_validator_state.json.j2
     dest: /home/cheqd/.cheqdnode/data/priv_validator_state.json
-    mode: 0644
+    mode: "0644"
 
 - name: Configure state sync data
   when: statesync_enabled
